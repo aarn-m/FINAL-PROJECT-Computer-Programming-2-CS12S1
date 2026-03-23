@@ -13,9 +13,14 @@ public class HelloWorld {
 		System.out.println("Hello from the aaron branch.");
 		
 		System.out.println(add(5, 10));
+		System.out.println(subtract(5, 10));
 	}
 
 	static int add(int x, int y) {
 		return x + y;
+	}
+	
+	static int subtract(int x, int y) {
+		return x - y;
 	}
 }
