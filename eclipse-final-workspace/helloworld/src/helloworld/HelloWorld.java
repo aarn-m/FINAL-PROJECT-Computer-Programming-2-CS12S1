@@ -14,12 +14,19 @@ public class HelloWorld {
 		
 		System.out.println(add(5, 10));
 		System.out.println(subtract(5, 10));
+		
+		try {
+			System.out.println(5/0);
+		} 
+		catch (ArithmeticException e) {
+			System.out.println("Exception: " + e);
+		}
 	}
 
 	static int add(int x, int y) {
 		return x + y;
 	}
-	
+
 	static int subtract(int x, int y) {
 		return x - y;
 	}
