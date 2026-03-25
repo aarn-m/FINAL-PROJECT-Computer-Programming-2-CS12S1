@@ -21,6 +21,8 @@ public class HelloWorld {
 		catch (ArithmeticException e) {
 			System.out.println("Exception: " + e);
 		}
+		
+		System.out.println("Hello from Ohwen. hWk mo NG BEta");
 	}
 
 	static int add(int x, int y) {
