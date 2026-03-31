@@ -8,7 +8,8 @@ public class MorseHashMap {
 //	https://youtu.be/H62Jfv1DJlU?si=uZ5pj8ieU7ygKPlk
 	
 	// Store the translations in a HashMap
-	public HashMap<Character, String> textToMorse = new HashMap<>();
+	HashMap<Character, String> textToMorse = new HashMap<>();
+	HashMap<String, Character> morseToText = new HashMap<>();
 	
 	public MorseHashMap() {
 
