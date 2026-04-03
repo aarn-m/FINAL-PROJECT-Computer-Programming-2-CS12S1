@@ -7,3 +7,22 @@ Java final project for Computer Programming 2.
 - Humphrey Ohwen Gaffud
 - Aaron James Moleta
 - Jeshmond Riche Sarmiento
+
+### Sample Usage of Translator.java
+// Initialize string array by translating textToMorse 
+String[] morseTranslatedFromText = Translator.textToMorse(text);
+
+// Print the array with spaces in between
+for (String s : morseTranslatedFromText)
+{
+	System.out.print(s + " ");
+}
+
+// Initialize char array by translating morseToText 
+char[] textTranslatedFromMorse = Translator.morseToText(morseCode);
+
+// Print the text translated from morse
+for (char c : textTranslatedFromMorse)
+{
+	System.out.print(c);
+}
