@@ -25,4 +25,13 @@ char[] textTranslatedFromMorse = Translator.morseToText("-- --- .-. ... . / -.-.
 for (char c : textTranslatedFromMorse) {
     System.out.print(c);
 }
+
+//	OUTPUT:
+//	Enter String (textToMorse): 
+//	Lorem ipsum dolor.
+//	.-.. --- .-. . -- / .. .--. ... ..- -- / -.. --- .-.. --- .-. .-.-.- 
+//
+//	Enter String (morseToText): 
+//	-- --- .-. ... . / -.-. --- -.. . 
+//	MORSE CODE
 ```
