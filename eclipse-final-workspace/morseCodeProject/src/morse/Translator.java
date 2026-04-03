@@ -15,28 +15,28 @@ public class Translator {
 	    System.out.println("Enter String (textToMorse): ");
 	    String text = sc.nextLine();
 	   
-	    // Initialize string array by translating textToMorse 
-	    String[] morseTranslatedFromText = textToMorse(text);
-	    
-	    // Print the array with spaces in between
-	    for (String s : morseTranslatedFromText)
-	    {
-	    	System.out.print(s + " ");
-	    }
+		// Initialize string array by translating textToMorse 
+		String[] morseTranslatedFromText = Translator.textToMorse(text);
+		
+		// Print the array with spaces in between
+		for (String s : morseTranslatedFromText)
+		{
+			System.out.print(s + " ");
+		}
 	    
 		// Ask user for MorseCode input
 	    System.out.println("\n");
 	    System.out.println("Enter String (morseToText): ");
 	    String morseCode = sc.nextLine();
 	    
-	    // Initialize char array by translating morseToText 
-	    char[] textTranslatedFromMorse = morseToText(morseCode);
-	    
-	    // Print the text translated from morse
-	    for (char c : textTranslatedFromMorse)
-	    {
-	    	System.out.print(c);
-	    }
+		// Initialize char array by translating morseToText 
+		char[] textTranslatedFromMorse = Translator.morseToText(morseCode);
+		
+		// Print the text translated from morse
+		for (char c : textTranslatedFromMorse)
+		{
+			System.out.print(c);
+		}
 	    
 	    
 	    sc.close();
