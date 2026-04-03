@@ -54,9 +54,19 @@ public class MorseMap {
 			entry('9', "----."),
 			
 			// Special Characters
+			entry(' ', "/"),
 			entry('.', ".-.-.-"),
 			entry(',', "--..--"),
-			entry('?', "..--..")
+			entry('?', "..--.."),
+			entry('\'', ".----."),
+			entry('(', "-.--."),
+			entry(')', "-.--.-"),
+			entry(':', "---..."),
+			entry('+', ".-.-."),
+			entry('-', "-....-"),
+			entry('"', ".-..-."),
+			entry('@', ".--.-."),
+			entry('!', "-.-.--")
 		);
     
     // Store the translations in reverses in an immutable map
@@ -73,5 +83,4 @@ public class MorseMap {
 	    
 	    // Store the temporary map in this final unmodifiable map
 		public final Map<String, Character> morseToText = Collections.unmodifiableMap(tempMorseToText);
-
 }
