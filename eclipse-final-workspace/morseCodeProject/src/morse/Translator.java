@@ -7,9 +7,17 @@ public class Translator {
 	}
 
 	public static void main(String[] args) {
-		MorseHashMap mHashMap = new MorseHashMap();
+		MorseMap morseMap = new MorseMap();
 		
-		System.out.println(mHashMap.textToMorse);
+		System.out.println(morseMap.textToMorse);
+		System.out.println(morseMap.textToMorse.get('A'));
+		
+		System.out.println(morseMap.morseToText);
+		System.out.println(morseMap.morseToText.get("..--.."));
+		
+		
+		
+
 	}
 
 
