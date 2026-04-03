@@ -75,15 +75,19 @@ public class Translator {
 		// Create MorseMap object
 		MorseMap morseMap = new MorseMap();
 		
-	    // Clean and convert the user input MorseCode into a 'string array'
-	    // by splitting up the text by whitespace
-		// (Splitting the MorseCode by letter)
+		// Clean user input, make sure only [./- ] are only allowed,  
+		// remove trailing and leading white spaces, make sure '/' are split as ' / '
 		String cleanMorseCode = morseCode.replaceAll("[^./\\- ]", "").strip().replaceAll("\\s*/\\s*", " / ").replaceAll("\\s+", " ");
-	    // If user gave empty input (\n)
+	    
+		// If user gave empty input (\n) then stop and return an empty char array
 		if (cleanMorseCode.isEmpty()) 
 		{
 		    return new char[0];
 		}
+		
+	    // Convert the user input MorseCode into a 'string array'
+	    // by splitting up the text by whitespace
+		// (Splitting the MorseCode by letter)
 		String[] morseCodeSplitBySpacing = cleanMorseCode.split("\\s+");
 	    
 	    // Allocate a character array where the translated text will be stored in
