@@ -80,7 +80,8 @@ public class Translator {
 		// (Splitting the MorseCode by letter)
 		String cleanMorseCode = morseCode.replaceAll("[^./\\- ]", "").strip().replaceAll("\\s*/\\s*", " / ").replaceAll("\\s+", " ");
 	    // If user gave empty input (\n)
-		if (cleanMorseCode.isEmpty()) {
+		if (cleanMorseCode.isEmpty()) 
+		{
 		    return new char[0];
 		}
 		String[] morseCodeSplitBySpacing = cleanMorseCode.split("\\s+");
