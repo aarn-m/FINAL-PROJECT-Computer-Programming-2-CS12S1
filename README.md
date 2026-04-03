@@ -7,7 +7,7 @@ Java final project for Computer Programming 2.
 - Humphrey Ohwen Gaffud
 - Aaron James Moleta
 - Jeshmond Riche Sarmiento
-- 
+
 ### Sample Usage of `Translator.java`
 ```java
 // Initialize string array by translating textToMorse 
