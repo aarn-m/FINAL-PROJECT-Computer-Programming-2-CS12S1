@@ -11,7 +11,7 @@ Java final project for Computer Programming 2.
 ### Sample Usage of `Translator.java`
 ```java
 // Initialize string array by translating textToMorse 
-String[] morseTranslatedFromText = Translator.textToMorse(text);
+String[] morseTranslatedFromText = Translator.textToMorse("Lorem ipsum dolor.");
 
 // Print the array with spaces in between
 for (String s : morseTranslatedFromText) {
@@ -19,7 +19,7 @@ for (String s : morseTranslatedFromText) {
 }
 
 // Initialize char array by translating morseToText 
-char[] textTranslatedFromMorse = Translator.morseToText(morseCode);
+char[] textTranslatedFromMorse = Translator.morseToText("-- --- .-. ... . / -.-. --- -.. . ");
 
 // Print the text translated from morse
 for (char c : textTranslatedFromMorse) {
