@@ -44,9 +44,6 @@ public class Translator {
 	// Returns a string array of MorseCode
 	public static String[] textToMorse(String text)
 	{
-		// Create MorseMap object
-		MorseMap morseMap = new MorseMap();
-		
 	    // Clean and convert the user input text into a 'character array'
 		String cleanText = text.toUpperCase().replaceAll("[^A-Z0-9 .,?'():+\\-\"@!]", "").strip().replaceAll("\\s+", " ");
 	    char[] textToCharArray = cleanText.toCharArray();
@@ -59,7 +56,7 @@ public class Translator {
 	    // by using the textToMorse map
 	    for (int i = 0; i < textToCharArray.length; i++)
 	    {
-	    	translatedArray[i] = morseMap.textToMorse.get(textToCharArray[i]);
+	    	translatedArray[i] = MorseMap.textToMorse.getOrDefault(textToCharArray[i], "#");
 	    }
 	    
 	    // Return the translated array
@@ -70,9 +67,6 @@ public class Translator {
 	// Returns a char array of Text
 	public static char[] morseToText(String morseCode)
 	{
-		// Create MorseMap object
-		MorseMap morseMap = new MorseMap();
-		
 		// Clean user input, make sure only [./- ] are only allowed,  
 		// remove trailing and leading white spaces, make sure '/' are split as ' / '
 		String cleanMorseCode = morseCode.replaceAll("[^./\\- ]", "").strip().replaceAll("\\s*/\\s*", " / ").replaceAll("\\s+", " ");
@@ -96,7 +90,7 @@ public class Translator {
 	    // by using the morseToText map
 	    for (int i = 0; i < morseCodeSplitBySpacing.length; i++)
 	    {
-	    	translatedArray[i] = morseMap.morseToText.get(morseCodeSplitBySpacing[i]);
+	    	translatedArray[i] = MorseMap.morseToText.getOrDefault(morseCodeSplitBySpacing[i], '#');
 	    }
 	    
 	    // Return the translated array
