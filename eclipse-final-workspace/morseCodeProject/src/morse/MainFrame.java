@@ -81,18 +81,7 @@ public class MainFrame extends JFrame {
 		JButton btnNewButton = new JButton("Text to Morse code");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Initialize string array by translating textToMorse 
-				String[] morseTranslatedFromText = Translator.textToMorse(textField.getText());
-				
-				// Store result with StringBuilder
-				StringBuilder result = new StringBuilder();
-				
-				// Print the array with spaces in between
-				for (String s : morseTranslatedFromText) {
-					result.append(s).append(" ");
-				}
-				
-				txtpnHelloWorld.setText(result.toString().trim());
+				txtpnHelloWorld.setText(Translator.textToMorse(textField.getText()));
 			}
 		});
 		btnNewButton.setBounds(10, 68, 150, 20);
@@ -100,20 +89,8 @@ public class MainFrame extends JFrame {
 		
 		JButton btnNewButton_2 = new JButton("Morse code to Text");
 		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Initialize char array by translating morseToText 
-				char[] textTranslatedFromMorse = Translator.morseToText(textField.getText());
-				
-				// Store result with StringBuilder
-				StringBuilder result = new StringBuilder();
-				
-				// Print the text translated from morse
-				for (char c : textTranslatedFromMorse)
-				{
-					result.append(c);
-				}
-				
-				txtpnHelloWorld.setText(result.toString().trim());
+			public void actionPerformed(ActionEvent e) {	
+				txtpnHelloWorld.setText(Translator.morseToText(textField.getText()));
 			}
 		});
 		btnNewButton_2.setBounds(170, 68, 150, 20);
