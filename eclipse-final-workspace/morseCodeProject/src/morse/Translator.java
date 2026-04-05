@@ -9,8 +9,9 @@ public class Translator {
 	}
 
 	public static void main(String[] args) {
-		// Ask user for text input
 		Scanner sc = new Scanner(System.in);
+		
+		// Ask user for text input
 		System.out.println("Enter String (textToMorse): ");
 		String text = sc.nextLine();
 		
