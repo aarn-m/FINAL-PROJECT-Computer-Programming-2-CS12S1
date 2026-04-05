@@ -10,33 +10,23 @@ Java final project for Computer Programming 2.
 
 ### Sample Usage of `Translator.java`
 ```java
-// Ask user for text input
 Scanner sc = new Scanner(System.in);
+
+// Ask user for text input
 System.out.println("Enter String (textToMorse): ");
 String text = sc.nextLine();
-   
-// Initialize string array by translating textToMorse 
-String[] morseTranslatedFromText = Translator.textToMorse(text);
 
-// Print the array with spaces in between
-for (String s : morseTranslatedFromText)
-{
-	System.out.print(s + " ");
-}
+// Print out the Morse code translated from text
+System.out.println(Translator.textToMorse(text));
+
 
 // Ask user for MorseCode input
 System.out.println("\n");
 System.out.println("Enter String (morseToText): ");
 String morseCode = sc.nextLine();
 
-// Initialize char array by translating morseToText 
-char[] textTranslatedFromMorse = Translator.morseToText(morseCode);
-
-// Print the text translated from morse
-for (char c : textTranslatedFromMorse)
-{
-	System.out.print(c);
-}
+// Print out the text translated from Morse code
+System.out.println(Translator.morseToText(morseCode));
 
 sc.close();
 
