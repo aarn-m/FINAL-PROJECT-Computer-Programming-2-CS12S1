@@ -13,39 +13,36 @@ public class Translator {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter String (textToMorse): ");
 		String text = sc.nextLine();
-		   
-		// Initialize string array by translating textToMorse 
-		String[] morseTranslatedFromText = Translator.textToMorse(text);
 		
-		// Print the array with spaces in between
-		for (String s : morseTranslatedFromText)
-		{
-			System.out.print(s + " ");
-		}
+		// Print out the Morse code translated from text
+		System.out.println(Translator.textToMorse(text));
+
 		
 		// Ask user for MorseCode input
 		System.out.println("\n");
 		System.out.println("Enter String (morseToText): ");
 		String morseCode = sc.nextLine();
 		
-		// Initialize char array by translating morseToText 
-		char[] textTranslatedFromMorse = Translator.morseToText(morseCode);
-		
-		// Print the text translated from morse
-		for (char c : textTranslatedFromMorse)
-		{
-			System.out.print(c);
-		}
+		// Print out the text translated from Morse code
+		System.out.println(Translator.morseToText(morseCode));
 		
 		sc.close();
 	}
 
 	// Method to translate from Text to MorseCode
 	// Returns a string array of MorseCode
-	public static String[] textToMorse(String text)
+	public static String textToMorse(String text)
 	{
-	    // Clean and convert the user input text into a 'character array'
+	    // Clean the user input text
 		String cleanText = text.toUpperCase().replaceAll("[^A-Z0-9 .,?'():+\\-\"@!]", "").strip().replaceAll("\\s+", " ");
+		
+		// If user gave empty input (\n) then stop and return an empty string
+		if (cleanText.isEmpty()) 
+		{
+		    return "";
+		}
+		
+		// Convert the user input text into a 'character array'
 	    char[] textToCharArray = cleanText.toCharArray();
 		
 	    // Allocate an array where the translated text will be stored in
@@ -53,28 +50,36 @@ public class Translator {
 	    
 	    // Initialize the 'translatedArray' by looping through the whole
 	    // 'charArray'. Get the translation of the current character
-	    // by using the textToMorse map
+	    // by using the textToMorse map, if it doesn't exist then put '#' instead
 	    for (int i = 0; i < textToCharArray.length; i++)
 	    {
 	    	translatedArray[i] = MorseMap.textToMorse.getOrDefault(textToCharArray[i], "#");
 	    }
 	    
-	    // Return the translated array
-	    return translatedArray;
+		// Store result with StringBuilder
+		StringBuilder translationSB = new StringBuilder();
+		
+		// Append to the 'translationSB' object each string in 'translatedArray' with spaces in between
+		for (String s : translatedArray) {
+			translationSB.append(s).append(" ");
+		}
+		
+	    // Return the translated string
+	    return translationSB.toString().strip();
 	}
 	
 	// Method to translate from MorseCode to Text
 	// Returns a char array of Text
-	public static char[] morseToText(String morseCode)
+	public static String morseToText(String morseCode)
 	{
 		// Clean user input, make sure only [./- ] are only allowed,  
 		// remove trailing and leading white spaces, make sure '/' are split as ' / '
 		String cleanMorseCode = morseCode.replaceAll("[^./\\- ]", "").strip().replaceAll("\\s*/\\s*", " / ").replaceAll("\\s+", " ");
 	    
-		// If user gave empty input (\n) then stop and return an empty char array
+		// If user gave empty input (\n) then stop and return an empty string
 		if (cleanMorseCode.isEmpty()) 
 		{
-		    return new char[0];
+		    return "";
 		}
 		
 	    // Convert the user input MorseCode into a 'string array'
@@ -87,13 +92,21 @@ public class Translator {
 	    
 	    // Initialize the 'translatedArray' by looping through the whole
 	    // 'morseCodeSplitBySpacing'. Get the translation of the current character
-	    // by using the morseToText map
+	    // by using the morseToText map, if it doesn't exist then put '#' instead
 	    for (int i = 0; i < morseCodeSplitBySpacing.length; i++)
 	    {
 	    	translatedArray[i] = MorseMap.morseToText.getOrDefault(morseCodeSplitBySpacing[i], '#');
 	    }
 	    
-	    // Return the translated array
-	    return translatedArray;
+		// Store result with StringBuilder
+		StringBuilder translationSB = new StringBuilder();
+		
+		// Append each character in 'translatedArray' in the 'translationSB' object
+		for (char c : translatedArray) {
+			translationSB.append(c);
+		}
+		
+	    // Return the translated string
+	    return translationSB.toString().strip();
 	}
 }
