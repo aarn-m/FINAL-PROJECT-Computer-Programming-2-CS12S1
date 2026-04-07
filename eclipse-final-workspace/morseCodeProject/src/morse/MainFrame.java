@@ -24,6 +24,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.GridLayout;
 import javax.swing.JTabbedPane;
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JTextField;
 
 public class MainFrame extends JFrame {
 
@@ -33,6 +36,11 @@ public class MainFrame extends JFrame {
 	 * @wbp.nonvisual location=-95,348
 	 */
 	private final JComboBox comboBox = new JComboBox();
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
 
 	/**
 	 * Launch the application.
@@ -165,7 +173,56 @@ public class MainFrame extends JFrame {
 		
 		JPanel Minigame = new JPanel();
 		tabbedPane.addTab("Minigame", null, Minigame, null);
-		Minigame.setLayout(new BorderLayout(0, 0));
+		GridBagLayout gbl_Minigame = new GridBagLayout();
+		gbl_Minigame.columnWidths = new int[]{0, 0};
+		gbl_Minigame.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_Minigame.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_Minigame.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		Minigame.setLayout(gbl_Minigame);
+		
+		JPanel panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 0;
+		Minigame.add(panel_1, gbc_panel_1);
+		panel_1.setLayout(new GridLayout(1, 0, 10, 0));
+		
+		textField = new JTextField();
+		panel_1.add(textField);
+		textField.setColumns(10);
+		
+		textField_3 = new JTextField();
+		panel_1.add(textField_3);
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		panel_1.add(textField_4);
+		textField_4.setColumns(10);
+		
+		textField_1 = new JTextField();
+		panel_1.add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		panel_1.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JPanel panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 0;
+		gbc_panel_2.gridy = 1;
+		Minigame.add(panel_2, gbc_panel_2);
+		
+		JPanel panel_3 = new JPanel();
+		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.fill = GridBagConstraints.BOTH;
+		gbc_panel_3.gridx = 0;
+		gbc_panel_3.gridy = 2;
+		Minigame.add(panel_3, gbc_panel_3);
 
 	}
 
