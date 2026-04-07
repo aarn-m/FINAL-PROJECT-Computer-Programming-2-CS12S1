@@ -27,6 +27,10 @@ import javax.swing.JTabbedPane;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JTextField;
+import javax.swing.JSlider;
+import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollBar;
 
 public class MainFrame extends JFrame {
 
@@ -63,13 +67,12 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setSize(500, 500);
-		setMinimumSize(new Dimension(500, 500));
+		setSize(750, 500);
+		setMinimumSize(new Dimension(750, 500));
 		setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -177,52 +180,128 @@ public class MainFrame extends JFrame {
 		gbl_Minigame.columnWidths = new int[]{0, 0};
 		gbl_Minigame.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_Minigame.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_Minigame.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_Minigame.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
 		Minigame.setLayout(gbl_Minigame);
 		
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 0;
-		Minigame.add(panel_1, gbc_panel_1);
-		panel_1.setLayout(new GridLayout(1, 0, 10, 0));
+		JPanel morsleToSolvePanel = new JPanel();
+		GridBagConstraints gbc_morsleToSolvePanel = new GridBagConstraints();
+		gbc_morsleToSolvePanel.insets = new Insets(0, 0, 5, 0);
+		gbc_morsleToSolvePanel.fill = GridBagConstraints.VERTICAL;
+		gbc_morsleToSolvePanel.gridx = 0;
+		gbc_morsleToSolvePanel.gridy = 0;
+		Minigame.add(morsleToSolvePanel, gbc_morsleToSolvePanel);
+		morsleToSolvePanel.setLayout(new GridLayout(1, 0, 10, 0));
 		
 		textField = new JTextField();
-		panel_1.add(textField);
+		morsleToSolvePanel.add(textField);
 		textField.setColumns(10);
 		
 		textField_3 = new JTextField();
-		panel_1.add(textField_3);
+		morsleToSolvePanel.add(textField_3);
 		textField_3.setColumns(10);
 		
 		textField_4 = new JTextField();
-		panel_1.add(textField_4);
+		morsleToSolvePanel.add(textField_4);
 		textField_4.setColumns(10);
 		
 		textField_1 = new JTextField();
-		panel_1.add(textField_1);
+		morsleToSolvePanel.add(textField_1);
 		textField_1.setColumns(10);
 		
 		textField_2 = new JTextField();
-		panel_1.add(textField_2);
+		morsleToSolvePanel.add(textField_2);
 		textField_2.setColumns(10);
 		
-		JPanel panel_2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 1;
-		Minigame.add(panel_2, gbc_panel_2);
+		JPanel middleButtonsPanel = new JPanel();
+		GridBagConstraints gbc_middleButtonsPanel = new GridBagConstraints();
+		gbc_middleButtonsPanel.insets = new Insets(0, 0, 5, 0);
+		gbc_middleButtonsPanel.fill = GridBagConstraints.BOTH;
+		gbc_middleButtonsPanel.gridx = 0;
+		gbc_middleButtonsPanel.gridy = 1;
+		Minigame.add(middleButtonsPanel, gbc_middleButtonsPanel);
+		middleButtonsPanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_3 = new JPanel();
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.fill = GridBagConstraints.BOTH;
-		gbc_panel_3.gridx = 0;
-		gbc_panel_3.gridy = 2;
-		Minigame.add(panel_3, gbc_panel_3);
+		JPanel panel_5 = new JPanel();
+		middleButtonsPanel.add(panel_5, BorderLayout.EAST);
+		
+		JPanel panel_1 = new JPanel();
+		middleButtonsPanel.add(panel_1, BorderLayout.CENTER);
+		
+		JPanel panel_7 = new JPanel();
+		panel_1.add(panel_7);
+		
+		JPanel panel_2 = new JPanel();
+		panel_7.add(panel_2);
+		GridBagLayout gbl_panel_2 = new GridBagLayout();
+		gbl_panel_2.columnWidths = new int[]{0, 0};
+		gbl_panel_2.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_2.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panel_2.setLayout(gbl_panel_2);
+		
+		JButton btnNewButton = new JButton("Play at 40 wpm");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.gridx = 0;
+		gbc_btnNewButton.gridy = 0;
+		panel_2.add(btnNewButton, gbc_btnNewButton);
+		
+		JLabel lblNewLabel = new JLabel("10 Tries Remaining");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		panel_2.add(lblNewLabel, gbc_lblNewLabel);
+		
+		JSlider slider = new JSlider();
+		panel_7.add(slider);
+		
+		JPanel panel_6 = new JPanel();
+		panel_1.add(panel_6);
+		GridBagLayout gbl_panel_6 = new GridBagLayout();
+		gbl_panel_6.columnWidths = new int[]{0, 0, 0};
+		gbl_panel_6.rowHeights = new int[]{0, 0};
+		gbl_panel_6.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_6.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_6.setLayout(gbl_panel_6);
+		
+		JButton btnNewButton_1 = new JButton("Backspace");
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_1.gridx = 0;
+		gbc_btnNewButton_1.gridy = 0;
+		panel_6.add(btnNewButton_1, gbc_btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Guess");
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.gridx = 1;
+		gbc_btnNewButton_2.gridy = 0;
+		panel_6.add(btnNewButton_2, gbc_btnNewButton_2);
+		
+		JPanel lettersMorseTabbedPanel = new JPanel();
+		GridBagConstraints gbc_lettersMorseTabbedPanel = new GridBagConstraints();
+		gbc_lettersMorseTabbedPanel.fill = GridBagConstraints.BOTH;
+		gbc_lettersMorseTabbedPanel.gridx = 0;
+		gbc_lettersMorseTabbedPanel.gridy = 2;
+		Minigame.add(lettersMorseTabbedPanel, gbc_lettersMorseTabbedPanel);
+		lettersMorseTabbedPanel.setLayout(new BorderLayout(0, 0));
+		
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		lettersMorseTabbedPanel.add(tabbedPane_1);
+		
+		JPanel dotsAndDashesPanel = new JPanel();
+		tabbedPane_1.addTab("Dots and Dashes", null, dotsAndDashesPanel, null);
+		
+		JPanel lettersPanel = new JPanel();
+		tabbedPane_1.addTab("Letters", null, lettersPanel, null);
+		
+		
+		
+		
+		
+		contentPane.setPreferredSize(new Dimension(750, 500)); // ideal inside size
+		pack();                                                // resize frame to fit contents
+		setMinimumSize(getSize());                             // current packed size becomes minimum
+		setLocationRelativeTo(null);                           // center on screen
 
 	}
 
