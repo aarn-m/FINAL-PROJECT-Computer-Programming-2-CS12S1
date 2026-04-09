@@ -180,13 +180,12 @@ public class MainFrame extends JFrame {
 		gbl_Minigame.columnWidths = new int[]{0, 0};
 		gbl_Minigame.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_Minigame.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_Minigame.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_Minigame.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		Minigame.setLayout(gbl_Minigame);
 		
 		JPanel morsleToSolvePanel = new JPanel();
 		GridBagConstraints gbc_morsleToSolvePanel = new GridBagConstraints();
 		gbc_morsleToSolvePanel.insets = new Insets(0, 0, 5, 0);
-		gbc_morsleToSolvePanel.fill = GridBagConstraints.VERTICAL;
 		gbc_morsleToSolvePanel.gridx = 0;
 		gbc_morsleToSolvePanel.gridy = 0;
 		Minigame.add(morsleToSolvePanel, gbc_morsleToSolvePanel);
@@ -211,6 +210,13 @@ public class MainFrame extends JFrame {
 		textField_2 = new JTextField();
 		morsleToSolvePanel.add(textField_2);
 		textField_2.setColumns(10);
+		
+		Dimension tfSize = new Dimension(100, 100);
+		textField.setPreferredSize(tfSize);
+		textField_1.setPreferredSize(tfSize);
+		textField_2.setPreferredSize(tfSize);
+		textField_3.setPreferredSize(tfSize);
+		textField_4.setPreferredSize(tfSize);
 		
 		JPanel middleButtonsPanel = new JPanel();
 		GridBagConstraints gbc_middleButtonsPanel = new GridBagConstraints();
