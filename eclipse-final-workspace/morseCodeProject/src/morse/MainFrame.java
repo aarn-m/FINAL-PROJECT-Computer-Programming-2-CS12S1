@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
-
+import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -32,9 +32,6 @@ public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	/**
-	 * @wbp.nonvisual location=-95,348
-	 */
 	private JPanel morsleToSolvePanel;
 	private JTextField[] letterFields;
 	private JComboBox<String> difficultyBox;
@@ -173,17 +170,23 @@ public class MainFrame extends JFrame {
 		gbl_Minigame.columnWidths = new int[]{0, 0};
 		gbl_Minigame.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_Minigame.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_Minigame.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_Minigame.rowWeights = new double[]{0.3, 0.0, 1.0, Double.MIN_VALUE};
 		Minigame.setLayout(gbl_Minigame);
-		
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(10, 10, 5, 10);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH; 
+		gbc_scrollPane.weightx = 1.0;
+		gbc_scrollPane.weighty = 0.3;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		Minigame.add(scrollPane, gbc_scrollPane);
+
 		morsleToSolvePanel = new JPanel();
-		GridBagConstraints gbc_morsleToSolvePanel = new GridBagConstraints();
-		gbc_morsleToSolvePanel.fill = GridBagConstraints.VERTICAL;
-		gbc_morsleToSolvePanel.insets = new Insets(0, 0, 5, 0);
-		gbc_morsleToSolvePanel.weightx = 1.0;
-		gbc_morsleToSolvePanel.gridx = 0;
-		gbc_morsleToSolvePanel.gridy = 0;
-		Minigame.add(morsleToSolvePanel, gbc_morsleToSolvePanel);
+		scrollPane.setViewportView(morsleToSolvePanel);
 
 		createLetterFields(5); // default display before game starts
 		
@@ -196,21 +199,18 @@ public class MainFrame extends JFrame {
 		Minigame.add(middleButtonsPanel, gbc_middleButtonsPanel);
 		middleButtonsPanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_5 = new JPanel();
-		middleButtonsPanel.add(panel_5, BorderLayout.EAST);
+		JPanel FlowLayoutPanel = new JPanel();
+		middleButtonsPanel.add(FlowLayoutPanel, BorderLayout.CENTER);
 		
-		JPanel panel_1 = new JPanel();
-		middleButtonsPanel.add(panel_1, BorderLayout.CENTER);
-		
-		JPanel panel_7 = new JPanel();
-		panel_1.add(panel_7);
+		JPanel LeftSidePanel = new JPanel();
+		FlowLayoutPanel.add(LeftSidePanel);
 		
 		JPanel panel_2 = new JPanel();
-		panel_7.add(panel_2);
+		LeftSidePanel.add(panel_2);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panel_2.columnWidths = new int[]{0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
@@ -225,8 +225,8 @@ public class MainFrame extends JFrame {
 		gbc_comboBox_1.gridy = 0;
 		panel_2.add(difficultyBox, gbc_comboBox_1);
 		
-		JButton btnNewButton = new JButton("Play at 40 wpm");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnNewWordButton = new JButton("New Word");
+		btnNewWordButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selectedDifficulty = (String) difficultyBox.getSelectedItem();
 				String randomWord;
@@ -242,18 +242,11 @@ public class MainFrame extends JFrame {
 				System.out.println("Selected word: " + randomWord);
 			}
 		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 0;
-		panel_2.add(btnNewButton, gbc_btnNewButton);
-		
-		JSlider slider = new JSlider();
-		GridBagConstraints gbc_slider = new GridBagConstraints();
-		gbc_slider.insets = new Insets(0, 0, 5, 0);
-		gbc_slider.gridx = 2;
-		gbc_slider.gridy = 0;
-		panel_2.add(slider, gbc_slider);
+		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
+		gbc_btnNewWordButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewWordButton.gridx = 1;
+		gbc_btnNewWordButton.gridy = 0;
+		panel_2.add(btnNewWordButton, gbc_btnNewWordButton);
 		
 		JLabel lblTriesRemainingLabel = new JLabel("Difficulty");
 		GridBagConstraints gbc_lblTriesRemainingLabel = new GridBagConstraints();
@@ -262,40 +255,33 @@ public class MainFrame extends JFrame {
 		gbc_lblTriesRemainingLabel.gridy = 1;
 		panel_2.add(lblTriesRemainingLabel, gbc_lblTriesRemainingLabel);
 		
-		JLabel lblNewLabel = new JLabel("10 Tries Remaining");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 1;
-		panel_2.add(lblNewLabel, gbc_lblNewLabel);
+		JButton btnPlaySoundButton = new JButton("Play Sound");
+		GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
+		gbc_btnPlaySoundButton.gridx = 1;
+		gbc_btnPlaySoundButton.gridy = 1;
+		panel_2.add(btnPlaySoundButton, gbc_btnPlaySoundButton);
 		
-		JLabel lblNewLabel_1 = new JLabel("WPM Speed");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridx = 2;
-		gbc_lblNewLabel_1.gridy = 1;
-		panel_2.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JPanel RightSidePanel = new JPanel();
+		FlowLayoutPanel.add(RightSidePanel);
+		GridBagLayout gbl_RightSidePanel = new GridBagLayout();
+		gbl_RightSidePanel.columnWidths = new int[]{0, 0, 0};
+		gbl_RightSidePanel.rowHeights = new int[]{0, 0};
+		gbl_RightSidePanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_RightSidePanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		RightSidePanel.setLayout(gbl_RightSidePanel);
 		
-		JPanel panel_6 = new JPanel();
-		panel_1.add(panel_6);
-		GridBagLayout gbl_panel_6 = new GridBagLayout();
-		gbl_panel_6.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_6.rowHeights = new int[]{0, 0};
-		gbl_panel_6.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_6.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_6.setLayout(gbl_panel_6);
-		
-		JButton btnNewButton_1 = new JButton("Backspace");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 0;
-		panel_6.add(btnNewButton_1, gbc_btnNewButton_1);
+		JButton btnClearButton = new JButton("Clear");
+		GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
+		gbc_btnClearButton.insets = new Insets(0, 0, 0, 5);
+		gbc_btnClearButton.gridx = 0;
+		gbc_btnClearButton.gridy = 0;
+		RightSidePanel.add(btnClearButton, gbc_btnClearButton);
 		
 		JButton btnNewButton_2 = new JButton("Guess");
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.gridx = 1;
 		gbc_btnNewButton_2.gridy = 0;
-		panel_6.add(btnNewButton_2, gbc_btnNewButton_2);
+		RightSidePanel.add(btnNewButton_2, gbc_btnNewButton_2);
 		
 		JPanel lettersMorseTabbedPanel = new JPanel();
 		GridBagConstraints gbc_lettersMorseTabbedPanel = new GridBagConstraints();
@@ -305,14 +291,45 @@ public class MainFrame extends JFrame {
 		Minigame.add(lettersMorseTabbedPanel, gbc_lettersMorseTabbedPanel);
 		lettersMorseTabbedPanel.setLayout(new BorderLayout(0, 0));
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		lettersMorseTabbedPanel.add(tabbedPane_1);
+		JTabbedPane tabbedPaneInputLetters = new JTabbedPane(JTabbedPane.TOP);
+		lettersMorseTabbedPanel.add(tabbedPaneInputLetters);
 		
 		JPanel dotsAndDashesPanel = new JPanel();
-		tabbedPane_1.addTab("Dots and Dashes", null, dotsAndDashesPanel, null);
+		tabbedPaneInputLetters.addTab("Dots and Dashes", null, dotsAndDashesPanel, null);
 		
 		JPanel lettersPanel = new JPanel();
-		tabbedPane_1.addTab("Letters", null, lettersPanel, null);
+		lettersPanel.setLayout(new GridLayout(0, 3, 4, 4));
+
+		// Sort the letters A-Z so they appear in order
+		MorseMap.textToMorse.entrySet().stream()
+		    .filter(e -> Character.isLetter(e.getKey()))
+		    .sorted(java.util.Map.Entry.comparingByKey())
+		    .forEach(e -> {
+		        String letter = String.valueOf(e.getKey());
+		        String morse = e.getValue();
+
+		        String html = String.format(
+		            "<html><table width='160'><tr>" +
+		            "<td align='left'><b>%s</b></td>" +
+		            "<td align='right'>%s</td>" +
+		            "</tr></table></html>",
+		            letter, morse
+		        );
+
+		        JButton btn = new JButton(html);
+		        btn.setFont(btn.getFont().deriveFont(20f));
+		        btn.setHorizontalAlignment(SwingConstants.CENTER);
+		        btn.setMargin(new Insets(2, 6, 2, 6));
+		        btn.addActionListener(action -> {
+		            // append the morse code to whatever input you're building
+		            // e.g. currentMorseInput += morse;
+		        });
+		        lettersPanel.add(btn);
+		    });
+
+		JScrollPane lettersScrollPane = new JScrollPane(lettersPanel);
+		lettersScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		tabbedPaneInputLetters.addTab("Letters", null, lettersScrollPane, null);
 		
 		
 		
@@ -327,31 +344,28 @@ public class MainFrame extends JFrame {
 
 	// in morsleToSolvePanel, Clear the old letter boxes, create new letter boxes based on the word length, then refresh the panel
 	private void createLetterFields(int wordLength) {
-		// Clear previous boxes
-		morsleToSolvePanel.removeAll();
+		// Remove the old boxes first
+	    morsleToSolvePanel.removeAll();
+	    
+	    // Store each letter in the array
+	    letterFields = new JTextField[wordLength];
 
-		// Layout of the panel, 1 row with columns depending on wordLength
-		morsleToSolvePanel.setLayout(new GridLayout(1, wordLength, 10, 0));
-		letterFields = new JTextField[wordLength];
+	    // Use GridLayout so fields share space equally — no fixed size needed
+	    morsleToSolvePanel.setLayout(new GridLayout(1, wordLength, 5, 0));
 
-		
-		Dimension tfSize = new Dimension(100, 100);
+	    for (int i = 0; i < wordLength; i++) {
+	        JTextField field = new JTextField();
+	        field.setHorizontalAlignment(SwingConstants.CENTER);
+	        field.setFont(field.getFont().deriveFont(18f)); // bigger text instead of bigger box
 
-		for (int i = 0; i < wordLength; i++) 
-		{
-			JTextField field = new JTextField();
-			field.setHorizontalAlignment(SwingConstants.CENTER);
-			field.setPreferredSize(tfSize);
-//			field.setColumns(1);
+	        letterFields[i] = field;
+	        morsleToSolvePanel.add(field);
+	    }
 
-			letterFields[i] = field;
-			morsleToSolvePanel.add(field);
-		}
 
-		morsleToSolvePanel.revalidate();
-		morsleToSolvePanel.repaint();
-		pack();	// resize frame to fit contents
-		setMinimumSize(getSize());	// current packed size becomes minimum
+	    // Refresh the UI after changing components
+	    morsleToSolvePanel.revalidate();
+	    morsleToSolvePanel.repaint();
 	}
 
 }
