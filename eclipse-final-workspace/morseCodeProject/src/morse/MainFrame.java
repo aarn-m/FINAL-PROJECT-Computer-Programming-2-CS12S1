@@ -24,13 +24,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.GridLayout;
 import javax.swing.JTabbedPane;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
-import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
-import javax.swing.JScrollBar;
 
 public class MainFrame extends JFrame {
 
@@ -39,12 +35,9 @@ public class MainFrame extends JFrame {
 	/**
 	 * @wbp.nonvisual location=-95,348
 	 */
-	private final JComboBox comboBox = new JComboBox();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JPanel morsleToSolvePanel;
+	private JTextField[] letterFields;
+	private JComboBox<String> difficultyBox;
 
 	/**
 	 * Launch the application.
@@ -183,40 +176,16 @@ public class MainFrame extends JFrame {
 		gbl_Minigame.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		Minigame.setLayout(gbl_Minigame);
 		
-		JPanel morsleToSolvePanel = new JPanel();
+		morsleToSolvePanel = new JPanel();
 		GridBagConstraints gbc_morsleToSolvePanel = new GridBagConstraints();
+		gbc_morsleToSolvePanel.fill = GridBagConstraints.VERTICAL;
 		gbc_morsleToSolvePanel.insets = new Insets(0, 0, 5, 0);
+		gbc_morsleToSolvePanel.weightx = 1.0;
 		gbc_morsleToSolvePanel.gridx = 0;
 		gbc_morsleToSolvePanel.gridy = 0;
 		Minigame.add(morsleToSolvePanel, gbc_morsleToSolvePanel);
-		morsleToSolvePanel.setLayout(new GridLayout(1, 0, 10, 0));
-		
-		textField = new JTextField();
-		morsleToSolvePanel.add(textField);
-		textField.setColumns(10);
-		
-		textField_3 = new JTextField();
-		morsleToSolvePanel.add(textField_3);
-		textField_3.setColumns(10);
-		
-		textField_4 = new JTextField();
-		morsleToSolvePanel.add(textField_4);
-		textField_4.setColumns(10);
-		
-		textField_1 = new JTextField();
-		morsleToSolvePanel.add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		morsleToSolvePanel.add(textField_2);
-		textField_2.setColumns(10);
-		
-		Dimension tfSize = new Dimension(100, 100);
-		textField.setPreferredSize(tfSize);
-		textField_1.setPreferredSize(tfSize);
-		textField_2.setPreferredSize(tfSize);
-		textField_3.setPreferredSize(tfSize);
-		textField_4.setPreferredSize(tfSize);
+
+		createLetterFields(5); // default display before game starts
 		
 		JPanel middleButtonsPanel = new JPanel();
 		GridBagConstraints gbc_middleButtonsPanel = new GridBagConstraints();
@@ -239,27 +208,72 @@ public class MainFrame extends JFrame {
 		JPanel panel_2 = new JPanel();
 		panel_7.add(panel_2);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0};
+		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
+		difficultyBox = new JComboBox<>();
+		difficultyBox.setToolTipText("Select Difficulty");
+		difficultyBox.addItem("Short Words");
+		difficultyBox.addItem("Medium Words");
+		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
+		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_1.gridx = 0;
+		gbc_comboBox_1.gridy = 0;
+		panel_2.add(difficultyBox, gbc_comboBox_1);
+		
 		JButton btnNewButton = new JButton("Play at 40 wpm");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedDifficulty = (String) difficultyBox.getSelectedItem();
+				String randomWord;
+
+				if ("Short Words".equals(selectedDifficulty)) {
+					randomWord = RandomWordGenerator.getRandomWordShort();
+				} else {
+					randomWord = RandomWordGenerator.getRandomWordMedium();
+				}
+
+				createLetterFields(randomWord.length());
+
+				System.out.println("Selected word: " + randomWord);
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 0;
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 0;
 		panel_2.add(btnNewButton, gbc_btnNewButton);
 		
+		JSlider slider = new JSlider();
+		GridBagConstraints gbc_slider = new GridBagConstraints();
+		gbc_slider.insets = new Insets(0, 0, 5, 0);
+		gbc_slider.gridx = 2;
+		gbc_slider.gridy = 0;
+		panel_2.add(slider, gbc_slider);
+		
+		JLabel lblTriesRemainingLabel = new JLabel("Difficulty");
+		GridBagConstraints gbc_lblTriesRemainingLabel = new GridBagConstraints();
+		gbc_lblTriesRemainingLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblTriesRemainingLabel.gridx = 0;
+		gbc_lblTriesRemainingLabel.gridy = 1;
+		panel_2.add(lblTriesRemainingLabel, gbc_lblTriesRemainingLabel);
+		
 		JLabel lblNewLabel = new JLabel("10 Tries Remaining");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 1;
 		panel_2.add(lblNewLabel, gbc_lblNewLabel);
 		
-		JSlider slider = new JSlider();
-		panel_7.add(slider);
+		JLabel lblNewLabel_1 = new JLabel("WPM Speed");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridx = 2;
+		gbc_lblNewLabel_1.gridy = 1;
+		panel_2.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JPanel panel_6 = new JPanel();
 		panel_1.add(panel_6);
@@ -304,11 +318,40 @@ public class MainFrame extends JFrame {
 		
 		
 		
-		contentPane.setPreferredSize(new Dimension(750, 500)); // ideal inside size
-		pack();                                                // resize frame to fit contents
-		setMinimumSize(getSize());                             // current packed size becomes minimum
-		setLocationRelativeTo(null);                           // center on screen
+		contentPane.setPreferredSize(new Dimension(750, 500));	// ideal inside size
+		pack();	// resize frame to fit contents
+		setMinimumSize(getSize());	// current packed size becomes minimum
+		setLocationRelativeTo(null);	// center on screen
 
+	}
+
+	// in morsleToSolvePanel, Clear the old letter boxes, create new letter boxes based on the word length, then refresh the panel
+	private void createLetterFields(int wordLength) {
+		// Clear previous boxes
+		morsleToSolvePanel.removeAll();
+
+		// Layout of the panel, 1 row with columns depending on wordLength
+		morsleToSolvePanel.setLayout(new GridLayout(1, wordLength, 10, 0));
+		letterFields = new JTextField[wordLength];
+
+		
+		Dimension tfSize = new Dimension(100, 100);
+
+		for (int i = 0; i < wordLength; i++) 
+		{
+			JTextField field = new JTextField();
+			field.setHorizontalAlignment(SwingConstants.CENTER);
+			field.setPreferredSize(tfSize);
+//			field.setColumns(1);
+
+			letterFields[i] = field;
+			morsleToSolvePanel.add(field);
+		}
+
+		morsleToSolvePanel.revalidate();
+		morsleToSolvePanel.repaint();
+		pack();	// resize frame to fit contents
+		setMinimumSize(getSize());	// current packed size becomes minimum
 	}
 
 }
