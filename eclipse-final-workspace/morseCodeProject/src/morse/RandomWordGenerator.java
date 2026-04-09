@@ -9,13 +9,9 @@ import java.util.Random;
 
 public class RandomWordGenerator {
 
-	public RandomWordGenerator() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static void main(String[] args) {
-//        System.out.println(getRandomWordMedium());
-//        System.out.println(getRandomWordShort());
+        System.out.println(getRandomWordMedium());
+        System.out.println(getRandomWordShort());
 	}
 	
 	private static final String FILE_NAME_MEDIUM = "google-10000-english-usa-no-swears-medium.txt";
