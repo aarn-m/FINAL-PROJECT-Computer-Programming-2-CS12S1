@@ -1,33 +1,29 @@
 package morse;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class Translator {
 
-	public Translator() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		
-		// Ask user for text input
-		System.out.println("Enter String (textToMorse): ");
-		String text = sc.nextLine();
-		
-		// Print out the Morse code translated from text
-		System.out.println(Translator.textToMorse(text));
-
-		
-		// Ask user for MorseCode input
-		System.out.println("\n");
-		System.out.println("Enter String (morseToText): ");
-		String morseCode = sc.nextLine();
-		
-		// Print out the text translated from Morse code
-		System.out.println(Translator.morseToText(morseCode));
-		
-		sc.close();
+//		Scanner sc = new Scanner(System.in);
+//		
+//		// Ask user for text input
+//		System.out.println("Enter String (textToMorse): ");
+//		String text = sc.nextLine();
+//		
+//		// Print out the Morse code translated from text
+//		System.out.println(Translator.textToMorse(text));
+//
+//		
+//		// Ask user for MorseCode input
+//		System.out.println("\n");
+//		System.out.println("Enter String (morseToText): ");
+//		String morseCode = sc.nextLine();
+//		
+//		// Print out the text translated from Morse code
+//		System.out.println(Translator.morseToText(morseCode));
+//		
+//		sc.close();
 	}
 
 	// Method to translate from Text to MorseCode
@@ -57,7 +53,7 @@ public class Translator {
 	    	translatedArray[i] = MorseMap.textToMorse.getOrDefault(textToCharArray[i], "#");
 	    }
 	    
-		// Store result with StringBuilder
+		// Store result string with StringBuilder
 		StringBuilder translationSB = new StringBuilder();
 		
 		// Append to the 'translationSB' object each string in 'translatedArray' with spaces in between
@@ -99,7 +95,7 @@ public class Translator {
 	    	translatedArray[i] = MorseMap.morseToText.getOrDefault(morseCodeSplitBySpacing[i], '#');
 	    }
 	    
-		// Store result with StringBuilder
+		// Store result string with StringBuilder
 		StringBuilder translationSB = new StringBuilder();
 		
 		// Append each character in 'translatedArray' in the 'translationSB' object
