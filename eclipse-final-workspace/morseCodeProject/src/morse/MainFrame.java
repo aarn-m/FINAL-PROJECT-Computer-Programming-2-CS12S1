@@ -12,6 +12,8 @@ import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -35,6 +37,7 @@ public class MainFrame extends JFrame {
 	private JPanel morsleToSolvePanel;
 	private JTextField[] letterFields;
 	private JComboBox<String> difficultyBox;
+	private String morsleToSolve = "";
 
 	/**
 	 * Launch the application.
@@ -229,17 +232,16 @@ public class MainFrame extends JFrame {
 		btnNewWordButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selectedDifficulty = (String) difficultyBox.getSelectedItem();
-				String randomWord;
 
 				if ("Short Words".equals(selectedDifficulty)) {
-					randomWord = RandomWordGenerator.getRandomWordShort();
+					morsleToSolve = RandomWordGenerator.getRandomWordShort();
 				} else {
-					randomWord = RandomWordGenerator.getRandomWordMedium();
+					morsleToSolve = RandomWordGenerator.getRandomWordMedium();
 				}
 
-				createLetterFields(randomWord.length());
+				createLetterFields(morsleToSolve.length());
 
-				System.out.println("Selected word: " + randomWord);
+				System.out.println("Selected word: " + morsleToSolve);
 			}
 		});
 		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
@@ -256,6 +258,21 @@ public class MainFrame extends JFrame {
 		panel_2.add(lblTriesRemainingLabel, gbc_lblTriesRemainingLabel);
 		
 		JButton btnPlaySoundButton = new JButton("Play Sound");
+		btnPlaySoundButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					System.out.println("Playing audio");
+					MorseAudio.playMorse(morsleToSolve, 20, 700, 0.8f); // 20 WPM, 700 Hz, 80% volume
+					System.out.println("Finished audio");
+				} catch (LineUnavailableException e1) {
+					System.out.println("Audio device unavailable: " + e1.getMessage());
+					System.exit(3);
+				} catch (Exception e2) {
+					System.out.println("Playback error: " + e2.getMessage());
+					System.exit(3);
+				}
+			}
+		});
 		GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
 		gbc_btnPlaySoundButton.gridx = 1;
 		gbc_btnPlaySoundButton.gridy = 1;
@@ -271,6 +288,15 @@ public class MainFrame extends JFrame {
 		RightSidePanel.setLayout(gbl_RightSidePanel);
 		
 		JButton btnClearButton = new JButton("Clear");
+		btnClearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			    for (int i = 0; i < letterFields.length; i++) {
+			        if (letterFields[i] != null) {
+			        	letterFields[i].setText(""); // Clears the text
+			        }
+			    }
+			}
+		});
 		GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
 		gbc_btnClearButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnClearButton.gridx = 0;
@@ -356,7 +382,7 @@ public class MainFrame extends JFrame {
 	    for (int i = 0; i < wordLength; i++) {
 	        JTextField field = new JTextField();
 	        field.setHorizontalAlignment(SwingConstants.CENTER);
-	        field.setFont(field.getFont().deriveFont(18f)); // bigger text instead of bigger box
+	        field.setFont(field.getFont().deriveFont(20f)); // bigger text instead of bigger box
 
 	        letterFields[i] = field;
 	        morsleToSolvePanel.add(field);
