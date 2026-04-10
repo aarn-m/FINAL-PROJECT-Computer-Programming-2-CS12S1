@@ -264,6 +264,8 @@ public class MainFrame extends JFrame {
 				createLetterFields(morsleToSolve.length());
 
 				System.out.println("Selected word: " + morsleToSolve);
+				System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
+				
 			}
 		});
 		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
