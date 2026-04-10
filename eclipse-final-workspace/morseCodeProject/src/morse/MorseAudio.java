@@ -87,6 +87,8 @@ public class MorseAudio {
 						// word gap = 7 units, 1 unit already added after last symbol
 						playBytes(generateSilence(unit * 6, sampleRate), sampleRate);
 						break;
+					default:
+						break;
 				}
 			}
 		} catch (LineUnavailableException e) {
