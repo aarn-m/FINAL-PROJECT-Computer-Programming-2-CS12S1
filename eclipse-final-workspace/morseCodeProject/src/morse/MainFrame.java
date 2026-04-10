@@ -404,7 +404,10 @@ public class MainFrame extends JFrame {
 		            final int insertAt = targetIndex;
 
 		            // Disable all letter buttons while audio plays
-		            for (JButton b : letterButtons) b.setEnabled(false);
+		            for (JButton b : letterButtons) 
+	            	{
+	            		b.setEnabled(false);
+	            	}
 
 		            // Capture for use in worker
 		            final String morseToPlay = morse;
@@ -426,7 +429,10 @@ public class MainFrame extends JFrame {
 
 		                @Override
 		                protected void done() {
-		                    for (JButton b : letterButtons) b.setEnabled(true);
+				            for (JButton b : letterButtons) 
+			            	{
+			            		b.setEnabled(true);
+			            	}
 		                }
 		            }.execute();
 		        });
