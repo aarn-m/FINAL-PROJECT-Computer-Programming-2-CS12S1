@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
 	private JPanel morsleToSolvePanel;
 	private JTextField[] letterFields;
 	private JComboBox<String> difficultyBox;
-	private String morsleToSolve = "";
+	private String morsleToSolve = RandomWordGenerator.getRandomWordShort();
 
 	/**
 	 * Launch the application.
@@ -192,7 +192,9 @@ public class MainFrame extends JFrame {
 		morsleToSolvePanel = new JPanel();
 		scrollPane.setViewportView(morsleToSolvePanel);
 
-		createLetterFields(5); // default display before game starts
+		createLetterFields(morsleToSolve.length()); // default display before game starts
+		System.out.println("Selected word: " + morsleToSolve);
+		System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
 		
 		JPanel middleButtonsPanel = new JPanel();
 		GridBagConstraints gbc_middleButtonsPanel = new GridBagConstraints();
@@ -367,7 +369,7 @@ public class MainFrame extends JFrame {
 		        );
 
 		        JButton btn = new JButton(html);
-		        btn.setFont(btn.getFont().deriveFont(20f));
+		        btn.setFont(btn.getFont().deriveFont(24f));
 		        btn.setHorizontalAlignment(SwingConstants.CENTER);
 		        btn.setMargin(new Insets(2, 6, 2, 6));
 		        btn.addActionListener(action -> {
