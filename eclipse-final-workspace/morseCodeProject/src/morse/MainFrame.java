@@ -29,6 +29,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 
 public class MainFrame extends JFrame {
 
@@ -211,10 +212,10 @@ public class MainFrame extends JFrame {
 		JPanel panel_2 = new JPanel();
 		LeftSidePanel.add(panel_2);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_2.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel_2.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
 		difficultyBox = new JComboBox<>();
@@ -224,9 +225,30 @@ public class MainFrame extends JFrame {
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridx = 0;
+		gbc_comboBox_1.gridx = 1;
 		gbc_comboBox_1.gridy = 0;
 		panel_2.add(difficultyBox, gbc_comboBox_1);
+		
+		JSlider wpmSlider = new JSlider();
+		GridBagConstraints gbc_wpmSlider = new GridBagConstraints();
+		gbc_wpmSlider.insets = new Insets(0, 0, 5, 0);
+		gbc_wpmSlider.gridx = 2;
+		gbc_wpmSlider.gridy = 0;
+		panel_2.add(wpmSlider, gbc_wpmSlider);
+		
+		JLabel lblTriesRemainingLabel = new JLabel("Difficulty");
+		GridBagConstraints gbc_lblTriesRemainingLabel = new GridBagConstraints();
+		gbc_lblTriesRemainingLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTriesRemainingLabel.gridx = 1;
+		gbc_lblTriesRemainingLabel.gridy = 1;
+		panel_2.add(lblTriesRemainingLabel, gbc_lblTriesRemainingLabel);
+		
+		JLabel lblwpmLabel = new JLabel("WPM: 20");
+		GridBagConstraints gbc_lblwpmLabel = new GridBagConstraints();
+		gbc_lblwpmLabel.insets = new Insets(0, 0, 5, 0);
+		gbc_lblwpmLabel.gridx = 2;
+		gbc_lblwpmLabel.gridy = 1;
+		panel_2.add(lblwpmLabel, gbc_lblwpmLabel);
 		
 		JButton btnNewWordButton = new JButton("New Word");
 		btnNewWordButton.addActionListener(new ActionListener() {
@@ -245,37 +267,37 @@ public class MainFrame extends JFrame {
 			}
 		});
 		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
-		gbc_btnNewWordButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewWordButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewWordButton.gridx = 1;
-		gbc_btnNewWordButton.gridy = 0;
+		gbc_btnNewWordButton.gridy = 2;
 		panel_2.add(btnNewWordButton, gbc_btnNewWordButton);
-		
-		JLabel lblTriesRemainingLabel = new JLabel("Difficulty");
-		GridBagConstraints gbc_lblTriesRemainingLabel = new GridBagConstraints();
-		gbc_lblTriesRemainingLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblTriesRemainingLabel.gridx = 0;
-		gbc_lblTriesRemainingLabel.gridy = 1;
-		panel_2.add(lblTriesRemainingLabel, gbc_lblTriesRemainingLabel);
 		
 		JButton btnPlaySoundButton = new JButton("Play Sound");
 		btnPlaySoundButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					System.out.println("Playing audio");
-					MorseAudio.playMorse(morsleToSolve, 20, 700, 0.8f); // 20 WPM, 700 Hz, 80% volume
-					System.out.println("Finished audio");
-				} catch (LineUnavailableException e1) {
-					System.out.println("Audio device unavailable: " + e1.getMessage());
-					System.exit(3);
-				} catch (Exception e2) {
-					System.out.println("Playback error: " + e2.getMessage());
-					System.exit(3);
-				}
+		        if (morsleToSolve.isEmpty()) return;
+
+		        btnPlaySoundButton.setEnabled(false); // disable immediately
+
+		        String morseCode = Translator.textToMorse(morsleToSolve); // ← translate first!
+
+		        new SwingWorker<Void, Void>() {
+		            @Override
+		            protected Void doInBackground() throws Exception {
+		                MorseAudio.playMorse(morseCode, 20, 700, 0.8f);
+		                return null;
+		            }
+
+		            @Override
+		            protected void done() {
+		                btnPlaySoundButton.setEnabled(true); // re-enable when done
+		            }
+		        }.execute();
 			}
 		});
 		GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
-		gbc_btnPlaySoundButton.gridx = 1;
-		gbc_btnPlaySoundButton.gridy = 1;
+		gbc_btnPlaySoundButton.gridx = 2;
+		gbc_btnPlaySoundButton.gridy = 2;
 		panel_2.add(btnPlaySoundButton, gbc_btnPlaySoundButton);
 		
 		JPanel RightSidePanel = new JPanel();
