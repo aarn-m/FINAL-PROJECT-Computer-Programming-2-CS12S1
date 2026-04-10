@@ -288,7 +288,7 @@ public class MainFrame extends JFrame {
 		        new SwingWorker<Void, Void>() {
 		            @Override
 		            protected Void doInBackground() throws Exception {
-		                MorseAudio.playMorse(morseCode, 20, 700, 0.2f);
+		                MorseAudio.playMorse(morseCode, 20, 700, 0.3f);
 		                return null;
 		            }
 
