@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JTextArea;
@@ -16,6 +17,8 @@ import java.awt.GridBagConstraints;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -29,6 +32,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 public class MainFrame extends JFrame {
@@ -38,7 +42,11 @@ public class MainFrame extends JFrame {
 	private JPanel morsleToSolvePanel;
 	private JTextField[] letterFields;
 	private JComboBox<String> difficultyBox;
-	private String morsleToSolve = RandomWordGenerator.getRandomWordShort();
+	private String morsleToSolve = "";
+	private int morseAudioWPM = 20;
+	private int morseAudioHertz = 700;
+	private float morseAudioVolume = 0.5f;
+	
 
 	/**
 	 * Launch the application.
@@ -192,6 +200,7 @@ public class MainFrame extends JFrame {
 		morsleToSolvePanel = new JPanel();
 		scrollPane.setViewportView(morsleToSolvePanel);
 
+		morsleToSolve = RandomWordGenerator.getRandomWordShort();
 		createLetterFields(morsleToSolve.length()); // default display before game starts
 		System.out.println("Selected word: " + morsleToSolve);
 		System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
@@ -283,18 +292,23 @@ public class MainFrame extends JFrame {
 
 		        btnPlaySoundButton.setEnabled(false); // disable immediately
 
-		        String morseCode = Translator.textToMorse(morsleToSolve); // ← translate first!
+		        String morseCode = Translator.textToMorse(morsleToSolve);
 
 		        new SwingWorker<Void, Void>() {
 		            @Override
 		            protected Void doInBackground() throws Exception {
-		                MorseAudio.playMorse(morseCode, 20, 700, 0.3f);
+		                MorseAudio.playMorse(morseCode, morseAudioWPM, morseAudioHertz, morseAudioVolume);
 		                return null;
 		            }
 
 		            @Override
 		            protected void done() {
-		                btnPlaySoundButton.setEnabled(true); // re-enable when done
+		                try {
+		                    get(); // this re-throws any exception from doInBackground
+		                } catch (Exception ex) {
+		                    JOptionPane.showMessageDialog(null, "Playback error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		                }
+		                btnPlaySoundButton.setEnabled(true); // re-enable regardless of success or failure
 		            }
 		        }.execute();
 			}
@@ -352,14 +366,15 @@ public class MainFrame extends JFrame {
 		JPanel lettersPanel = new JPanel();
 		lettersPanel.setLayout(new GridLayout(0, 3, 4, 4));
 
-		// Sort the letters A-Z so they appear in order
+		// Track all letter buttons so we can disable/enable them all
+		List<JButton> letterButtons = new ArrayList<>();
+
 		MorseMap.textToMorse.entrySet().stream()
 		    .filter(e -> Character.isLetter(e.getKey()))
 		    .sorted(java.util.Map.Entry.comparingByKey())
 		    .forEach(e -> {
 		        String letter = String.valueOf(e.getKey());
 		        String morse = e.getValue();
-
 		        String html = String.format(
 		            "<html><table width='160'><tr>" +
 		            "<td align='left'><b>%s</b></td>" +
@@ -367,15 +382,56 @@ public class MainFrame extends JFrame {
 		            "</tr></table></html>",
 		            letter, morse
 		        );
-
 		        JButton btn = new JButton(html);
 		        btn.setFont(btn.getFont().deriveFont(24f));
 		        btn.setHorizontalAlignment(SwingConstants.CENTER);
 		        btn.setMargin(new Insets(2, 6, 2, 6));
-		        btn.addActionListener(action -> {
-		            // append the morse code to whatever input you're building
-		            // e.g. currentMorseInput += morse;
+		        btn.addActionListener(_ -> {
+		            // Find empty field and insert letter
+		            int targetIndex = -1;
+		            for (int i = 0; i < letterFields.length; i++) {
+		                if (letterFields[i].getText().trim().isEmpty()) {
+		                    targetIndex = i;
+		                    break;
+		                }
+		            }
+		            // If no empty field found, clear all and start from 0
+		            if (targetIndex == -1) {
+		                for (JTextField field : letterFields) field.setText("");
+		                targetIndex = 0;
+		            }
+
+		            final int insertAt = targetIndex;
+
+		            // Disable all letter buttons while audio plays
+		            for (JButton b : letterButtons) b.setEnabled(false);
+
+		            // Capture for use in worker
+		            final String morseToPlay = morse;
+		            final String letterToShow = letter;
+
+		            new SwingWorker<Void, Void>() {
+		                @Override
+		                protected Void doInBackground() {
+		                    // Show the letter immediately when audio starts
+		                    SwingUtilities.invokeLater(() -> letterFields[insertAt].setText(letterToShow));
+		                    
+		                    try {
+		                        MorseAudio.playMorse(morseToPlay, morseAudioWPM, morseAudioHertz, morseAudioVolume);
+		                    } catch (Exception ex) {
+		                        ex.printStackTrace();
+		                    }
+		                    return null;
+		                }
+
+		                @Override
+		                protected void done() {
+		                    for (JButton b : letterButtons) b.setEnabled(true);
+		                }
+		            }.execute();
 		        });
+		        
+		        letterButtons.add(btn);
 		        lettersPanel.add(btn);
 		    });
 
@@ -402,14 +458,17 @@ public class MainFrame extends JFrame {
 	    // Store each letter in the array
 	    letterFields = new JTextField[wordLength];
 
-	    // Use GridLayout so fields share space equally — no fixed size needed
+	    // Use GridLayout so fields share space equally
 	    morsleToSolvePanel.setLayout(new GridLayout(1, wordLength, 5, 0));
 
 	    for (int i = 0; i < wordLength; i++) {
 	        JTextField field = new JTextField();
 	        field.setHorizontalAlignment(SwingConstants.CENTER);
-	        field.setFont(field.getFont().deriveFont(20f)); // bigger text instead of bigger box
-
+	        field.setFont(field.getFont().deriveFont(50f)); // big text
+	        field.setEnabled(false);
+	        field.setBackground(Color.WHITE);
+	        field.setDisabledTextColor(field.getForeground());
+	        
 	        letterFields[i] = field;
 	        morsleToSolvePanel.add(field);
 	    }

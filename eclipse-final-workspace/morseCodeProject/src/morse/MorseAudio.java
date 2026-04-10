@@ -6,6 +6,7 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.swing.JOptionPane;
 
 public class MorseAudio {
 
@@ -25,10 +26,12 @@ public class MorseAudio {
 			MorseAudio.playMorse(morse, 20, 700, 0.8f); // 20 WPM, 700 Hz, 80% volume
 		} catch (LineUnavailableException e) {
 			System.out.println("Audio device unavailable: " + e.getMessage());
-			System.exit(3);
+			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			return;
 		} catch (Exception e) {
 			System.out.println("Playback error: " + e.getMessage());
-			System.exit(3);
+			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 
 		sc.close();
@@ -93,7 +96,8 @@ public class MorseAudio {
 			}
 		} catch (LineUnavailableException e) {
 			System.out.println("Audio device unavailable: " + e.getMessage());
-			System.exit(3);
+			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 	}
 }

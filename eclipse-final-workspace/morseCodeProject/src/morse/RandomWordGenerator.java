@@ -40,7 +40,6 @@ public class RandomWordGenerator {
             }
         } catch (IOException e) {
             System.out.println("Error reading: " + FILE_NAME_MEDIUM);
-            System.exit(1);
         }
     }
     
@@ -64,7 +63,6 @@ public class RandomWordGenerator {
     		}
     	} catch (IOException e) {
     		System.out.println("Error reading: " + FILE_NAME_SHORT);
-    		System.exit(2);
     	}
     }
 
