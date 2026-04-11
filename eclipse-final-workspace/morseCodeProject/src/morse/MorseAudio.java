@@ -66,52 +66,66 @@ public class MorseAudio {
 		return new byte[durationMs * sampleRate / 1000];
 	}
 
-	public static void playBytes(byte[] audio, int sampleRate) throws Exception {
-		AudioFormat format = new AudioFormat(sampleRate, 8, 1, true, false);
-		SourceDataLine line = AudioSystem.getSourceDataLine(format);
-		line.open(format);
-		line.start();
-		line.write(audio, 0, audio.length);
-		line.drain();
-		line.close();
-	}
-
 	public static void playMorse(String morseString, int wpm, int frequency, float volume) throws Exception {
-		try {
-			int unit = 1200 / wpm; // ms per unit
-			int sampleRate = 44100;
+	    int unit = 1200 / wpm;
+	    int sampleRate = 44100;
 
-			for (int i = 0; i < morseString.length(); i++) {
-				char symbol = morseString.charAt(i);
-				byte[] audio;
+	    // Pre-calculate total size so we can allocate once
+	    int totalSamples = 0;
+	    for (char symbol : morseString.toCharArray()) {
+	        switch (symbol) {
+	            case '.': totalSamples += unit * 2 * sampleRate / 1000; break;       // tone + gap
+	            case '-': totalSamples += unit * 4 * sampleRate / 1000; break;       // tone + gap
+	            case ' ': totalSamples += unit * 2 * sampleRate / 1000; break;       // extra inter-letter gap
+	            case '/': totalSamples += unit * 6 * sampleRate / 1000; break;       // word gap
+	        }
+	    }
 
-				switch (symbol) {
-					case '.':
-						audio = generateTone(unit, frequency, sampleRate, volume);      // 1 unit on
-						playBytes(audio, sampleRate);
-						playBytes(generateSilence(unit, sampleRate), sampleRate);        // 1 unit gap
-						break;
-					case '-':
-						audio = generateTone(unit * 3, frequency, sampleRate, volume);  // 3 units on
-						playBytes(audio, sampleRate);
-						playBytes(generateSilence(unit, sampleRate), sampleRate);        // 1 unit gap
-						break;
-					case ' ':
-						// inter-letter gap = 3 units, but 1 unit already added after last symbol
-						playBytes(generateSilence(unit * 2, sampleRate), sampleRate);
-						break;
-					case '/':
-						// word gap = 7 units, 1 unit already added after last symbol
-						playBytes(generateSilence(unit * 6, sampleRate), sampleRate);
-						break;
-					default:
-						break;
-				}
-			}
-		} catch (LineUnavailableException e) {
-			System.out.println("Audio device unavailable: " + e.getMessage());
-			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+	    // Build the full audio buffer in one pass
+	    byte[] fullAudio = new byte[totalSamples];
+	    int pos = 0;
+
+	    for (char symbol : morseString.toCharArray()) {
+	        byte[] chunk;
+	        switch (symbol) {
+	            case '.':
+	                chunk = generateTone(unit, frequency, sampleRate, volume);
+	                System.arraycopy(chunk, 0, fullAudio, pos, chunk.length);
+	                pos += chunk.length;
+	                chunk = generateSilence(unit, sampleRate);
+	                System.arraycopy(chunk, 0, fullAudio, pos, chunk.length);
+	                pos += chunk.length;
+	                break;
+	            case '-':
+	                chunk = generateTone(unit * 3, frequency, sampleRate, volume);
+	                System.arraycopy(chunk, 0, fullAudio, pos, chunk.length);
+	                pos += chunk.length;
+	                chunk = generateSilence(unit, sampleRate);
+	                System.arraycopy(chunk, 0, fullAudio, pos, chunk.length);
+	                pos += chunk.length;
+	                break;
+	            case ' ':
+	                chunk = generateSilence(unit * 2, sampleRate);
+	                System.arraycopy(chunk, 0, fullAudio, pos, chunk.length);
+	                pos += chunk.length;
+	                break;
+	            case '/':
+	                chunk = generateSilence(unit * 6, sampleRate);
+	                System.arraycopy(chunk, 0, fullAudio, pos, chunk.length);
+	                pos += chunk.length;
+	                break;
+	        }
+	    }
+
+	    // Open the line ONCE and write everything
+	    AudioFormat format = new AudioFormat(sampleRate, 8, 1, true, false);
+	    try (SourceDataLine line = AudioSystem.getSourceDataLine(format)) {
+	        line.open(format);
+	        line.start();
+	        line.write(fullAudio, 0, pos);
+	        line.drain();
+	    } catch (LineUnavailableException e) {
+	        JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
 }
