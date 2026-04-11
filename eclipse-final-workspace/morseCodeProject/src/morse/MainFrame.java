@@ -48,8 +48,8 @@ public class MainFrame extends JFrame {
 	private JComboBox<String> difficultyBox;
 	private String morsleToSolve = ""; // Storing what the user will try to solve here
 	private int morseAudioWPM = 20;	// Default value for WPM
-	private int morseAudioHertz = 440;	// Default value for Hertz
-	private float morseAudioVolume = 0.2f;	// Default value for Volume
+	private int morseAudioHertz = 450;	// Default value for Hertz
+	private float morseAudioVolume = 0.5f;	// Default value for Volume
 	private boolean  morsleToSolveAudioIsPlaying = false;
 	private JButton btnNewWordButton; // To disable/re-enable this button across different interactions throughout the program
 	private JButton btnPlaySoundButton; // To disable/re-enable this button across different interactions throughout the program
@@ -57,6 +57,8 @@ public class MainFrame extends JFrame {
 	private int attemptCounter = 0; // Counter for attempts
 	private int solvedCounter = 0; // Counter for solved puzzles
 	private boolean isPuzzleSolved = false; // Used so audio won't be playing twice when you guess correctly while a different audio was playing
+	private volatile boolean stopTranslatorAudioRequested = false; // Flag to stop audio playback in translator tab
+	private volatile boolean stopMinigameAudio = false; // Minigame tab stop flag
 	
 	
 
@@ -120,25 +122,27 @@ public class MainFrame extends JFrame {
 		gbc_lblInput.gridy = 0;
 		panel.add(lblInput, gbc_lblInput);
 		
-		JScrollPane scrollPane_Input = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_Input = new GridBagConstraints();
-		gbc_scrollPane_Input.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_Input.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_Input.gridx = 0;
-		gbc_scrollPane_Input.gridy = 1;
-		panel.add(scrollPane_Input, gbc_scrollPane_Input);
+		JScrollPane scrollPanelInput = new JScrollPane();
+		GridBagConstraints gbc_scrollPanelInput = new GridBagConstraints();
+		gbc_scrollPanelInput.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPanelInput.fill = GridBagConstraints.BOTH;
+		gbc_scrollPanelInput.gridx = 0;
+		gbc_scrollPanelInput.gridy = 1;
+		panel.add(scrollPanelInput, gbc_scrollPanelInput);
 		
 		JTextArea textArea_Input = new JTextArea();
+		textArea_Input.setFont(textArea_Input.getFont().deriveFont(14.0f)); // Change font size of text input area while still keeping the font
+		textArea_Input.setMargin(new Insets(10, 20, 10, 20)); // Change margin text input area
 		textArea_Input.setLineWrap(true);
-		scrollPane_Input.setViewportView(textArea_Input);
+		scrollPanelInput.setViewportView(textArea_Input);
 		
 		JPanel panelButtons = new JPanel();
 		GridBagConstraints gbc_panelButtons = new GridBagConstraints();
+		gbc_panelButtons.fill = GridBagConstraints.VERTICAL;
 		gbc_panelButtons.insets = new Insets(0, 0, 5, 0);
 		gbc_panelButtons.gridx = 0;
 		gbc_panelButtons.gridy = 2;
 		panel.add(panelButtons, gbc_panelButtons);
-		panelButtons.setLayout(new GridLayout(0, 3, 10, 0));
 		
 		JLabel lblOutput = new JLabel("Output");
 		GridBagConstraints gbc_lblOutput = new GridBagConstraints();
@@ -147,17 +151,25 @@ public class MainFrame extends JFrame {
 		gbc_lblOutput.gridy = 3;
 		panel.add(lblOutput, gbc_lblOutput);
 		
-		JScrollPane panel_GridBagLayout = new JScrollPane();
-		GridBagConstraints gbc_panel_GridBagLayout = new GridBagConstraints();
-		gbc_panel_GridBagLayout.fill = GridBagConstraints.BOTH;
-		gbc_panel_GridBagLayout.gridx = 0;
-		gbc_panel_GridBagLayout.gridy = 4;
-		panel.add(panel_GridBagLayout, gbc_panel_GridBagLayout);
+		JScrollPane scrollPanelOutput = new JScrollPane();
+		GridBagConstraints gbc_scrollPanelOutput = new GridBagConstraints();
+		gbc_scrollPanelOutput.fill = GridBagConstraints.BOTH;
+		gbc_scrollPanelOutput.gridx = 0;
+		gbc_scrollPanelOutput.gridy = 4;
+		panel.add(scrollPanelOutput, gbc_scrollPanelOutput);
 		
 		JTextArea textArea_Output = new JTextArea();
+		textArea_Output.setFont(textArea_Input.getFont().deriveFont(14.0f)); // Change font size of text input area while still keeping the font
+		textArea_Output.setMargin(new Insets(10, 20, 10, 20)); // Change margin text input area
 		textArea_Output.setEditable(false);
 		textArea_Output.setLineWrap(true);
-		panel_GridBagLayout.setViewportView(textArea_Output);
+		scrollPanelOutput.setViewportView(textArea_Output);
+		GridBagLayout gbl_panelButtons = new GridBagLayout();
+		gbl_panelButtons.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panelButtons.rowHeights = new int[]{0, 21, 0};
+		gbl_panelButtons.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelButtons.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panelButtons.setLayout(gbl_panelButtons);
 		
 		JButton btnTtM = new JButton("Text to MorseCode");
 		btnTtM.addActionListener(new ActionListener() {
@@ -165,7 +177,13 @@ public class MainFrame extends JFrame {
 				textArea_Output.setText(Translator.textToMorse(textArea_Input.getText()));
 			}
 		});
-		panelButtons.add(btnTtM);
+		GridBagConstraints gbc_btnTtM = new GridBagConstraints();
+		gbc_btnTtM.anchor = GridBagConstraints.BASELINE;
+		gbc_btnTtM.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnTtM.insets = new Insets(0, 0, 0, 5);
+		gbc_btnTtM.gridx = 0;
+		gbc_btnTtM.gridy = 0;
+		panelButtons.add(btnTtM, gbc_btnTtM);
 		
 		JButton btnMtT = new JButton("MorseCode to Text");
 		btnMtT.addActionListener(new ActionListener() {
@@ -173,7 +191,13 @@ public class MainFrame extends JFrame {
 				textArea_Output.setText(Translator.morseToText(textArea_Input.getText()));
 			}
 		});
-		panelButtons.add(btnMtT);
+		GridBagConstraints gbc_btnMtT = new GridBagConstraints();
+		gbc_btnMtT.anchor = GridBagConstraints.BASELINE;
+		gbc_btnMtT.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnMtT.insets = new Insets(0, 0, 0, 5);
+		gbc_btnMtT.gridx = 1;
+		gbc_btnMtT.gridy = 0;
+		panelButtons.add(btnMtT, gbc_btnMtT);
 		
 		JButton btnCtC = new JButton("Copy to Clipboard");
 		btnCtC.addActionListener(new ActionListener() {
@@ -186,7 +210,90 @@ public class MainFrame extends JFrame {
 		        JOptionPane.showMessageDialog(null, "Copied to clipboard!");
 			}
 		});
-		panelButtons.add(btnCtC);
+		GridBagConstraints gbc_btnCtC = new GridBagConstraints();
+		gbc_btnCtC.anchor = GridBagConstraints.BASELINE;
+		gbc_btnCtC.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnCtC.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCtC.gridx = 2;
+		gbc_btnCtC.gridy = 0;
+		panelButtons.add(btnCtC, gbc_btnCtC);
+		
+		JButton btnPlayAudio = new JButton("<html>&#9654; Play</html>");
+		btnPlayAudio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        // Reset stop flag and disable play button before starting
+		        stopTranslatorAudioRequested = false;
+		        
+		        // Disable the play audio button
+				btnPlayAudio.setEnabled(false);
+				
+				// Play audio in background thread
+				new SwingWorker<Void, Void>() 
+				{
+				    @Override
+				    protected Void doInBackground() 
+				    {
+				        try 
+				        {
+				        	MorseAudio.playMorse(textArea_Output.getText(), morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopTranslatorAudioRequested);
+				        } 
+				        catch (Exception ex) 
+				        {
+				            ex.printStackTrace();
+				        }
+				        return null;
+				    }
+
+				    @Override
+				    protected void done() 
+				    {
+				        // Re-enable the btnPlayAudio after playing
+				        btnPlayAudio.setEnabled(true);
+				    }
+				}.execute();
+				
+                }
+			}
+		);
+		GridBagConstraints gbc_btnPlayAudio = new GridBagConstraints();
+		gbc_btnPlayAudio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnPlayAudio.anchor = GridBagConstraints.BASELINE;
+		gbc_btnPlayAudio.insets = new Insets(0, 0, 5, 5);
+		gbc_btnPlayAudio.gridx = 3;
+		gbc_btnPlayAudio.gridy = 0;
+		panelButtons.add(btnPlayAudio, gbc_btnPlayAudio);
+		
+		JButton btnStopAudio = new JButton("<html>&#x23F9; Stop</html>");
+		btnStopAudio.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) 
+		    {
+		        // Signal the audio to stop
+		        stopTranslatorAudioRequested = true;
+		        btnPlayAudio.setEnabled(true);
+		    }
+		});
+		GridBagConstraints gbc_btnStopAudio = new GridBagConstraints();
+		gbc_btnStopAudio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnStopAudio.anchor = GridBagConstraints.BASELINE;
+		gbc_btnStopAudio.insets = new Insets(0, 0, 5, 0);
+		gbc_btnStopAudio.gridx = 4;
+		gbc_btnStopAudio.gridy = 0;
+		panelButtons.add(btnStopAudio, gbc_btnStopAudio);
+		
+		JLabel lblPlayAudioLabel = new JLabel("Play Audio");
+		GridBagConstraints gbc_lblPlayAudioLabel = new GridBagConstraints();
+		gbc_lblPlayAudioLabel.anchor = GridBagConstraints.NORTH;
+		gbc_lblPlayAudioLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblPlayAudioLabel.gridx = 3;
+		gbc_lblPlayAudioLabel.gridy = 1;
+		panelButtons.add(lblPlayAudioLabel, gbc_lblPlayAudioLabel);
+		
+		JLabel lblStopAudioLabel = new JLabel("Stop Audio");
+		GridBagConstraints gbc_lblStopAudioLabel = new GridBagConstraints();
+		gbc_lblStopAudioLabel.anchor = GridBagConstraints.NORTH;
+		gbc_lblStopAudioLabel.gridx = 4;
+		gbc_lblStopAudioLabel.gridy = 1;
+		panelButtons.add(lblStopAudioLabel, gbc_lblStopAudioLabel);
 		
 		JPanel Minigame = new JPanel();
 		tabbedPane.addTab("Minigame", null, Minigame, null);
@@ -321,7 +428,7 @@ public class MainFrame extends JFrame {
 		JPanel RightSidePanel = new JPanel();
 		FlowLayoutPanel.add(RightSidePanel);
 		GridBagLayout gbl_RightSidePanel = new GridBagLayout();
-		gbl_RightSidePanel.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_RightSidePanel.columnWidths = new int[]{75, 50, 75, 0};
 		gbl_RightSidePanel.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gbl_RightSidePanel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_RightSidePanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -387,6 +494,7 @@ public class MainFrame extends JFrame {
 		
 		btnPlaySoundButton = new JButton("Play Sound");
 		GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
+		gbc_btnPlaySoundButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnPlaySoundButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnPlaySoundButton.gridx = 1;
 		gbc_btnPlaySoundButton.gridy = 2;
@@ -608,6 +716,9 @@ public class MainFrame extends JFrame {
 
 		            // Make the targetIndex constant since it will be used by worker
 		            final int insertAt = targetIndex;
+		            
+		            // Reset flag
+		            stopMinigameAudio = false;
 
 		            // Disable all letter buttons while audio plays
 		            for (JButton b : letterButtons) 
@@ -636,7 +747,7 @@ public class MainFrame extends JFrame {
 		        		            btnPlaySoundButton.setEnabled(false);
 
 		        		            // Play the Morse letter audio
-			                        MorseAudio.playMorse(morseToPlay, morseAudioWPM, morseAudioHertz, morseAudioVolume);
+		        		            MorseAudio.playMorse(morseToPlay, morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopMinigameAudio);
 		                    	}
 		                    } catch (Exception ex) {
 		                        ex.printStackTrace();
@@ -718,7 +829,8 @@ public class MainFrame extends JFrame {
 		// Only play the morsle puzzle audio if the the morsleToSolve string has a word
 		// or if letter audio isn't playing
         if (morsleToSolve.isEmpty() || !btnNewWordButton.isEnabled()) return;
-
+        
+        stopMinigameAudio = false; // reset flag
         btnPlaySoundButton.setEnabled(false); // disable immediately
         btnNewWordButton.setEnabled(false); // disable the new word button
         morsleToSolveAudioIsPlaying = true; // morsleToSolveAudio is now playing
@@ -741,7 +853,7 @@ public class MainFrame extends JFrame {
             		letterFields[i].setBorder(new LineBorder(Color.BLACK, 5));
             		
             		// Play the current letter audio
-            		MorseAudio.playMorse(morseCodeSplitBySpacing[i], morseAudioWPM, morseAudioHertz, morseAudioVolume);
+            		MorseAudio.playMorse(morseCodeSplitBySpacing[i], morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopMinigameAudio);
             		
             		// Revert the letter field border back to its original
             		letterFields[i].setBorder(originalBorder);
