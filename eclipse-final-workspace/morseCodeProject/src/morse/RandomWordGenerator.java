@@ -10,8 +10,8 @@ import java.util.Random;
 public class RandomWordGenerator {
 
 	public static void main(String[] args) {
-        System.out.println(getRandomWordMedium());
-        System.out.println(getRandomWordShort());
+        System.out.println(RandomWordGenerator.getRandomWordMedium());
+        System.out.println(RandomWordGenerator.getRandomWordShort());
 	}
 	
 	private static final String FILE_NAME_MEDIUM = "google-10000-english-usa-no-swears-medium.txt";
@@ -20,6 +20,9 @@ public class RandomWordGenerator {
     private static List<String> shortWords = new ArrayList<>();
     private static final Random rand = new Random();
     
+//    Learned from:
+//    	Java File Input/Output - It's Way Easier Than You Think
+//    	https://youtu.be/ScUJx4aWRi0?si=dGw6XjZZG2JzETnm
     public static void loadMediumWords() {
         if (!mediumWords.isEmpty()) return; // already loaded
 
@@ -37,7 +40,6 @@ public class RandomWordGenerator {
             }
         } catch (IOException e) {
             System.out.println("Error reading: " + FILE_NAME_MEDIUM);
-            System.exit(1);
         }
     }
     
@@ -61,7 +63,6 @@ public class RandomWordGenerator {
     		}
     	} catch (IOException e) {
     		System.out.println("Error reading: " + FILE_NAME_SHORT);
-    		System.exit(2);
     	}
     }
 
