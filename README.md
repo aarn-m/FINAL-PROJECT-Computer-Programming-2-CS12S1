@@ -39,3 +39,17 @@ sc.close();
 //	-- --- .-. ... . / -.-. --- -.. . 
 //	MORSE CODE
 ```
+
+### Sample Usage of `RandomWordGenerator.java`
+```java
+        System.out.println(RandomWordGenerator.getRandomWordMedium());
+        System.out.println(RandomWordGenerator.getRandomWordShort());
+
+//	OUTPUT:
+//	mineral
+//	part
+```
+
+
+
+
