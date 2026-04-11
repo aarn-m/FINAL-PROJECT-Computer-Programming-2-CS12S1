@@ -57,7 +57,8 @@ public class MainFrame extends JFrame {
 	private int attemptCounter = 0; // Counter for attempts
 	private int solvedCounter = 0; // Counter for solved puzzles
 	private boolean isPuzzleSolved = false; // Used so audio won't be playing twice when you guess correctly while a different audio was playing
-	private volatile boolean stopAudioRequested = false; // Flag to stop audio playback in translator tab
+	private volatile boolean stopTranslatorAudioRequested = false; // Flag to stop audio playback in translator tab
+	private volatile boolean stopMinigameAudio = false; // Minigame tab stop flag
 	
 	
 
@@ -221,7 +222,7 @@ public class MainFrame extends JFrame {
 		btnPlayAudio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		        // Reset stop flag and disable play button before starting
-		        stopAudioRequested = false;
+		        stopTranslatorAudioRequested = false;
 		        
 		        // Disable the play audio button
 				btnPlayAudio.setEnabled(false);
@@ -234,7 +235,7 @@ public class MainFrame extends JFrame {
 				    {
 				        try 
 				        {
-				        	MorseAudio.playMorse(textArea_Output.getText(), morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopAudioRequested);
+				        	MorseAudio.playMorse(textArea_Output.getText(), morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopTranslatorAudioRequested);
 				        } 
 				        catch (Exception ex) 
 				        {
@@ -267,7 +268,7 @@ public class MainFrame extends JFrame {
 		    public void actionPerformed(ActionEvent e) 
 		    {
 		        // Signal the audio to stop
-		        stopAudioRequested = true;
+		        stopTranslatorAudioRequested = true;
 		        btnPlayAudio.setEnabled(true);
 		    }
 		});
@@ -715,6 +716,9 @@ public class MainFrame extends JFrame {
 
 		            // Make the targetIndex constant since it will be used by worker
 		            final int insertAt = targetIndex;
+		            
+		            // Reset flag
+		            stopMinigameAudio = false;
 
 		            // Disable all letter buttons while audio plays
 		            for (JButton b : letterButtons) 
@@ -743,7 +747,7 @@ public class MainFrame extends JFrame {
 		        		            btnPlaySoundButton.setEnabled(false);
 
 		        		            // Play the Morse letter audio
-		        		            MorseAudio.playMorse(morseToPlay, morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopAudioRequested);
+		        		            MorseAudio.playMorse(morseToPlay, morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopMinigameAudio);
 		                    	}
 		                    } catch (Exception ex) {
 		                        ex.printStackTrace();
@@ -825,7 +829,8 @@ public class MainFrame extends JFrame {
 		// Only play the morsle puzzle audio if the the morsleToSolve string has a word
 		// or if letter audio isn't playing
         if (morsleToSolve.isEmpty() || !btnNewWordButton.isEnabled()) return;
-
+        
+        stopMinigameAudio = false; // reset flag
         btnPlaySoundButton.setEnabled(false); // disable immediately
         btnNewWordButton.setEnabled(false); // disable the new word button
         morsleToSolveAudioIsPlaying = true; // morsleToSolveAudio is now playing
@@ -848,7 +853,7 @@ public class MainFrame extends JFrame {
             		letterFields[i].setBorder(new LineBorder(Color.BLACK, 5));
             		
             		// Play the current letter audio
-            		MorseAudio.playMorse(morseCodeSplitBySpacing[i], morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopAudioRequested);
+            		MorseAudio.playMorse(morseCodeSplitBySpacing[i], morseAudioWPM, morseAudioHertz, morseAudioVolume, () -> stopMinigameAudio);
             		
             		// Revert the letter field border back to its original
             		letterFields[i].setBorder(originalBorder);
