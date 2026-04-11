@@ -231,8 +231,8 @@ public class MainFrame extends JFrame {
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
 		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
 		JLabel lblWPMLabel = new JLabel("WPM: 20");
@@ -315,9 +315,9 @@ public class MainFrame extends JFrame {
 		JPanel RightSidePanel = new JPanel();
 		FlowLayoutPanel.add(RightSidePanel);
 		GridBagLayout gbl_RightSidePanel = new GridBagLayout();
-		gbl_RightSidePanel.columnWidths = new int[]{0, 0, 0};
+		gbl_RightSidePanel.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_RightSidePanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_RightSidePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_RightSidePanel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_RightSidePanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		RightSidePanel.setLayout(gbl_RightSidePanel);
 				
@@ -328,15 +328,6 @@ public class MainFrame extends JFrame {
 				gbc_lblDifficultyLabel.gridx = 0;
 				gbc_lblDifficultyLabel.gridy = 0;
 				RightSidePanel.add(lblDifficultyLabel, gbc_lblDifficultyLabel);
-		
-				
-				JButton btnClearButton = new JButton("Clear");
-				GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
-				gbc_btnClearButton.fill = GridBagConstraints.HORIZONTAL;
-				gbc_btnClearButton.insets = new Insets(0, 0, 5, 0);
-				gbc_btnClearButton.gridx = 1;
-				gbc_btnClearButton.gridy = 0;
-				RightSidePanel.add(btnClearButton, gbc_btnClearButton);
 				
 				difficultyBox = new JComboBox<>();
 				GridBagConstraints gbc_difficultyBox = new GridBagConstraints();
@@ -349,13 +340,30 @@ public class MainFrame extends JFrame {
 				difficultyBox.addItem("Short Words");
 				difficultyBox.addItem("Medium Words");
 				
-				JButton btnNewButton_2 = new JButton("Guess");
-				GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-				gbc_btnNewButton_2.fill = GridBagConstraints.HORIZONTAL;
-				gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 0);
-				gbc_btnNewButton_2.gridx = 1;
-				gbc_btnNewButton_2.gridy = 1;
-				RightSidePanel.add(btnNewButton_2, gbc_btnNewButton_2);
+						
+						JButton btnClearButton = new JButton("Clear");
+						GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
+						gbc_btnClearButton.fill = GridBagConstraints.HORIZONTAL;
+						gbc_btnClearButton.insets = new Insets(0, 0, 5, 5);
+						gbc_btnClearButton.gridx = 1;
+						gbc_btnClearButton.gridy = 1;
+						RightSidePanel.add(btnClearButton, gbc_btnClearButton);
+						btnClearButton.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+							    for (int i = 0; i < letterFields.length; i++) {
+							        if (letterFields[i] != null) {
+							        	letterFields[i].setText(""); // Clears the text
+							        }
+							    }
+							}
+						});
+				
+				JLabel lblNewLabel = new JLabel("New label");
+				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
+				gbc_lblNewLabel.gridx = 2;
+				gbc_lblNewLabel.gridy = 1;
+				RightSidePanel.add(lblNewLabel, gbc_lblNewLabel);
 				
 				btnNewWordButton = new JButton("New Word");
 				GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
@@ -391,10 +399,22 @@ public class MainFrame extends JFrame {
 				
 				btnPlaySoundButton = new JButton("Play Sound");
 				GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
-				gbc_btnPlaySoundButton.insets = new Insets(0, 0, 5, 0);
+				gbc_btnPlaySoundButton.insets = new Insets(0, 0, 5, 5);
 				gbc_btnPlaySoundButton.gridx = 1;
 				gbc_btnPlaySoundButton.gridy = 2;
 				RightSidePanel.add(btnPlaySoundButton, gbc_btnPlaySoundButton);
+				
+				JButton btnNewButton_2 = new JButton("Guess");
+				btnNewButton_2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
+				GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+				gbc_btnNewButton_2.fill = GridBagConstraints.HORIZONTAL;
+				gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 0);
+				gbc_btnNewButton_2.gridx = 2;
+				gbc_btnNewButton_2.gridy = 2;
+				RightSidePanel.add(btnNewButton_2, gbc_btnNewButton_2);
 				btnPlaySoundButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						// Only play the morsle puzzle audio if the the morsleToSolve string has a word
@@ -444,15 +464,6 @@ public class MainFrame extends JFrame {
 				                btnNewWordButton.setEnabled(true); // re-enable regardless of success or failure
 				            }
 				        }.execute();
-					}
-				});
-				btnClearButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					    for (int i = 0; i < letterFields.length; i++) {
-					        if (letterFields[i] != null) {
-					        	letterFields[i].setText(""); // Clears the text
-					        }
-					    }
 					}
 				});
 		

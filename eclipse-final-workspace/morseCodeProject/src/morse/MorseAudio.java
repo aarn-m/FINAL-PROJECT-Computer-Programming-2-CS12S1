@@ -38,14 +38,28 @@ public class MorseAudio {
 	}
 
 	public static byte[] generateTone(int durationMs, int frequency, int sampleRate, float volume) {
-		// volume: 0.0f (silent) to 1.0f (max)
-		int samples = durationMs * sampleRate / 1000;
-		byte[] buffer = new byte[samples];
-		for (int i = 0; i < samples; i++) {
-			double angle = 2.0 * Math.PI * i * frequency / sampleRate;
-			buffer[i] = (byte) (Math.sin(angle) * 127 * volume);
-		}
-		return buffer;
+	    int samples = durationMs * sampleRate / 1000;
+	    byte[] buffer = new byte[samples];
+
+	    // Ramp duration: ~8ms or 10% of tone, whichever is smaller
+	    int rampSamples = Math.min(samples / 2, (int)(sampleRate * 0.008));
+
+	    for (int i = 0; i < samples; i++) {
+	        double angle = 2.0 * Math.PI * i * frequency / sampleRate;
+	        double sample = Math.sin(angle) * 127 * volume;
+
+	        // Apply linear fade-in at the start
+	        if (i < rampSamples) {
+	            sample *= (double) i / rampSamples;
+	        }
+	        // Apply linear fade-out at the end
+	        else if (i >= samples - rampSamples) {
+	            sample *= (double) (samples - i) / rampSamples;
+	        }
+
+	        buffer[i] = (byte) sample;
+	    }
+	    return buffer;
 	}
 
 	public static byte[] generateSilence(int durationMs, int sampleRate) {
