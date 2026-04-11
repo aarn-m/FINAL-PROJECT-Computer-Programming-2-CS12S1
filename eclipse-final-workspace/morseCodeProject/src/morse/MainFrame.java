@@ -4,7 +4,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,12 +43,15 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel morsleToSolvePanel;
-	private JTextField[] letterFields;
+	private JTextField[] letterFields; // Dynamically change the letterFields using this array
 	private JComboBox<String> difficultyBox;
-	private String morsleToSolve = "";
+	private String morsleToSolve = ""; // Storing what the user will try to solve here
 	private int morseAudioWPM = 20;
 	private int morseAudioHertz = 700;
 	private float morseAudioVolume = 0.5f;
+	private boolean  morsleToSolveAudioIsPlaying = false;
+	private JButton btnNewWordButton; // To disable/re-enable this button across different interactions throughout the program
+	private JButton btnPlaySoundButton; // To disable/re-enable this button across different interactions throughout the program
 	
 
 	/**
@@ -166,7 +172,7 @@ public class MainFrame extends JFrame {
 		JButton btnCtC = new JButton("Copy to Clipboard");
 		btnCtC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
-		        String text = textArea_Output.getText(); // get text from JTextPane
+		        String text = textArea_Output.getText();
 		        
 		        StringSelection selection = new StringSelection(text);
 		        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
@@ -261,22 +267,24 @@ public class MainFrame extends JFrame {
 		gbc_lblwpmLabel.gridy = 1;
 		panel_2.add(lblwpmLabel, gbc_lblwpmLabel);
 		
-		JButton btnNewWordButton = new JButton("New Word");
+		btnNewWordButton = new JButton("New Word");
 		btnNewWordButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String selectedDifficulty = (String) difficultyBox.getSelectedItem();
+				if (morsleToSolveAudioIsPlaying == false)
+				{
+					String selectedDifficulty = (String) difficultyBox.getSelectedItem();
 
-				if ("Short Words".equals(selectedDifficulty)) {
-					morsleToSolve = RandomWordGenerator.getRandomWordShort();
-				} else {
-					morsleToSolve = RandomWordGenerator.getRandomWordMedium();
+					if ("Short Words".equals(selectedDifficulty)) {
+						morsleToSolve = RandomWordGenerator.getRandomWordShort();
+					} else {
+						morsleToSolve = RandomWordGenerator.getRandomWordMedium();
+					}
+
+					createLetterFields(morsleToSolve.length());
+
+					System.out.println("Selected word: " + morsleToSolve);
+					System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
 				}
-
-				createLetterFields(morsleToSolve.length());
-
-				System.out.println("Selected word: " + morsleToSolve);
-				System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
-				
 			}
 		});
 		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
@@ -285,19 +293,40 @@ public class MainFrame extends JFrame {
 		gbc_btnNewWordButton.gridy = 2;
 		panel_2.add(btnNewWordButton, gbc_btnNewWordButton);
 		
-		JButton btnPlaySoundButton = new JButton("Play Sound");
+		btnPlaySoundButton = new JButton("Play Sound");
 		btnPlaySoundButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		        if (morsleToSolve.isEmpty()) return;
+				// Only play the morsle puzzle audio if the the morsleToSolve string has a word
+				// or if letter audio isn't playing
+		        if (morsleToSolve.isEmpty() || !btnNewWordButton.isEnabled()) return;
 
 		        btnPlaySoundButton.setEnabled(false); // disable immediately
+		        btnNewWordButton.setEnabled(false); // disable the new word button
+		        morsleToSolveAudioIsPlaying = true; // morsleToSolveAudio is now playing
 
 		        String morseCode = Translator.textToMorse(morsleToSolve);
-
+		        String[] morseCodeSplitBySpacing = morseCode.split("\\s+");
+		        
 		        new SwingWorker<Void, Void>() {
 		            @Override
 		            protected Void doInBackground() throws Exception {
-		                MorseAudio.playMorse(morseCode, morseAudioWPM, morseAudioHertz, morseAudioVolume);
+		            	
+		            	for (int i = 0; i < morseCodeSplitBySpacing.length; i++)
+		            	{
+		            		// Add a space back to each letter
+		            		morseCodeSplitBySpacing[i] = morseCodeSplitBySpacing[i] + " ";
+		            		
+		            		// Change letter field border to black when that current letter is being played
+		            		Border originalBorder = letterFields[i].getBorder();
+		            		letterFields[i].setBorder(new LineBorder(Color.BLACK, 5));
+		            		
+		            		// Play the current letter audio
+		            		MorseAudio.playMorse(morseCodeSplitBySpacing[i], morseAudioWPM, morseAudioHertz, morseAudioVolume);
+		            		
+		            		// Revert the letter field border back to its original
+		            		letterFields[i].setBorder(originalBorder);
+		            	}
+		            
 		                return null;
 		            }
 
@@ -308,7 +337,9 @@ public class MainFrame extends JFrame {
 		                } catch (Exception ex) {
 		                    JOptionPane.showMessageDialog(null, "Playback error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		                }
-		                btnPlaySoundButton.setEnabled(true); // re-enable regardless of success or failure
+		                morsleToSolveAudioIsPlaying = false; // morsleToSolveAudio finished playing
+		                btnPlaySoundButton.setEnabled(true); // re-enable the new word button
+		                btnNewWordButton.setEnabled(true); // re-enable regardless of success or failure
 		            }
 		        }.execute();
 			}
@@ -387,7 +418,7 @@ public class MainFrame extends JFrame {
 		        btn.setHorizontalAlignment(SwingConstants.CENTER);
 		        btn.setMargin(new Insets(2, 6, 2, 6));
 		        btn.addActionListener(_ -> {
-		            // Find empty field and insert letter
+		            // Find an empty field and set that as the targetIndex
 		            int targetIndex = -1;
 		            for (int i = 0; i < letterFields.length; i++) {
 		                if (letterFields[i].getText().trim().isEmpty()) {
@@ -395,12 +426,17 @@ public class MainFrame extends JFrame {
 		                    break;
 		                }
 		            }
-		            // If no empty field found, clear all and start from 0
+		            
+		            // If no empty field found, clear all fields and start from 0
 		            if (targetIndex == -1) {
-		                for (JTextField field : letterFields) field.setText("");
+		                for (JTextField field : letterFields) 
+	                	{
+	                		field.setText("");
+	                	}
 		                targetIndex = 0;
 		            }
 
+		            // Make the targetIndex constant since it will be used by worker
 		            final int insertAt = targetIndex;
 
 		            // Disable all letter buttons while audio plays
@@ -408,11 +444,13 @@ public class MainFrame extends JFrame {
 	            	{
 	            		b.setEnabled(false);
 	            	}
-
+		            
 		            // Capture for use in worker
 		            final String morseToPlay = morse;
 		            final String letterToShow = letter;
 
+		            // Multithreading or basically multitasking using SwingWorker
+		            // Play the audio in Background thread so the audio can play while the GUI in Event Dispatch Thread still works
 		            new SwingWorker<Void, Void>() {
 		                @Override
 		                protected Void doInBackground() {
@@ -420,7 +458,16 @@ public class MainFrame extends JFrame {
 		                    SwingUtilities.invokeLater(() -> letterFields[insertAt].setText(letterToShow));
 		                    
 		                    try {
-		                        MorseAudio.playMorse(morseToPlay, morseAudioWPM, morseAudioHertz, morseAudioVolume);
+		                    	// Only play audio if the morseToSolve audio is not playing
+		                    	if (morsleToSolveAudioIsPlaying == false)
+		                    	{
+		                    		// Disable the New Word and Play Sound buttons while the letter audio plays
+		        		            btnNewWordButton.setEnabled(false);
+		        		            btnPlaySoundButton.setEnabled(false);
+
+		        		            // Play the Morse letter audio
+			                        MorseAudio.playMorse(morseToPlay, morseAudioWPM, morseAudioHertz, morseAudioVolume);
+		                    	}
 		                    } catch (Exception ex) {
 		                        ex.printStackTrace();
 		                    }
@@ -429,10 +476,19 @@ public class MainFrame extends JFrame {
 
 		                @Override
 		                protected void done() {
+		                	
 				            for (JButton b : letterButtons) 
 			            	{
 			            		b.setEnabled(true);
 			            	}
+				            
+				            // Don't update these if the morseToSolve audio is still playing
+				            if (morsleToSolveAudioIsPlaying == false)
+				            {    
+					            // Re-enable the New Word button since letters finished playing
+					            btnNewWordButton.setEnabled(true);	
+					            btnPlaySoundButton.setEnabled(true);
+				            }
 		                }
 		            }.execute();
 		        });
@@ -449,7 +505,7 @@ public class MainFrame extends JFrame {
 		
 		
 		
-		contentPane.setPreferredSize(new Dimension(750, 500));	// ideal inside size
+		contentPane.setPreferredSize(new Dimension(750, 700));	// ideal inside size
 		pack();	// resize frame to fit contents
 		setMinimumSize(getSize());	// current packed size becomes minimum
 		setLocationRelativeTo(null);	// center on screen

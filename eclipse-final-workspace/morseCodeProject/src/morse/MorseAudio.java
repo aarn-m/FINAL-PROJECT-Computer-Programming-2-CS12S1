@@ -23,7 +23,7 @@ public class MorseAudio {
 		String morse = Translator.textToMorse(text);
 
 		try {
-			MorseAudio.playMorse(morse, 20, 700, 0.8f); // 20 WPM, 700 Hz, 80% volume
+			MorseAudio.playMorse(morse, 20, 700, 0.5f); // 20 WPM, 700 Hz, 50% volume
 		} catch (LineUnavailableException e) {
 			System.out.println("Audio device unavailable: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
