@@ -229,23 +229,11 @@ public class MainFrame extends JFrame {
 		JPanel panel_2 = new JPanel();
 		LeftSidePanel.add(panel_2);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
-		
-		difficultyBox = new JComboBox<>();
-		difficultyBox.setToolTipText("Select Difficulty");
-		difficultyBox.addItem("Short Words");
-		difficultyBox.addItem("Medium Words");
-		
-		JSlider wpmSlider = new JSlider();
-		GridBagConstraints gbc_wpmSlider = new GridBagConstraints();
-		gbc_wpmSlider.insets = new Insets(0, 0, 5, 5);
-		gbc_wpmSlider.gridx = 0;
-		gbc_wpmSlider.gridy = 0;
-		panel_2.add(wpmSlider, gbc_wpmSlider);
 		
 		JLabel lblWPMLabel = new JLabel("WPM: 20");
 		GridBagConstraints gbc_lblWPMLabel = new GridBagConstraints();
@@ -254,36 +242,25 @@ public class MainFrame extends JFrame {
 		gbc_lblWPMLabel.gridx = 1;
 		gbc_lblWPMLabel.gridy = 0;
 		panel_2.add(lblWPMLabel, gbc_lblWPMLabel);
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridx = 2;
-		gbc_comboBox_1.gridy = 0;
-		panel_2.add(difficultyBox, gbc_comboBox_1);
 		
-		JButton btnClearButton = new JButton("Clear");
-		GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
-		gbc_btnClearButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnClearButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnClearButton.gridx = 3;
-		gbc_btnClearButton.gridy = 0;
-		panel_2.add(btnClearButton, gbc_btnClearButton);
-		btnClearButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			    for (int i = 0; i < letterFields.length; i++) {
-			        if (letterFields[i] != null) {
-			        	letterFields[i].setText(""); // Clears the text
-			        }
-			    }
-			}
+		JSlider wpmSlider = new JSlider();
+		wpmSlider.setSnapToTicks(true);
+		wpmSlider.setMinorTickSpacing(5);
+		wpmSlider.setPaintTicks(true);
+		wpmSlider.setPaintLabels(true);
+		wpmSlider.setMajorTickSpacing(10);
+		wpmSlider.setMaximum(60);
+		wpmSlider.setMinimum(5);
+		wpmSlider.setValue(20);
+		GridBagConstraints gbc_wpmSlider = new GridBagConstraints();
+		gbc_wpmSlider.insets = new Insets(0, 0, 5, 5);
+		gbc_wpmSlider.gridx = 0;
+		gbc_wpmSlider.gridy = 0;
+		wpmSlider.addChangeListener(_ -> {
+		    morseAudioWPM = wpmSlider.getValue(); // Get the value and assign to the class private variable
+		    lblWPMLabel.setText("WPM: " + morseAudioWPM); // Update text
 		});
-		
-		JSlider slider = new JSlider();
-		GridBagConstraints gbc_slider = new GridBagConstraints();
-		gbc_slider.insets = new Insets(0, 0, 5, 5);
-		gbc_slider.gridx = 0;
-		gbc_slider.gridy = 1;
-		panel_2.add(slider, gbc_slider);
+		panel_2.add(wpmSlider, gbc_wpmSlider);
 		
 		JLabel lblHertzLabel = new JLabel("Tone/Hertz: 700");
 		GridBagConstraints gbc_lblHertzLabel = new GridBagConstraints();
@@ -293,49 +270,24 @@ public class MainFrame extends JFrame {
 		gbc_lblHertzLabel.gridy = 1;
 		panel_2.add(lblHertzLabel, gbc_lblHertzLabel);
 		
-		JLabel lblTriesRemainingLabel = new JLabel("Difficulty");
-		GridBagConstraints gbc_lblTriesRemainingLabel = new GridBagConstraints();
-		gbc_lblTriesRemainingLabel.anchor = GridBagConstraints.BASELINE;
-		gbc_lblTriesRemainingLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTriesRemainingLabel.gridx = 2;
-		gbc_lblTriesRemainingLabel.gridy = 1;
-		panel_2.add(lblTriesRemainingLabel, gbc_lblTriesRemainingLabel);
-		
-		JButton btnNewButton_2 = new JButton("Guess");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_2.gridx = 3;
-		gbc_btnNewButton_2.gridy = 1;
-		panel_2.add(btnNewButton_2, gbc_btnNewButton_2);
-		
-		JSlider volumeSlider = new JSlider();
-		GridBagConstraints gbc_volumeSlider = new GridBagConstraints();
-		gbc_volumeSlider.insets = new Insets(0, 0, 0, 5);
-		gbc_volumeSlider.gridx = 0;
-		gbc_volumeSlider.gridy = 2;
-		panel_2.add(volumeSlider, gbc_volumeSlider);
-		
-		btnNewWordButton = new JButton("New Word");
-		btnNewWordButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (morsleToSolveAudioIsPlaying == false)
-				{
-					String selectedDifficulty = (String) difficultyBox.getSelectedItem();
-
-					if ("Short Words".equals(selectedDifficulty)) {
-						morsleToSolve = RandomWordGenerator.getRandomWordShort();
-					} else {
-						morsleToSolve = RandomWordGenerator.getRandomWordMedium();
-					}
-
-					createLetterFields(morsleToSolve.length());
-
-					System.out.println("Selected word: " + morsleToSolve);
-					System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
-				}
-			}
+		JSlider hertzSlider = new JSlider();
+		hertzSlider.setMinorTickSpacing(50);
+		hertzSlider.setSnapToTicks(true);
+		hertzSlider.setMajorTickSpacing(100);
+		hertzSlider.setPaintLabels(true);
+		hertzSlider.setPaintTicks(true);
+		hertzSlider.setMinimum(300);
+		hertzSlider.setMaximum(800);
+		hertzSlider.setValue(700);
+		GridBagConstraints gbc_hertzSlider = new GridBagConstraints();
+		gbc_hertzSlider.insets = new Insets(0, 0, 5, 5);
+		gbc_hertzSlider.gridx = 0;
+		gbc_hertzSlider.gridy = 1;
+		hertzSlider.addChangeListener(_ -> {
+		    morseAudioHertz = hertzSlider.getValue(); // Get the value and assign to the class private variable
+		    lblHertzLabel.setText("Tone/Hertz: " + morseAudioHertz); // Update text
 		});
+		panel_2.add(hertzSlider, gbc_hertzSlider);
 		
 		JLabel lblVolumeLabel = new JLabel("Volume: 50");
 		GridBagConstraints gbc_lblVolumeLabel = new GridBagConstraints();
@@ -344,69 +296,165 @@ public class MainFrame extends JFrame {
 		gbc_lblVolumeLabel.gridx = 1;
 		gbc_lblVolumeLabel.gridy = 2;
 		panel_2.add(lblVolumeLabel, gbc_lblVolumeLabel);
-		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
-		gbc_btnNewWordButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewWordButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewWordButton.gridx = 2;
-		gbc_btnNewWordButton.gridy = 2;
-		panel_2.add(btnNewWordButton, gbc_btnNewWordButton);
 		
-		btnPlaySoundButton = new JButton("Play Sound");
-		btnPlaySoundButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Only play the morsle puzzle audio if the the morsleToSolve string has a word
-				// or if letter audio isn't playing
-		        if (morsleToSolve.isEmpty() || !btnNewWordButton.isEnabled()) return;
-
-		        btnPlaySoundButton.setEnabled(false); // disable immediately
-		        btnNewWordButton.setEnabled(false); // disable the new word button
-		        morsleToSolveAudioIsPlaying = true; // morsleToSolveAudio is now playing
-
-		        String morseCode = Translator.textToMorse(morsleToSolve);
-		        String[] morseCodeSplitBySpacing = morseCode.split("\\s+");
-		        
-		        new SwingWorker<Void, Void>() {
-		            @Override
-		            protected Void doInBackground() throws Exception {
-		            	
-		            	for (int i = 0; i < morseCodeSplitBySpacing.length; i++)
-		            	{
-		            		// Add a space back to each letter
-		            		morseCodeSplitBySpacing[i] = morseCodeSplitBySpacing[i] + " ";
-		            		
-		            		// Change letter field border to black when that current letter is being played
-		            		Border originalBorder = letterFields[i].getBorder();
-		            		letterFields[i].setBorder(new LineBorder(Color.BLACK, 5));
-		            		
-		            		// Play the current letter audio
-		            		MorseAudio.playMorse(morseCodeSplitBySpacing[i], morseAudioWPM, morseAudioHertz, morseAudioVolume);
-		            		
-		            		// Revert the letter field border back to its original
-		            		letterFields[i].setBorder(originalBorder);
-		            	}
-		            
-		                return null;
-		            }
-
-		            @Override
-		            protected void done() {
-		                try {
-		                    get(); // this re-throws any exception from doInBackground
-		                } catch (Exception ex) {
-		                    JOptionPane.showMessageDialog(null, "Playback error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		                }
-		                morsleToSolveAudioIsPlaying = false; // morsleToSolveAudio finished playing
-		                btnPlaySoundButton.setEnabled(true); // re-enable the new word button
-		                btnNewWordButton.setEnabled(true); // re-enable regardless of success or failure
-		            }
-		        }.execute();
-			}
+		JSlider volumeSlider = new JSlider();
+		volumeSlider.setSnapToTicks(true);
+		volumeSlider.setPaintTicks(true);
+		volumeSlider.setMajorTickSpacing(10);
+		GridBagConstraints gbc_volumeSlider = new GridBagConstraints();
+		gbc_volumeSlider.insets = new Insets(0, 0, 0, 5);
+		gbc_volumeSlider.gridx = 0;
+		gbc_volumeSlider.gridy = 2;
+		volumeSlider.setValue(50);
+		volumeSlider.addChangeListener(_ -> {
+		    morseAudioVolume = volumeSlider.getValue() / 100.0f; // Convert 0-100 to 0.0-1.0, then get the value and assign to the class private variable
+		    lblVolumeLabel.setText("Volume: " + volumeSlider.getValue()); // Update text
 		});
-		GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
-		gbc_btnPlaySoundButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnPlaySoundButton.gridx = 3;
-		gbc_btnPlaySoundButton.gridy = 2;
-		panel_2.add(btnPlaySoundButton, gbc_btnPlaySoundButton);
+		panel_2.add(volumeSlider, gbc_volumeSlider);
+		
+		JPanel RightSidePanel = new JPanel();
+		FlowLayoutPanel.add(RightSidePanel);
+		GridBagLayout gbl_RightSidePanel = new GridBagLayout();
+		gbl_RightSidePanel.columnWidths = new int[]{0, 0, 0};
+		gbl_RightSidePanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_RightSidePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_RightSidePanel.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		RightSidePanel.setLayout(gbl_RightSidePanel);
+				
+				JLabel lblDifficultyLabel = new JLabel("Difficulty");
+				GridBagConstraints gbc_lblDifficultyLabel = new GridBagConstraints();
+				gbc_lblDifficultyLabel.anchor = GridBagConstraints.SOUTH;
+				gbc_lblDifficultyLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_lblDifficultyLabel.gridx = 0;
+				gbc_lblDifficultyLabel.gridy = 0;
+				RightSidePanel.add(lblDifficultyLabel, gbc_lblDifficultyLabel);
+		
+				
+				JButton btnClearButton = new JButton("Clear");
+				GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
+				gbc_btnClearButton.fill = GridBagConstraints.HORIZONTAL;
+				gbc_btnClearButton.insets = new Insets(0, 0, 5, 0);
+				gbc_btnClearButton.gridx = 1;
+				gbc_btnClearButton.gridy = 0;
+				RightSidePanel.add(btnClearButton, gbc_btnClearButton);
+				
+				difficultyBox = new JComboBox<>();
+				GridBagConstraints gbc_difficultyBox = new GridBagConstraints();
+				gbc_difficultyBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_difficultyBox.insets = new Insets(0, 0, 5, 5);
+				gbc_difficultyBox.gridx = 0;
+				gbc_difficultyBox.gridy = 1;
+				RightSidePanel.add(difficultyBox, gbc_difficultyBox);
+				difficultyBox.setToolTipText("Select Difficulty");
+				difficultyBox.addItem("Short Words");
+				difficultyBox.addItem("Medium Words");
+				
+				JButton btnNewButton_2 = new JButton("Guess");
+				GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+				gbc_btnNewButton_2.fill = GridBagConstraints.HORIZONTAL;
+				gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 0);
+				gbc_btnNewButton_2.gridx = 1;
+				gbc_btnNewButton_2.gridy = 1;
+				RightSidePanel.add(btnNewButton_2, gbc_btnNewButton_2);
+				
+				btnNewWordButton = new JButton("New Word");
+				GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
+				gbc_btnNewWordButton.fill = GridBagConstraints.HORIZONTAL;
+				gbc_btnNewWordButton.insets = new Insets(0, 0, 5, 5);
+				gbc_btnNewWordButton.gridx = 0;
+				gbc_btnNewWordButton.gridy = 2;
+				RightSidePanel.add(btnNewWordButton, gbc_btnNewWordButton);
+				btnNewWordButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// Update if Morsle to solve isn't playing
+						if (morsleToSolveAudioIsPlaying == false)
+						{
+							// Get selected difficulty
+							String selectedDifficulty = (String) difficultyBox.getSelectedItem();
+
+							// Generate depending on difficulty
+							if ("Short Words".equals(selectedDifficulty)) {
+								morsleToSolve = RandomWordGenerator.getRandomWordShort();
+							} else {
+								morsleToSolve = RandomWordGenerator.getRandomWordMedium();
+							}
+
+							// Create the letter fields
+							createLetterFields(morsleToSolve.length());
+
+							// Print in console what was selected
+							System.out.println("Selected word: " + morsleToSolve);
+							System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
+						}
+					}
+				});
+				
+				btnPlaySoundButton = new JButton("Play Sound");
+				GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
+				gbc_btnPlaySoundButton.insets = new Insets(0, 0, 5, 0);
+				gbc_btnPlaySoundButton.gridx = 1;
+				gbc_btnPlaySoundButton.gridy = 2;
+				RightSidePanel.add(btnPlaySoundButton, gbc_btnPlaySoundButton);
+				btnPlaySoundButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// Only play the morsle puzzle audio if the the morsleToSolve string has a word
+						// or if letter audio isn't playing
+				        if (morsleToSolve.isEmpty() || !btnNewWordButton.isEnabled()) return;
+
+				        btnPlaySoundButton.setEnabled(false); // disable immediately
+				        btnNewWordButton.setEnabled(false); // disable the new word button
+				        morsleToSolveAudioIsPlaying = true; // morsleToSolveAudio is now playing
+
+				        // Get the Morse code translation and an array of the Morse split by spacing
+				        String morseCode = Translator.textToMorse(morsleToSolve);
+				        String[] morseCodeSplitBySpacing = morseCode.split("\\s+");
+				        
+				        new SwingWorker<Void, Void>() {
+				            @Override
+				            protected Void doInBackground() throws Exception {
+				            	// Loop for every morse code letter
+				            	for (int i = 0; i < morseCodeSplitBySpacing.length; i++)
+				            	{
+				            		// Add a space back to each letter
+				            		morseCodeSplitBySpacing[i] = morseCodeSplitBySpacing[i] + " ";
+				            		
+				            		// Change letter field border to black when that current letter is being played
+				            		Border originalBorder = letterFields[i].getBorder();
+				            		letterFields[i].setBorder(new LineBorder(Color.BLACK, 5));
+				            		
+				            		// Play the current letter audio
+				            		MorseAudio.playMorse(morseCodeSplitBySpacing[i], morseAudioWPM, morseAudioHertz, morseAudioVolume);
+				            		
+				            		// Revert the letter field border back to its original
+				            		letterFields[i].setBorder(originalBorder);
+				            	}
+				            
+				                return null;
+				            }
+
+				            @Override
+				            protected void done() {
+				                try {
+				                    get(); // this re-throws any exception from doInBackground
+				                } catch (Exception ex) {
+				                    JOptionPane.showMessageDialog(null, "Playback error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				                }
+				                morsleToSolveAudioIsPlaying = false; // morsleToSolveAudio finished playing
+				                btnPlaySoundButton.setEnabled(true); // re-enable the new word button
+				                btnNewWordButton.setEnabled(true); // re-enable regardless of success or failure
+				            }
+				        }.execute();
+					}
+				});
+				btnClearButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					    for (int i = 0; i < letterFields.length; i++) {
+					        if (letterFields[i] != null) {
+					        	letterFields[i].setText(""); // Clears the text
+					        }
+					    }
+					}
+				});
 		
 		JPanel lettersMorseTabbedPanel = new JPanel();
 		GridBagConstraints gbc_lettersMorseTabbedPanel = new GridBagConstraints();
@@ -528,10 +576,6 @@ public class MainFrame extends JFrame {
 		JScrollPane lettersScrollPane = new JScrollPane(lettersPanel);
 		lettersScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tabbedPaneInputLetters.addTab("Letters", null, lettersScrollPane, null);
-		
-		
-		
-		
 		
 		contentPane.setPreferredSize(new Dimension(750, 700));	// ideal inside size
 		pack();	// resize frame to fit contents
