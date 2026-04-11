@@ -229,9 +229,9 @@ public class MainFrame extends JFrame {
 		JPanel panel_2 = new JPanel();
 		LeftSidePanel.add(panel_2);
 		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0};
 		gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
@@ -239,33 +239,82 @@ public class MainFrame extends JFrame {
 		difficultyBox.setToolTipText("Select Difficulty");
 		difficultyBox.addItem("Short Words");
 		difficultyBox.addItem("Medium Words");
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridx = 1;
-		gbc_comboBox_1.gridy = 0;
-		panel_2.add(difficultyBox, gbc_comboBox_1);
 		
 		JSlider wpmSlider = new JSlider();
 		GridBagConstraints gbc_wpmSlider = new GridBagConstraints();
-		gbc_wpmSlider.insets = new Insets(0, 0, 5, 0);
-		gbc_wpmSlider.gridx = 2;
+		gbc_wpmSlider.insets = new Insets(0, 0, 5, 5);
+		gbc_wpmSlider.gridx = 0;
 		gbc_wpmSlider.gridy = 0;
 		panel_2.add(wpmSlider, gbc_wpmSlider);
 		
+		JLabel lblWPMLabel = new JLabel("WPM: 20");
+		GridBagConstraints gbc_lblWPMLabel = new GridBagConstraints();
+		gbc_lblWPMLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblWPMLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblWPMLabel.gridx = 1;
+		gbc_lblWPMLabel.gridy = 0;
+		panel_2.add(lblWPMLabel, gbc_lblWPMLabel);
+		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
+		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox_1.gridx = 2;
+		gbc_comboBox_1.gridy = 0;
+		panel_2.add(difficultyBox, gbc_comboBox_1);
+		
+		JButton btnClearButton = new JButton("Clear");
+		GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
+		gbc_btnClearButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnClearButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnClearButton.gridx = 3;
+		gbc_btnClearButton.gridy = 0;
+		panel_2.add(btnClearButton, gbc_btnClearButton);
+		btnClearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			    for (int i = 0; i < letterFields.length; i++) {
+			        if (letterFields[i] != null) {
+			        	letterFields[i].setText(""); // Clears the text
+			        }
+			    }
+			}
+		});
+		
+		JSlider slider = new JSlider();
+		GridBagConstraints gbc_slider = new GridBagConstraints();
+		gbc_slider.insets = new Insets(0, 0, 5, 5);
+		gbc_slider.gridx = 0;
+		gbc_slider.gridy = 1;
+		panel_2.add(slider, gbc_slider);
+		
+		JLabel lblHertzLabel = new JLabel("Tone/Hertz: 700");
+		GridBagConstraints gbc_lblHertzLabel = new GridBagConstraints();
+		gbc_lblHertzLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblHertzLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHertzLabel.gridx = 1;
+		gbc_lblHertzLabel.gridy = 1;
+		panel_2.add(lblHertzLabel, gbc_lblHertzLabel);
+		
 		JLabel lblTriesRemainingLabel = new JLabel("Difficulty");
 		GridBagConstraints gbc_lblTriesRemainingLabel = new GridBagConstraints();
+		gbc_lblTriesRemainingLabel.anchor = GridBagConstraints.BASELINE;
 		gbc_lblTriesRemainingLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTriesRemainingLabel.gridx = 1;
+		gbc_lblTriesRemainingLabel.gridx = 2;
 		gbc_lblTriesRemainingLabel.gridy = 1;
 		panel_2.add(lblTriesRemainingLabel, gbc_lblTriesRemainingLabel);
 		
-		JLabel lblwpmLabel = new JLabel("WPM: 20");
-		GridBagConstraints gbc_lblwpmLabel = new GridBagConstraints();
-		gbc_lblwpmLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblwpmLabel.gridx = 2;
-		gbc_lblwpmLabel.gridy = 1;
-		panel_2.add(lblwpmLabel, gbc_lblwpmLabel);
+		JButton btnNewButton_2 = new JButton("Guess");
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton_2.gridx = 3;
+		gbc_btnNewButton_2.gridy = 1;
+		panel_2.add(btnNewButton_2, gbc_btnNewButton_2);
+		
+		JSlider volumeSlider = new JSlider();
+		GridBagConstraints gbc_volumeSlider = new GridBagConstraints();
+		gbc_volumeSlider.insets = new Insets(0, 0, 0, 5);
+		gbc_volumeSlider.gridx = 0;
+		gbc_volumeSlider.gridy = 2;
+		panel_2.add(volumeSlider, gbc_volumeSlider);
 		
 		btnNewWordButton = new JButton("New Word");
 		btnNewWordButton.addActionListener(new ActionListener() {
@@ -287,9 +336,18 @@ public class MainFrame extends JFrame {
 				}
 			}
 		});
+		
+		JLabel lblVolumeLabel = new JLabel("Volume: 50");
+		GridBagConstraints gbc_lblVolumeLabel = new GridBagConstraints();
+		gbc_lblVolumeLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblVolumeLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblVolumeLabel.gridx = 1;
+		gbc_lblVolumeLabel.gridy = 2;
+		panel_2.add(lblVolumeLabel, gbc_lblVolumeLabel);
 		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
+		gbc_btnNewWordButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewWordButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewWordButton.gridx = 1;
+		gbc_btnNewWordButton.gridx = 2;
 		gbc_btnNewWordButton.gridy = 2;
 		panel_2.add(btnNewWordButton, gbc_btnNewWordButton);
 		
@@ -345,40 +403,10 @@ public class MainFrame extends JFrame {
 			}
 		});
 		GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
-		gbc_btnPlaySoundButton.gridx = 2;
+		gbc_btnPlaySoundButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnPlaySoundButton.gridx = 3;
 		gbc_btnPlaySoundButton.gridy = 2;
 		panel_2.add(btnPlaySoundButton, gbc_btnPlaySoundButton);
-		
-		JPanel RightSidePanel = new JPanel();
-		FlowLayoutPanel.add(RightSidePanel);
-		GridBagLayout gbl_RightSidePanel = new GridBagLayout();
-		gbl_RightSidePanel.columnWidths = new int[]{0, 0, 0};
-		gbl_RightSidePanel.rowHeights = new int[]{0, 0};
-		gbl_RightSidePanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_RightSidePanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		RightSidePanel.setLayout(gbl_RightSidePanel);
-		
-		JButton btnClearButton = new JButton("Clear");
-		btnClearButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			    for (int i = 0; i < letterFields.length; i++) {
-			        if (letterFields[i] != null) {
-			        	letterFields[i].setText(""); // Clears the text
-			        }
-			    }
-			}
-		});
-		GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
-		gbc_btnClearButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnClearButton.gridx = 0;
-		gbc_btnClearButton.gridy = 0;
-		RightSidePanel.add(btnClearButton, gbc_btnClearButton);
-		
-		JButton btnNewButton_2 = new JButton("Guess");
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.gridx = 1;
-		gbc_btnNewButton_2.gridy = 0;
-		RightSidePanel.add(btnNewButton_2, gbc_btnNewButton_2);
 		
 		JPanel lettersMorseTabbedPanel = new JPanel();
 		GridBagConstraints gbc_lettersMorseTabbedPanel = new GridBagConstraints();
