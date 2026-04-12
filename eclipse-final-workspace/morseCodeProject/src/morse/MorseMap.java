@@ -88,5 +88,29 @@ public class MorseMap {
 		    morseToText = Collections.unmodifiableMap(tempMorseToText);
 	    }
 
+
+	 // Build an allowed character pattern depending on the textToMorse keys
+	 // so the Translator doesn't need to change
+	 public static final String allowedTextPattern;
+
+	 static
+	 {
+	     StringBuilder patternSB = new StringBuilder("[^");
+	     
+	     // Loop for every character in keys of textToMorse
+	     for (Character key : textToMorse.keySet())
+	     {
+	         // Escape regex special characters that would break the pattern
+	         if ("\\[]^-&|{}().*+?$".indexOf(key) >= 0)
+	         {
+	             patternSB.append("\\");
+	         }
+	         patternSB.append(key);
+	     }
+	     
+	     // Close the allowed text pattern
+	     patternSB.append("]");
+	     allowedTextPattern = patternSB.toString();
+	 }
 	   
 }

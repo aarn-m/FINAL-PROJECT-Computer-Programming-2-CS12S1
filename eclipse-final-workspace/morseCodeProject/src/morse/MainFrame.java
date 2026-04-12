@@ -16,18 +16,14 @@ import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-
-import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -166,7 +162,7 @@ public class MainFrame extends JFrame {
 		scrollPanelOutput.setViewportView(textArea_Output);
 		GridBagLayout gbl_panelButtons = new GridBagLayout();
 		gbl_panelButtons.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panelButtons.rowHeights = new int[]{0, 21, 0};
+		gbl_panelButtons.rowHeights = new int[]{0, 0, 0};
 		gbl_panelButtons.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panelButtons.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panelButtons.setLayout(gbl_panelButtons);
@@ -218,7 +214,7 @@ public class MainFrame extends JFrame {
 		gbc_btnCtC.gridy = 0;
 		panelButtons.add(btnCtC, gbc_btnCtC);
 		
-		JButton btnPlayAudio = new JButton("<html>&#9654; Play</html>");
+		JButton btnPlayAudio = new JButton("\u25B6 Play");
 		btnPlayAudio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		        // Reset stop flag and disable play button before starting
@@ -263,7 +259,7 @@ public class MainFrame extends JFrame {
 		gbc_btnPlayAudio.gridy = 0;
 		panelButtons.add(btnPlayAudio, gbc_btnPlayAudio);
 		
-		JButton btnStopAudio = new JButton("<html>&#x23F9; Stop</html>");
+		JButton btnStopAudio = new JButton("\u23F9 Stop");
 		btnStopAudio.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) 
 		    {
