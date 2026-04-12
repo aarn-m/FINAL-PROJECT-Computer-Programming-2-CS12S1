@@ -31,7 +31,7 @@ public class Translator {
 	public static String textToMorse(String text)
 	{
 	    // Clean the user input text
-		String cleanText = text.toUpperCase().replaceAll("[^A-Z0-9 .,?'():+\\-\"@!]", "").strip().replaceAll("\\s+", " ");
+		String cleanText = text.toUpperCase().replaceAll(MorseMap.allowedTextPattern, "").strip().replaceAll("\\s+", " ");
 		
 		// If user gave empty input (\n) then stop and return an empty string
 		if (cleanText.isEmpty()) 
@@ -41,25 +41,21 @@ public class Translator {
 		
 		// Convert the user input text into a 'character array'
 	    char[] textToCharArray = cleanText.toCharArray();
-		
-	    // Allocate an array where the translated text will be stored in
-	    String[] translatedArray = new String[textToCharArray.length];
-	    
-	    // Initialize the 'translatedArray' by looping through the whole
-	    // 'charArray'. Get the translation of the current character
-	    // by using the textToMorse map, if it doesn't exist then put '#' instead
-	    for (int i = 0; i < textToCharArray.length; i++)
-	    {
-	    	translatedArray[i] = MorseMap.textToMorse.getOrDefault(textToCharArray[i], "#");
-	    }
 	    
 		// Store result string with StringBuilder
 		StringBuilder translationSB = new StringBuilder();
-		
-		// Append to the 'translationSB' object each string in 'translatedArray' with spaces in between
-		for (String s : translatedArray) {
-			translationSB.append(s).append(" ");
-		}
+	    
+	    // Initialize the 'translatedArray' by looping through the whole
+	    // 'charArray'. 
+	    for (int i = 0; i < textToCharArray.length; i++)
+	    {
+    		// Get the translation of the current character
+		    // by using the textToMorse map, if it doesn't exist then put '#' instead
+	    	// >> MorseMap.textToMorse.getOrDefault(textToCharArray[i], "#")
+	    	
+	    	// Append to the 'translationSB' object each translated string with spaces in between
+	    	translationSB.append(MorseMap.textToMorse.getOrDefault(textToCharArray[i], "#")).append(" ");
+	    }
 		
 	    // Return the translated string
 	    return translationSB.toString().strip();
@@ -84,24 +80,20 @@ public class Translator {
 		// (Splitting the MorseCode by letter)
 		String[] morseCodeSplitBySpacing = cleanMorseCode.split("\\s+");
 	    
-	    // Allocate a character array where the translated text will be stored in
-	    char[] translatedArray = new char[morseCodeSplitBySpacing.length];
-	    
-	    // Initialize the 'translatedArray' by looping through the whole
-	    // 'morseCodeSplitBySpacing'. Get the translation of the current character
-	    // by using the morseToText map, if it doesn't exist then put '#' instead
-	    for (int i = 0; i < morseCodeSplitBySpacing.length; i++)
-	    {
-	    	translatedArray[i] = MorseMap.morseToText.getOrDefault(morseCodeSplitBySpacing[i], '#');
-	    }
-	    
 		// Store result string with StringBuilder
 		StringBuilder translationSB = new StringBuilder();
-		
-		// Append each character in 'translatedArray' in the 'translationSB' object
-		for (char c : translatedArray) {
-			translationSB.append(c);
-		}
+	    
+	    // Initialize the 'translatedArray' by looping through the whole
+	    // 'morseCodeSplitBySpacing'. 
+	    for (int i = 0; i < morseCodeSplitBySpacing.length; i++)
+	    {
+	    	// Get the translation of the current character
+		    // by using the morseToText map, if it doesn't exist then put '#' instead
+	    	// >> MorseMap.morseToText.getOrDefault(morseCodeSplitBySpacing[i], '#')
+	  
+	    	// Append each character in 'translatedArray' in the 'translationSB' object
+	    	translationSB.append(MorseMap.morseToText.getOrDefault(morseCodeSplitBySpacing[i], '#'));
+	    }
 		
 	    // Return the translated string
 	    return translationSB.toString().strip();
