@@ -933,7 +933,7 @@ public class MainFrame extends JFrame {
 		lettersScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tabbedPaneInputLetters.addTab("Letters", null, lettersScrollPane, null);
 		
-		contentPane.setPreferredSize(new Dimension(825, 700));	// ideal inside size
+		contentPane.setPreferredSize(new Dimension(1250, 700));	// ideal inside size
 		pack();	// resize frame to fit contents
 		setMinimumSize(getSize());	// current packed size becomes minimum
 		setLocationRelativeTo(null);	// center on screen
