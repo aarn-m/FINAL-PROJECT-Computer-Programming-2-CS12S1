@@ -102,21 +102,21 @@ public class MainFrame extends JFrame {
 		tabbedPane.addTab("Translator", null, TranslatorPanel, null);
 		TranslatorPanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		TranslatorPanel.add(panel, BorderLayout.CENTER);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		JPanel gridBagLayoutPanel = new JPanel();
+		TranslatorPanel.add(gridBagLayoutPanel, BorderLayout.CENTER);
+		GridBagLayout gbl_gridBagLayoutPanel = new GridBagLayout();
+		gbl_gridBagLayoutPanel.columnWidths = new int[]{0, 0};
+		gbl_gridBagLayoutPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_gridBagLayoutPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_gridBagLayoutPanel.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayoutPanel.setLayout(gbl_gridBagLayoutPanel);
 		
 		JLabel lblInput = new JLabel("Input");
 		GridBagConstraints gbc_lblInput = new GridBagConstraints();
 		gbc_lblInput.insets = new Insets(0, 0, 5, 0);
 		gbc_lblInput.gridx = 0;
 		gbc_lblInput.gridy = 0;
-		panel.add(lblInput, gbc_lblInput);
+		gridBagLayoutPanel.add(lblInput, gbc_lblInput);
 		
 		JScrollPane scrollPanelInput = new JScrollPane();
 		GridBagConstraints gbc_scrollPanelInput = new GridBagConstraints();
@@ -124,7 +124,7 @@ public class MainFrame extends JFrame {
 		gbc_scrollPanelInput.fill = GridBagConstraints.BOTH;
 		gbc_scrollPanelInput.gridx = 0;
 		gbc_scrollPanelInput.gridy = 1;
-		panel.add(scrollPanelInput, gbc_scrollPanelInput);
+		gridBagLayoutPanel.add(scrollPanelInput, gbc_scrollPanelInput);
 		
 		JTextArea textArea_Input = new JTextArea();
 		textArea_Input.setFont(textArea_Input.getFont().deriveFont(14.0f)); // Change font size of text input area while still keeping the font
@@ -138,21 +138,21 @@ public class MainFrame extends JFrame {
 		gbc_panelButtons.insets = new Insets(0, 0, 5, 0);
 		gbc_panelButtons.gridx = 0;
 		gbc_panelButtons.gridy = 2;
-		panel.add(panelButtons, gbc_panelButtons);
+		gridBagLayoutPanel.add(panelButtons, gbc_panelButtons);
 		
 		JLabel lblOutput = new JLabel("Output");
 		GridBagConstraints gbc_lblOutput = new GridBagConstraints();
 		gbc_lblOutput.insets = new Insets(0, 0, 5, 0);
 		gbc_lblOutput.gridx = 0;
 		gbc_lblOutput.gridy = 3;
-		panel.add(lblOutput, gbc_lblOutput);
+		gridBagLayoutPanel.add(lblOutput, gbc_lblOutput);
 		
 		JScrollPane scrollPanelOutput = new JScrollPane();
 		GridBagConstraints gbc_scrollPanelOutput = new GridBagConstraints();
 		gbc_scrollPanelOutput.fill = GridBagConstraints.BOTH;
 		gbc_scrollPanelOutput.gridx = 0;
 		gbc_scrollPanelOutput.gridy = 4;
-		panel.add(scrollPanelOutput, gbc_scrollPanelOutput);
+		gridBagLayoutPanel.add(scrollPanelOutput, gbc_scrollPanelOutput);
 		
 		JTextArea textArea_Output = new JTextArea();
 		textArea_Output.setFont(textArea_Input.getFont().deriveFont(14.0f)); // Change font size of text input area while still keeping the font
@@ -334,15 +334,12 @@ public class MainFrame extends JFrame {
 		
 		JPanel LeftSidePanel = new JPanel();
 		FlowLayoutPanel.add(LeftSidePanel);
-		
-		JPanel panel_2 = new JPanel();
-		LeftSidePanel.add(panel_2);
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		panel_2.setLayout(gbl_panel_2);
+		GridBagLayout gbl_LeftSidePanel = new GridBagLayout();
+		gbl_LeftSidePanel.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_LeftSidePanel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_LeftSidePanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_LeftSidePanel.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		LeftSidePanel.setLayout(gbl_LeftSidePanel);
 		
 		JLabel lblWPMLabel = new JLabel("WPM: " + morseAudioWPM);
 		GridBagConstraints gbc_lblWPMLabel = new GridBagConstraints();
@@ -350,7 +347,7 @@ public class MainFrame extends JFrame {
 		gbc_lblWPMLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblWPMLabel.gridx = 1;
 		gbc_lblWPMLabel.gridy = 0;
-		panel_2.add(lblWPMLabel, gbc_lblWPMLabel);
+		LeftSidePanel.add(lblWPMLabel, gbc_lblWPMLabel);
 		
 		JSlider wpmSlider = new JSlider();
 		wpmSlider.setSnapToTicks(true);
@@ -369,7 +366,7 @@ public class MainFrame extends JFrame {
 		    morseAudioWPM = wpmSlider.getValue(); // Get the value and assign to the class private variable
 		    lblWPMLabel.setText("WPM: " + morseAudioWPM); // Update text
 		});
-		panel_2.add(wpmSlider, gbc_wpmSlider);
+		LeftSidePanel.add(wpmSlider, gbc_wpmSlider);
 		
 		JLabel lblHertzLabel = new JLabel("Tone/Hertz: " + morseAudioHertz);
 		GridBagConstraints gbc_lblHertzLabel = new GridBagConstraints();
@@ -377,7 +374,7 @@ public class MainFrame extends JFrame {
 		gbc_lblHertzLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblHertzLabel.gridx = 1;
 		gbc_lblHertzLabel.gridy = 1;
-		panel_2.add(lblHertzLabel, gbc_lblHertzLabel);
+		LeftSidePanel.add(lblHertzLabel, gbc_lblHertzLabel);
 		
 		JSlider hertzSlider = new JSlider();
 		hertzSlider.setMinorTickSpacing(50);
@@ -396,7 +393,7 @@ public class MainFrame extends JFrame {
 		    morseAudioHertz = hertzSlider.getValue(); // Get the value and assign to the class private variable
 		    lblHertzLabel.setText("Tone/Hertz: " + morseAudioHertz); // Update text
 		});
-		panel_2.add(hertzSlider, gbc_hertzSlider);
+		LeftSidePanel.add(hertzSlider, gbc_hertzSlider);
 		
 		JLabel lblVolumeLabel = new JLabel("Volume: " + (int) Math.round(morseAudioVolume * 100));
 		GridBagConstraints gbc_lblVolumeLabel = new GridBagConstraints();
@@ -404,7 +401,7 @@ public class MainFrame extends JFrame {
 		gbc_lblVolumeLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_lblVolumeLabel.gridx = 1;
 		gbc_lblVolumeLabel.gridy = 2;
-		panel_2.add(lblVolumeLabel, gbc_lblVolumeLabel);
+		LeftSidePanel.add(lblVolumeLabel, gbc_lblVolumeLabel);
 		
 		JSlider volumeSlider = new JSlider();
 		volumeSlider.setSnapToTicks(true);
@@ -419,7 +416,7 @@ public class MainFrame extends JFrame {
 		    morseAudioVolume = volumeSlider.getValue() / 100.0f; // Convert 0-100 to 0.0-1.0, then get the value and assign to the class private variable
 		    lblVolumeLabel.setText("Volume: " + volumeSlider.getValue()); // Update text
 		});
-		panel_2.add(volumeSlider, gbc_volumeSlider);
+		LeftSidePanel.add(volumeSlider, gbc_volumeSlider);
 		
 		JPanel RightSidePanel = new JPanel();
 		FlowLayoutPanel.add(RightSidePanel);
