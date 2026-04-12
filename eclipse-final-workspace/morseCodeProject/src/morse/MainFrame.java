@@ -124,7 +124,7 @@ public class MainFrame extends JFrame {
 		tabbedPane.addTab("What's Morse Code?", null, WMC, null);
 		WMC.setLayout(new BorderLayout(0, 0));
 		
-    JPanel wmcTitlePanel = new JPanel();
+		JPanel wmcTitlePanel = new JPanel();
 		wmcTitlePanel.setBackground(new Color(69, 123, 157));
 		WMC.add(wmcTitlePanel, BorderLayout.NORTH);
 		wmcTitlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -300,7 +300,7 @@ public class MainFrame extends JFrame {
 		GridBagConstraints gbc_btnTtM = new GridBagConstraints();
 		gbc_btnTtM.anchor = GridBagConstraints.BASELINE;
 		gbc_btnTtM.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnTtM.insets = new Insets(0, 0, 0, 5);
+		gbc_btnTtM.insets = new Insets(0, 0, 5, 5);
 		gbc_btnTtM.gridx = 0;
 		gbc_btnTtM.gridy = 0;
 		panelButtons.add(btnTtM, gbc_btnTtM);
@@ -314,7 +314,7 @@ public class MainFrame extends JFrame {
 		GridBagConstraints gbc_btnMtT = new GridBagConstraints();
 		gbc_btnMtT.anchor = GridBagConstraints.BASELINE;
 		gbc_btnMtT.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnMtT.insets = new Insets(0, 0, 0, 5);
+		gbc_btnMtT.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMtT.gridx = 1;
 		gbc_btnMtT.gridy = 0;
 		panelButtons.add(btnMtT, gbc_btnMtT);
@@ -333,7 +333,7 @@ public class MainFrame extends JFrame {
 		GridBagConstraints gbc_btnCtC = new GridBagConstraints();
 		gbc_btnCtC.anchor = GridBagConstraints.BASELINE;
 		gbc_btnCtC.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnCtC.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCtC.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCtC.gridx = 2;
 		gbc_btnCtC.gridy = 0;
 		panelButtons.add(btnCtC, gbc_btnCtC);
