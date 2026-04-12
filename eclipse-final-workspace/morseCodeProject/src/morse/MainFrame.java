@@ -1,6 +1,7 @@
 package morse;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -1033,8 +1034,10 @@ public class MainFrame extends JFrame {
                 }
             }
         }.execute();
-    
-	private class SwingAction extends AbstractAction {
+	}
+	
+	private class SwingAction extends AbstractAction 
+	{
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
 			putValue(SHORT_DESCRIPTION, "Some short description");
