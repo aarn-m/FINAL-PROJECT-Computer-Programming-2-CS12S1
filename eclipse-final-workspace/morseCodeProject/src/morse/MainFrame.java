@@ -34,6 +34,26 @@ import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.JScrollBar;
+import java.awt.Color;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JToolBar;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
+import com.jgoodies.forms.layout.FormSpecs;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
 
@@ -55,8 +75,9 @@ public class MainFrame extends JFrame {
 	private boolean isPuzzleSolved = false; // Used so audio won't be playing twice when you guess correctly while a different audio was playing
 	private volatile boolean stopTranslatorAudioRequested = false; // Flag to stop audio playback in translator tab
 	private volatile boolean stopMinigameAudio = false; // Minigame tab stop flag
-	
-	
+
+	private final JComboBox comboBox = new JComboBox();
+	private final Action action = new SwingAction();
 
 	/**
 	 * Launch the application.
@@ -78,19 +99,23 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(29, 53, 87));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setSize(750, 500);
+		setSize(766, 625);
 		setMinimumSize(new Dimension(750, 500));
 		setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(new Color(69, 123, 157));
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel MainMenu = new JPanel();
+		MainMenu.setBackground(new Color(241, 250, 238));
 		tabbedPane.addTab("Main Menu", null, MainMenu, null);
 		MainMenu.setLayout(new BorderLayout(0, 0));
 		
@@ -98,6 +123,104 @@ public class MainFrame extends JFrame {
 		tabbedPane.addTab("What's Morse Code?", null, WMC, null);
 		WMC.setLayout(new BorderLayout(0, 0));
 		
+    JPanel wmcTitlePanel = new JPanel();
+		wmcTitlePanel.setBackground(new Color(69, 123, 157));
+		WMC.add(wmcTitlePanel, BorderLayout.NORTH);
+		wmcTitlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
+		JLabel lblNewLabel_5 = new JLabel("Did you know?");
+		lblNewLabel_5.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
+		lblNewLabel_5.setForeground(new Color(241, 250, 238));
+		lblNewLabel_5.setVerticalAlignment(SwingConstants.TOP);
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
+		wmcTitlePanel.add(lblNewLabel_5);
+		
+		JPanel wmcFooter = new JPanel();
+		wmcFooter.setBackground(new Color(69, 123, 157));
+		WMC.add(wmcFooter, BorderLayout.SOUTH);
+		
+		JPanel wmcContentPanel = new JPanel();
+		wmcContentPanel.setBackground(new Color(241, 250, 238));
+		FlowLayout flowLayout = (FlowLayout) wmcContentPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		WMC.add(wmcContentPanel, BorderLayout.CENTER);
+		
+		JScrollPane wmcScrollPane = new JScrollPane();
+		wmcContentPanel.add(wmcScrollPane);
+		
+		JLabel wmcContentText = new JLabel("Lorem ipsum..");
+		wmcContentText.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		wmcContentText.setForeground(new Color(29, 53, 87));
+		wmcContentText.setBackground(new Color(240, 240, 240));
+		wmcContentText.setVerticalAlignment(SwingConstants.TOP);
+		wmcContentText.setHorizontalAlignment(SwingConstants.LEFT);
+		wmcContentPanel.add(wmcContentText);
+
+		contentPane.setPreferredSize(new Dimension(750, 500));
+		
+		JPanel sideNavBar = new JPanel();
+		sideNavBar.setForeground(new Color(0, 38, 66));
+		sideNavBar.setBackground(new Color(29, 53, 87));
+		contentPane.add(sideNavBar, BorderLayout.WEST);
+		sideNavBar.setLayout(new BorderLayout(0, 0));
+		
+		JPanel menubtns = new JPanel();
+		menubtns.setBorder(null);
+		menubtns.setBackground(new Color(29, 53, 87));
+		sideNavBar.add(menubtns, BorderLayout.WEST);
+		menubtns.setLayout(new GridLayout(10, 1, 0, 0));
+		
+		JButton menubtnMini_1 = new JButton("Minigame");
+		menubtnMini_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(1);
+			}
+		});
+		menubtnMini_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnMini_1.setForeground(new Color(0, 38, 66));
+		menubtnMini_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
+		menubtnMini_1.setBackground(new Color(255, 255, 255));
+		menubtns.add(menubtnMini_1);
+		
+		JButton menubtnTran_1 = new JButton("Translator");
+		menubtnTran_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(2);
+			}
+		});
+		menubtnTran_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnTran_1.setForeground(new Color(0, 38, 66));
+		menubtnTran_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
+		menubtnTran_1.setBackground(new Color(255, 255, 255));
+		menubtns.add(menubtnTran_1);
+		
+		JButton menubtnWmc_1 = new JButton("What's Morse Code?");
+		menubtnWmc_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(3);
+			}
+		});
+		menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnWmc_1.setForeground(new Color(0, 38, 66));
+		menubtnWmc_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
+		menubtnWmc_1.setBackground(new Color(255, 255, 255));
+		menubtns.add(menubtnWmc_1);
+		
+		JPanel menuLogo = new JPanel();
+		menuLogo.setBackground(new Color(0, 38, 66));
+		sideNavBar.add(menuLogo, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel_4 = new JLabel("App ni Ohwen");
+		lblNewLabel_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				tabbedPane.setSelectedIndex(0);
+			}
+		});
+		lblNewLabel_4.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
+		lblNewLabel_4.setForeground(new Color(229, 149, 0));
+		menuLogo.add(lblNewLabel_4);
+    
 		JPanel TranslatorPanel = new JPanel();
 		tabbedPane.addTab("Translator", null, TranslatorPanel, null);
 		TranslatorPanel.setLayout(new BorderLayout(0, 0));
@@ -290,8 +413,41 @@ public class MainFrame extends JFrame {
 		gbc_lblStopAudioLabel.gridx = 4;
 		gbc_lblStopAudioLabel.gridy = 1;
 		panelButtons.add(lblStopAudioLabel, gbc_lblStopAudioLabel);
+		JPanel mainFooterPanel = new JPanel();
+		mainFooterPanel.setBackground(new Color(69, 123, 157));
+		MainMenu.add(mainFooterPanel, BorderLayout.SOUTH);
+		mainFooterPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JPanel mainFootercontent = new JPanel();
+		mainFootercontent.setBackground(new Color(69, 123, 157));
+		mainFooterPanel.add(mainFootercontent);
+		mainFootercontent.setLayout(new GridLayout(1, 0, 7, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("PlaceHolder@Plugin");
+		lblNewLabel_1.setForeground(new Color(241, 250, 238));
+		mainFootercontent.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("PlaceHolder@Plugin");
+		lblNewLabel_2.setForeground(new Color(241, 250, 238));
+		mainFootercontent.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("PlaceHolder@Plugin");
+		lblNewLabel_3.setForeground(new Color(241, 250, 238));
+		mainFootercontent.add(lblNewLabel_3);
+		
+		JLabel appTitle_1 = new JLabel("App ni Ohwen");
+		appTitle_1.setForeground(new Color(29, 53, 87));
+		appTitle_1.setHorizontalAlignment(SwingConstants.LEFT);
+		appTitle_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
+		MainMenu.add(appTitle_1, BorderLayout.NORTH);
+		
+		JPanel mainContentpanel = new JPanel();
+		mainContentpanel.setBackground(new Color(241, 250, 238));
+		MainMenu.add(mainContentpanel, BorderLayout.CENTER);
+		mainContentpanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel Minigame = new JPanel();
+		Minigame.setBackground(new Color(241, 250, 238));
 		tabbedPane.addTab("Minigame", null, Minigame, null);
 		GridBagLayout gbl_Minigame = new GridBagLayout();
 		gbl_Minigame.columnWidths = new int[]{0, 0};
@@ -321,6 +477,7 @@ public class MainFrame extends JFrame {
 		System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
 		
 		JPanel middleButtonsPanel = new JPanel();
+		middleButtonsPanel.setBackground(new Color(241, 250, 238));
 		GridBagConstraints gbc_middleButtonsPanel = new GridBagConstraints();
 		gbc_middleButtonsPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_middleButtonsPanel.fill = GridBagConstraints.BOTH;
@@ -644,6 +801,7 @@ public class MainFrame extends JFrame {
 		});
 				
 		JPanel lettersMorseTabbedPanel = new JPanel();
+		lettersMorseTabbedPanel.setBackground(new Color(241, 250, 238));
 		GridBagConstraints gbc_lettersMorseTabbedPanel = new GridBagConstraints();
 		gbc_lettersMorseTabbedPanel.fill = GridBagConstraints.BOTH;
 		gbc_lettersMorseTabbedPanel.gridx = 0;
@@ -875,5 +1033,13 @@ public class MainFrame extends JFrame {
                 }
             }
         }.execute();
+    
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
 	}
 }
