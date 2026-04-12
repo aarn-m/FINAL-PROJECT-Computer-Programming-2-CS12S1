@@ -44,6 +44,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.JToolBar;
 import java.awt.Component;
 import javax.swing.Box;
@@ -55,9 +56,22 @@ import java.awt.Font;
 import com.jgoodies.forms.layout.FormSpecs;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import javax.swing.UIManager;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 public class MainFrame extends JFrame {
-
+	
+	private static final Color colorLight = new Color(241, 250, 238);
+	private static final Color colorLightBlue = new Color(168, 218, 220);
+	private static final Color colorBlue = new Color(69, 123, 157);
+	private static final Color colorDarkBlue = new Color(29, 53, 87);
+	private static final Font fontTitle = new Font("Yu Gothic UI Semibold", Font.PLAIN, 20);
+	private static final Font fontSubtitle = new Font("Yu Gothic UI Semibold", Font.PLAIN, 15);
+	private static final Font fontBody = new Font("Yu Gothic UI Semibold", Font.PLAIN, 12);
+	private static final Font fontLabel = new Font("Yu Gothic UI Semibold", Font.PLAIN, 25);
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel morsleToSolvePanel;
@@ -103,7 +117,7 @@ public class MainFrame extends JFrame {
 		setBackground(new Color(255, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(29, 53, 87));
+		contentPane.setBackground(colorDarkBlue);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -112,11 +126,13 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBackground(new Color(69, 123, 157));
+		tabbedPane.setBackground(colorBlue);
+		tabbedPane.setForeground(colorDarkBlue);
+		tabbedPane.setFont(fontSubtitle);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel MainMenu = new JPanel();
-		MainMenu.setBackground(new Color(241, 250, 238));
+		MainMenu.setBackground(colorBlue);
 		tabbedPane.addTab("Main Menu", null, MainMenu, null);
 		MainMenu.setLayout(new BorderLayout(0, 0));
 		
@@ -124,109 +140,129 @@ public class MainFrame extends JFrame {
 		tabbedPane.addTab("What's Morse Code?", null, WMC, null);
 		WMC.setLayout(new BorderLayout(0, 0));
 		
-		JPanel wmcTitlePanel = new JPanel();
-		wmcTitlePanel.setBackground(new Color(69, 123, 157));
+    	JPanel wmcTitlePanel = new JPanel();
+		wmcTitlePanel.setBackground(colorBlue);
 		WMC.add(wmcTitlePanel, BorderLayout.NORTH);
 		wmcTitlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblNewLabel_5 = new JLabel("Did you know?");
-		lblNewLabel_5.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
-		lblNewLabel_5.setForeground(new Color(241, 250, 238));
+		JLabel lblNewLabel_5 = new JLabel("What is Morse code?");
+		lblNewLabel_5.setFont(fontLabel);
+		lblNewLabel_5.setForeground(colorLight);
 		lblNewLabel_5.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
 		wmcTitlePanel.add(lblNewLabel_5);
 		
 		JPanel wmcFooter = new JPanel();
-		wmcFooter.setBackground(new Color(69, 123, 157));
+		wmcFooter.setBackground(colorBlue);
 		WMC.add(wmcFooter, BorderLayout.SOUTH);
 		
 		JPanel wmcContentPanel = new JPanel();
-		wmcContentPanel.setBackground(new Color(241, 250, 238));
-		FlowLayout flowLayout = (FlowLayout) wmcContentPanel.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
+		wmcContentPanel.setBackground(colorLight);
 		WMC.add(wmcContentPanel, BorderLayout.CENTER);
+		GridBagLayout gbl_wmcContentPanel = new GridBagLayout();
+		gbl_wmcContentPanel.columnWidths = new int[]{1016, 0};
+		gbl_wmcContentPanel.rowHeights = new int[]{608, 0, 0, 0};
+		gbl_wmcContentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_wmcContentPanel.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		wmcContentPanel.setLayout(gbl_wmcContentPanel);
 		
-		JScrollPane wmcScrollPane = new JScrollPane();
-		wmcContentPanel.add(wmcScrollPane);
+		JScrollPane wmcScrollPanel = new JScrollPane();
+		wmcScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+		GridBagConstraints gbc_wmcScrollPanel = new GridBagConstraints();
+		gbc_wmcScrollPanel.insets = new Insets(10, 25, 10, 25);
+		gbc_wmcScrollPanel.fill = GridBagConstraints.BOTH;
+		gbc_wmcScrollPanel.gridx = 0;
+		gbc_wmcScrollPanel.gridy = 0;
+		wmcContentPanel.add(wmcScrollPanel, gbc_wmcScrollPanel);
 		
-		JLabel wmcContentText = new JLabel("Lorem ipsum..");
-		wmcContentText.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
-		wmcContentText.setForeground(new Color(29, 53, 87));
-		wmcContentText.setBackground(new Color(240, 240, 240));
-		wmcContentText.setVerticalAlignment(SwingConstants.TOP);
-		wmcContentText.setHorizontalAlignment(SwingConstants.LEFT);
-		wmcContentPanel.add(wmcContentText);
+		JPanel panel_1 = new JPanel();
+		wmcScrollPanel.setViewportView(panel_1);
 
 		contentPane.setPreferredSize(new Dimension(750, 500));
 		
 		JPanel sideNavBar = new JPanel();
 		sideNavBar.setForeground(new Color(0, 38, 66));
-		sideNavBar.setBackground(new Color(29, 53, 87));
+		sideNavBar.setBackground(colorDarkBlue);
 		contentPane.add(sideNavBar, BorderLayout.WEST);
 		sideNavBar.setLayout(new BorderLayout(0, 0));
 		
 		JPanel menubtns = new JPanel();
 		menubtns.setBorder(null);
-		menubtns.setBackground(new Color(29, 53, 87));
+		menubtns.setBackground(colorDarkBlue);
 		sideNavBar.add(menubtns, BorderLayout.WEST);
 		menubtns.setLayout(new GridLayout(10, 1, 0, 0));
 		
-		JButton menubtnMini_1 = new JButton("Minigame");
-		menubtnMini_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(1);
-			}
-		});
-		menubtnMini_1.setHorizontalAlignment(SwingConstants.LEFT);
-		menubtnMini_1.setForeground(new Color(0, 38, 66));
-		menubtnMini_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
-		menubtnMini_1.setBackground(new Color(255, 255, 255));
-		menubtns.add(menubtnMini_1);
-		
 		JButton menubtnTran_1 = new JButton("Translator");
+		menubtnTran_1.setToolTipText("Translate Morse to text, or vice versa.");
+		menubtnTran_1.setBorderPainted(false);
 		menubtnTran_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(2);
 			}
 		});
-		menubtnTran_1.setHorizontalAlignment(SwingConstants.LEFT);
-		menubtnTran_1.setForeground(new Color(0, 38, 66));
-		menubtnTran_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
-		menubtnTran_1.setBackground(new Color(255, 255, 255));
-		menubtns.add(menubtnTran_1);
 		
 		JButton menubtnWmc_1 = new JButton("What's Morse Code?");
+		menubtnWmc_1.setToolTipText("Learn what morse code is about!");
+		menubtns.add(menubtnWmc_1);
+		menubtnWmc_1.setBorderPainted(false);
 		menubtnWmc_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(1);
+			}
+		});
+		menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnWmc_1.setForeground(colorLight);
+		menubtnWmc_1.setFont(fontTitle);
+		menubtnWmc_1.setBackground(colorDarkBlue);
+		menubtnWmc_1.setBorderPainted(false);
+		menubtnTran_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnTran_1.setForeground(colorLight);
+		menubtnTran_1.setFont(fontTitle);
+		menubtnTran_1.setBackground(colorDarkBlue);
+		menubtnTran_1.setBorderPainted(false);
+		menubtns.add(menubtnTran_1);
+		
+		JButton menubtnMini_1 = new JButton("Minigame");
+		menubtnMini_1.setToolTipText("Learn Morse code through a fun game.");
+		menubtnMini_1.setBorderPainted(false);
+		menubtnMini_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(3);
 			}
 		});
-		menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
-		menubtnWmc_1.setForeground(new Color(0, 38, 66));
-		menubtnWmc_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
-		menubtnWmc_1.setBackground(new Color(255, 255, 255));
-		menubtns.add(menubtnWmc_1);
+		menubtnMini_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnMini_1.setForeground(colorLight);
+		menubtnMini_1.setFont(fontTitle);
+		menubtnMini_1.setBackground(colorDarkBlue);
+		menubtnMini_1.setBorderPainted(false);
+		menubtns.add(menubtnMini_1);
 		
 		JPanel menuLogo = new JPanel();
-		menuLogo.setBackground(new Color(0, 38, 66));
+		FlowLayout flowLayout_1 = (FlowLayout) menuLogo.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		menuLogo.setBackground(colorDarkBlue);
 		sideNavBar.add(menuLogo, BorderLayout.NORTH);
 		
-		JLabel lblNewLabel_4 = new JLabel("App ni Ohwen");
+		JLabel lblNewLabel_4 = new JLabel("AppTitlePlaceholder\r\n");
+		lblNewLabel_4.setFont(fontLabel);
 		lblNewLabel_4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				tabbedPane.setSelectedIndex(0);
 			}
 		});
-		lblNewLabel_4.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
+		lblNewLabel_4.setFont(fontSubtitle);
 		lblNewLabel_4.setForeground(new Color(229, 149, 0));
 		menuLogo.add(lblNewLabel_4);
     
 		JPanel TranslatorPanel = new JPanel();
+		TranslatorPanel.setBackground(colorBlue);
 		tabbedPane.addTab("Translator", null, TranslatorPanel, null);
 		TranslatorPanel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel gridBagLayoutPanel = new JPanel();
+		gridBagLayoutPanel.setBackground(colorBlue);
+		gridBagLayoutPanel.setFont(fontSubtitle);
 		TranslatorPanel.add(gridBagLayoutPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_gridBagLayoutPanel = new GridBagLayout();
 		gbl_gridBagLayoutPanel.columnWidths = new int[]{0, 0};
@@ -236,6 +272,8 @@ public class MainFrame extends JFrame {
 		gridBagLayoutPanel.setLayout(gbl_gridBagLayoutPanel);
 		
 		JLabel lblInput = new JLabel("Input");
+		lblInput.setFont(fontSubtitle);
+		lblInput.setForeground(colorLight);
 		GridBagConstraints gbc_lblInput = new GridBagConstraints();
 		gbc_lblInput.insets = new Insets(0, 0, 5, 0);
 		gbc_lblInput.gridx = 0;
@@ -251,12 +289,17 @@ public class MainFrame extends JFrame {
 		gridBagLayoutPanel.add(scrollPanelInput, gbc_scrollPanelInput);
 		
 		JTextArea textArea_Input = new JTextArea();
+		textArea_Input.setForeground(colorDarkBlue);
+		textArea_Input.setBackground(colorLight);
+		textArea_Input.setFont(fontBody);
 		textArea_Input.setFont(textArea_Input.getFont().deriveFont(14.0f)); // Change font size of text input area while still keeping the font
 		textArea_Input.setMargin(new Insets(10, 20, 10, 20)); // Change margin text input area
 		textArea_Input.setLineWrap(true);
 		scrollPanelInput.setViewportView(textArea_Input);
 		
 		JPanel panelButtons = new JPanel();
+		panelButtons.setBackground(colorBlue);
+		
 		GridBagConstraints gbc_panelButtons = new GridBagConstraints();
 		gbc_panelButtons.fill = GridBagConstraints.VERTICAL;
 		gbc_panelButtons.insets = new Insets(0, 0, 5, 0);
@@ -265,6 +308,8 @@ public class MainFrame extends JFrame {
 		gridBagLayoutPanel.add(panelButtons, gbc_panelButtons);
 		
 		JLabel lblOutput = new JLabel("Output");
+		lblOutput.setFont(fontSubtitle);
+		lblOutput.setForeground(colorLight);
 		GridBagConstraints gbc_lblOutput = new GridBagConstraints();
 		gbc_lblOutput.insets = new Insets(0, 0, 5, 0);
 		gbc_lblOutput.gridx = 0;
@@ -279,6 +324,9 @@ public class MainFrame extends JFrame {
 		gridBagLayoutPanel.add(scrollPanelOutput, gbc_scrollPanelOutput);
 		
 		JTextArea textArea_Output = new JTextArea();
+		textArea_Output.setBackground(colorLight);
+		textArea_Output.setForeground(colorDarkBlue);
+		textArea_Output.setFont(fontBody);
 		textArea_Output.setFont(textArea_Input.getFont().deriveFont(14.0f)); // Change font size of text input area while still keeping the font
 		textArea_Output.setMargin(new Insets(10, 20, 10, 20)); // Change margin text input area
 		textArea_Output.setEditable(false);
@@ -292,6 +340,9 @@ public class MainFrame extends JFrame {
 		panelButtons.setLayout(gbl_panelButtons);
 		
 		JButton btnTtM = new JButton("Text to MorseCode");
+		btnTtM.setBackground(colorDarkBlue);
+		btnTtM.setForeground(colorLight);
+		btnTtM.setFont(fontSubtitle);
 		btnTtM.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textArea_Output.setText(Translator.textToMorse(textArea_Input.getText()));
@@ -306,6 +357,9 @@ public class MainFrame extends JFrame {
 		panelButtons.add(btnTtM, gbc_btnTtM);
 		
 		JButton btnMtT = new JButton("MorseCode to Text");
+		btnMtT.setBackground(colorDarkBlue);
+		btnMtT.setForeground(colorLight);
+		btnMtT.setFont(fontSubtitle);
 		btnMtT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textArea_Output.setText(Translator.morseToText(textArea_Input.getText()));
@@ -320,6 +374,9 @@ public class MainFrame extends JFrame {
 		panelButtons.add(btnMtT, gbc_btnMtT);
 		
 		JButton btnCtC = new JButton("Copy to Clipboard");
+		btnCtC.setBackground(colorDarkBlue);
+		btnCtC.setForeground(colorLight);
+		btnCtC.setFont(fontSubtitle);
 		btnCtC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 		        String text = textArea_Output.getText();
@@ -339,6 +396,9 @@ public class MainFrame extends JFrame {
 		panelButtons.add(btnCtC, gbc_btnCtC);
 		
 		JButton btnPlayAudio = new JButton("\u25B6 Play");
+		btnPlayAudio.setBackground(colorDarkBlue);
+		btnPlayAudio.setForeground(colorLight);
+		btnPlayAudio.setFont(fontSubtitle);
 		btnPlayAudio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		        // Reset stop flag and disable play button before starting
@@ -383,7 +443,10 @@ public class MainFrame extends JFrame {
 		gbc_btnPlayAudio.gridy = 0;
 		panelButtons.add(btnPlayAudio, gbc_btnPlayAudio);
 		
-		JButton btnStopAudio = new JButton("\u23F9 Stop");
+		JButton btnStopAudio = new JButton("◼ Stop");
+		btnStopAudio.setBackground(colorDarkBlue);
+		btnStopAudio.setForeground(colorLight);
+		btnStopAudio.setFont(fontSubtitle);
 		btnStopAudio.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) 
 		    {
@@ -401,6 +464,8 @@ public class MainFrame extends JFrame {
 		panelButtons.add(btnStopAudio, gbc_btnStopAudio);
 		
 		JLabel lblPlayAudioLabel = new JLabel("Play Audio");
+		lblPlayAudioLabel.setFont(fontSubtitle);
+		lblPlayAudioLabel.setForeground(colorLight);
 		GridBagConstraints gbc_lblPlayAudioLabel = new GridBagConstraints();
 		gbc_lblPlayAudioLabel.anchor = GridBagConstraints.NORTH;
 		gbc_lblPlayAudioLabel.insets = new Insets(0, 0, 0, 5);
@@ -409,46 +474,81 @@ public class MainFrame extends JFrame {
 		panelButtons.add(lblPlayAudioLabel, gbc_lblPlayAudioLabel);
 		
 		JLabel lblStopAudioLabel = new JLabel("Stop Audio");
+		lblStopAudioLabel.setFont(fontSubtitle);
+		lblStopAudioLabel.setForeground(colorLight);
 		GridBagConstraints gbc_lblStopAudioLabel = new GridBagConstraints();
 		gbc_lblStopAudioLabel.anchor = GridBagConstraints.NORTH;
 		gbc_lblStopAudioLabel.gridx = 4;
 		gbc_lblStopAudioLabel.gridy = 1;
 		panelButtons.add(lblStopAudioLabel, gbc_lblStopAudioLabel);
 		JPanel mainFooterPanel = new JPanel();
-		mainFooterPanel.setBackground(new Color(69, 123, 157));
+		mainFooterPanel.setBackground(colorBlue);
 		MainMenu.add(mainFooterPanel, BorderLayout.SOUTH);
 		mainFooterPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JPanel mainFootercontent = new JPanel();
-		mainFootercontent.setBackground(new Color(69, 123, 157));
+		mainFootercontent.setBackground(colorBlue);
 		mainFooterPanel.add(mainFootercontent);
 		mainFootercontent.setLayout(new GridLayout(1, 0, 7, 0));
 		
 		JLabel lblNewLabel_1 = new JLabel("PlaceHolder@Plugin");
-		lblNewLabel_1.setForeground(new Color(241, 250, 238));
+		lblNewLabel_1.setForeground(colorLight);
+		lblNewLabel_1.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("PlaceHolder@Plugin");
-		lblNewLabel_2.setForeground(new Color(241, 250, 238));
+		lblNewLabel_2.setForeground(colorLight);
+		lblNewLabel_2.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("PlaceHolder@Plugin");
-		lblNewLabel_3.setForeground(new Color(241, 250, 238));
+		lblNewLabel_3.setForeground(colorLight);
+		lblNewLabel_3.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_3);
 		
-		JLabel appTitle_1 = new JLabel("App ni Ohwen");
-		appTitle_1.setForeground(new Color(29, 53, 87));
-		appTitle_1.setHorizontalAlignment(SwingConstants.LEFT);
-		appTitle_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
-		MainMenu.add(appTitle_1, BorderLayout.NORTH);
-		
 		JPanel mainContentpanel = new JPanel();
-		mainContentpanel.setBackground(new Color(241, 250, 238));
+		mainContentpanel.setBackground(colorLight);
 		MainMenu.add(mainContentpanel, BorderLayout.CENTER);
-		mainContentpanel.setLayout(new GridLayout(1, 0, 0, 0));
+		GridBagLayout gbl_mainContentpanel = new GridBagLayout();
+		gbl_mainContentpanel.columnWidths = new int[]{1016, 0};
+		gbl_mainContentpanel.rowHeights = new int[]{584, 0};
+		gbl_mainContentpanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_mainContentpanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		mainContentpanel.setLayout(gbl_mainContentpanel);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBorder(BorderFactory.createEmptyBorder());
+		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+		gbc_scrollPane_2.insets = new Insets(10, 25, 10, 25);
+		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_2.gridx = 0;
+		gbc_scrollPane_2.gridy = 0;
+		mainContentpanel.add(scrollPane_2, gbc_scrollPane_2);
+		
+		JTextArea mainContentTxt = new JTextArea();
+		mainContentTxt.setWrapStyleWord(true);
+		mainContentTxt.setLineWrap(true);
+		mainContentTxt.setEditable(false);
+		mainContentTxt.setBackground(colorLight);
+		mainContentTxt.setForeground(colorDarkBlue);
+		mainContentTxt.setFont(fontSubtitle);
+		scrollPane_2.setViewportView(mainContentTxt);
+		
+		JPanel panel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEADING);
+		panel.setBackground(colorBlue);
+		MainMenu.add(panel, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel = new JLabel("AppTitlePlaceholder");
+		lblNewLabel.setForeground(colorLight);
+		lblNewLabel.setFont(fontLabel);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+		panel.add(lblNewLabel);
 		
 		JPanel Minigame = new JPanel();
-		Minigame.setBackground(new Color(241, 250, 238));
+		Minigame.setBackground(colorLight);
 		tabbedPane.addTab("Minigame", null, Minigame, null);
 		GridBagLayout gbl_Minigame = new GridBagLayout();
 		gbl_Minigame.columnWidths = new int[]{0, 0};
@@ -470,6 +570,7 @@ public class MainFrame extends JFrame {
 		Minigame.add(scrollPane, gbc_scrollPane);
 
 		morsleToSolvePanel = new JPanel();
+		morsleToSolvePanel.setBackground(colorLight);
 		scrollPane.setViewportView(morsleToSolvePanel);
 
 		morsleToSolve = RandomWordGenerator.getRandomWordShort().toUpperCase();
@@ -478,7 +579,7 @@ public class MainFrame extends JFrame {
 		System.out.println("Selected word in Morse code: " + Translator.textToMorse(morsleToSolve));
 		
 		JPanel middleButtonsPanel = new JPanel();
-		middleButtonsPanel.setBackground(new Color(241, 250, 238));
+		middleButtonsPanel.setBackground(colorLight);
 		GridBagConstraints gbc_middleButtonsPanel = new GridBagConstraints();
 		gbc_middleButtonsPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_middleButtonsPanel.fill = GridBagConstraints.BOTH;
@@ -488,9 +589,11 @@ public class MainFrame extends JFrame {
 		middleButtonsPanel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel FlowLayoutPanel = new JPanel();
+		FlowLayoutPanel.setBackground(colorBlue);
 		middleButtonsPanel.add(FlowLayoutPanel, BorderLayout.CENTER);
 		
 		JPanel LeftSidePanel = new JPanel();
+		LeftSidePanel.setBackground(colorBlue);
 		FlowLayoutPanel.add(LeftSidePanel);
 		GridBagLayout gbl_LeftSidePanel = new GridBagLayout();
 		gbl_LeftSidePanel.columnWidths = new int[]{0, 0, 0, 0};
@@ -500,6 +603,8 @@ public class MainFrame extends JFrame {
 		LeftSidePanel.setLayout(gbl_LeftSidePanel);
 		
 		JLabel lblWPMLabel = new JLabel("WPM: " + morseAudioWPM);
+		lblWPMLabel.setForeground(colorLight);
+		lblWPMLabel.setFont(fontBody);
 		GridBagConstraints gbc_lblWPMLabel = new GridBagConstraints();
 		gbc_lblWPMLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblWPMLabel.insets = new Insets(0, 0, 5, 5);
@@ -508,6 +613,9 @@ public class MainFrame extends JFrame {
 		LeftSidePanel.add(lblWPMLabel, gbc_lblWPMLabel);
 		
 		JSlider wpmSlider = new JSlider();
+		wpmSlider.setBackground(colorBlue);
+		wpmSlider.setForeground(colorLight);
+		wpmSlider.setFont(fontBody);
 		wpmSlider.setSnapToTicks(true);
 		wpmSlider.setMinorTickSpacing(5);
 		wpmSlider.setPaintTicks(true);
@@ -527,6 +635,8 @@ public class MainFrame extends JFrame {
 		LeftSidePanel.add(wpmSlider, gbc_wpmSlider);
 		
 		JLabel lblHertzLabel = new JLabel("Tone/Hertz: " + morseAudioHertz);
+		lblHertzLabel.setForeground(colorLight);
+		lblHertzLabel.setFont(fontBody);
 		GridBagConstraints gbc_lblHertzLabel = new GridBagConstraints();
 		gbc_lblHertzLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblHertzLabel.insets = new Insets(0, 0, 5, 5);
@@ -535,6 +645,9 @@ public class MainFrame extends JFrame {
 		LeftSidePanel.add(lblHertzLabel, gbc_lblHertzLabel);
 		
 		JSlider hertzSlider = new JSlider();
+		hertzSlider.setBackground(colorBlue);
+		hertzSlider.setForeground(colorLight);
+		hertzSlider.setFont(fontBody);
 		hertzSlider.setMinorTickSpacing(50);
 		hertzSlider.setSnapToTicks(true);
 		hertzSlider.setMajorTickSpacing(100);
@@ -554,6 +667,8 @@ public class MainFrame extends JFrame {
 		LeftSidePanel.add(hertzSlider, gbc_hertzSlider);
 		
 		JLabel lblVolumeLabel = new JLabel("Volume: " + (int) Math.round(morseAudioVolume * 100));
+		lblVolumeLabel.setForeground(colorLight);
+		lblVolumeLabel.setFont(fontBody);
 		GridBagConstraints gbc_lblVolumeLabel = new GridBagConstraints();
 		gbc_lblVolumeLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblVolumeLabel.insets = new Insets(0, 0, 0, 5);
@@ -562,6 +677,9 @@ public class MainFrame extends JFrame {
 		LeftSidePanel.add(lblVolumeLabel, gbc_lblVolumeLabel);
 		
 		JSlider volumeSlider = new JSlider();
+		volumeSlider.setBackground(colorBlue);
+		volumeSlider.setForeground(colorLight);
+		volumeSlider.setFont(fontBody);
 		volumeSlider.setSnapToTicks(true);
 		volumeSlider.setPaintTicks(true);
 		volumeSlider.setMajorTickSpacing(10);
@@ -577,6 +695,7 @@ public class MainFrame extends JFrame {
 		LeftSidePanel.add(volumeSlider, gbc_volumeSlider);
 		
 		JPanel RightSidePanel = new JPanel();
+		RightSidePanel.setBackground(colorBlue);
 		FlowLayoutPanel.add(RightSidePanel);
 		GridBagLayout gbl_RightSidePanel = new GridBagLayout();
 		gbl_RightSidePanel.columnWidths = new int[]{75, 50, 75, 0};
@@ -586,6 +705,8 @@ public class MainFrame extends JFrame {
 		RightSidePanel.setLayout(gbl_RightSidePanel);
 				
 		JLabel lblDifficultyLabel = new JLabel("Difficulty");
+		lblDifficultyLabel.setForeground(colorLight);
+		lblDifficultyLabel.setFont(fontSubtitle);
 		GridBagConstraints gbc_lblDifficultyLabel = new GridBagConstraints();
 		gbc_lblDifficultyLabel.anchor = GridBagConstraints.SOUTH;
 		gbc_lblDifficultyLabel.insets = new Insets(0, 0, 5, 5);
@@ -594,6 +715,8 @@ public class MainFrame extends JFrame {
 		RightSidePanel.add(lblDifficultyLabel, gbc_lblDifficultyLabel);
 		
 		JLabel lblAttemptsLabel = new JLabel("Attempts: 0");
+		lblAttemptsLabel.setForeground(colorLight);
+		lblAttemptsLabel.setFont(fontSubtitle);
 		GridBagConstraints gbc_lblAttemptsLabel = new GridBagConstraints();
 		gbc_lblAttemptsLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblAttemptsLabel.insets = new Insets(0, 0, 5, 0);
@@ -602,6 +725,9 @@ public class MainFrame extends JFrame {
 		RightSidePanel.add(lblAttemptsLabel, gbc_lblAttemptsLabel);
 		
 		difficultyBox = new JComboBox<>();
+		difficultyBox.setBackground(colorDarkBlue);
+		difficultyBox.setForeground(colorLight);
+		difficultyBox.setFont(fontSubtitle);
 		GridBagConstraints gbc_difficultyBox = new GridBagConstraints();
 		gbc_difficultyBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_difficultyBox.insets = new Insets(0, 0, 5, 5);
@@ -614,6 +740,9 @@ public class MainFrame extends JFrame {
 		
 				
 		JButton btnClearButton = new JButton("Clear");
+		btnClearButton.setBackground(colorDarkBlue);
+		btnClearButton.setForeground(colorLight);
+		btnClearButton.setFont(fontSubtitle);
 		GridBagConstraints gbc_btnClearButton = new GridBagConstraints();
 		gbc_btnClearButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnClearButton.insets = new Insets(0, 0, 5, 5);
@@ -636,6 +765,8 @@ public class MainFrame extends JFrame {
 		});
 		
 		JLabel lblScoreLabel = new JLabel("Solved: 0");
+		lblScoreLabel.setForeground(colorLight);
+		lblScoreLabel.setFont(fontSubtitle);
 		GridBagConstraints gbc_lblScoreLabel = new GridBagConstraints();
 		gbc_lblScoreLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblScoreLabel.insets = new Insets(0, 0, 5, 0);
@@ -644,6 +775,9 @@ public class MainFrame extends JFrame {
 		RightSidePanel.add(lblScoreLabel, gbc_lblScoreLabel);
 		
 		btnPlaySoundButton = new JButton("Play Sound");
+		btnPlaySoundButton.setBackground(colorDarkBlue);
+		btnPlaySoundButton.setForeground(colorLight);
+		btnPlaySoundButton.setFont(fontSubtitle);
 		GridBagConstraints gbc_btnPlaySoundButton = new GridBagConstraints();
 		gbc_btnPlaySoundButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnPlaySoundButton.insets = new Insets(0, 0, 5, 5);
@@ -652,6 +786,9 @@ public class MainFrame extends JFrame {
 		RightSidePanel.add(btnPlaySoundButton, gbc_btnPlaySoundButton);
 		
 		JButton btnGuessButton = new JButton("Guess");
+		btnGuessButton.setBackground(colorDarkBlue);
+		btnGuessButton.setForeground(colorLight);
+		btnGuessButton.setFont(fontSubtitle);
 		btnGuessButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		    	// Convert the morsleToSolve into a character array
@@ -757,6 +894,9 @@ public class MainFrame extends JFrame {
 		});
 		
 		btnNewWordButton = new JButton("New Word");
+		btnNewWordButton.setBackground(colorDarkBlue);
+		btnNewWordButton.setForeground(colorLight);
+		btnNewWordButton.setFont(fontSubtitle);
 		GridBagConstraints gbc_btnNewWordButton = new GridBagConstraints();
 		gbc_btnNewWordButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewWordButton.insets = new Insets(0, 0, 5, 5);
@@ -802,7 +942,7 @@ public class MainFrame extends JFrame {
 		});
 				
 		JPanel lettersMorseTabbedPanel = new JPanel();
-		lettersMorseTabbedPanel.setBackground(new Color(241, 250, 238));
+		lettersMorseTabbedPanel.setBackground(colorLight);
 		GridBagConstraints gbc_lettersMorseTabbedPanel = new GridBagConstraints();
 		gbc_lettersMorseTabbedPanel.fill = GridBagConstraints.BOTH;
 		gbc_lettersMorseTabbedPanel.gridx = 0;
@@ -811,9 +951,14 @@ public class MainFrame extends JFrame {
 		lettersMorseTabbedPanel.setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPaneInputLetters = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPaneInputLetters.setBackground(colorLight);
+		tabbedPaneInputLetters.setForeground(colorDarkBlue);
+		tabbedPaneInputLetters.setFont(fontSubtitle);
 		lettersMorseTabbedPanel.add(tabbedPaneInputLetters);
 		
 		JPanel lettersPanel = new JPanel();
+		lettersPanel.setBorder(BorderFactory.createEmptyBorder());
+		lettersPanel.setBackground(colorBlue);
 		lettersPanel.setLayout(new GridLayout(0, 3, 4, 4));
 
 		// Track all letter buttons so we can disable/enable them all
@@ -833,6 +978,9 @@ public class MainFrame extends JFrame {
 		            letter, morse
 		        );
 		        JButton btn = new JButton(html);
+		        btn.setBackground(colorLightBlue);
+		        btn.setForeground(colorDarkBlue);
+		        btn.setFont(fontSubtitle);
 		        btn.setFont(btn.getFont().deriveFont(20f));
 		        btn.setHorizontalAlignment(SwingConstants.CENTER);
 		        btn.setMargin(new Insets(2, 6, 2, 6));
@@ -930,8 +1078,41 @@ public class MainFrame extends JFrame {
 		    });
 
 		JScrollPane lettersScrollPane = new JScrollPane(lettersPanel);
+		lettersScrollPane.setBackground(colorBlue);
 		lettersScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tabbedPaneInputLetters.addTab("Letters", null, lettersScrollPane, null);
+		
+		JPanel instructionsMainPanel = new JPanel();
+		lettersMorseTabbedPanel.setBackground(colorBlue);
+		tabbedPaneInputLetters.addTab("Instructions", null, instructionsMainPanel, null);
+		instructionsMainPanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel instructionsHeaderPanel = new JPanel();
+		instructionsHeaderPanel.setBackground(colorBlue);
+		instructionsHeaderPanel.setForeground(colorLight);
+		instructionsHeaderPanel.setFont(fontLabel);
+		instructionsMainPanel.add(instructionsHeaderPanel, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel_6 = new JLabel("How To Play");
+		lblNewLabel_6.setForeground(colorLight);
+		lblNewLabel_6.setFont(fontLabel);
+		instructionsHeaderPanel.add(lblNewLabel_6);
+		
+		JScrollPane instructionsContentScrollPanel = new JScrollPane();
+		instructionsContentScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+		instructionsMainPanel.add(instructionsContentScrollPanel, BorderLayout.CENTER);
+		
+		JTextArea instructionsContentTxt = new JTextArea();
+		instructionsContentTxt.setMargin(new Insets(10, 25, 10, 25));
+		instructionsContentTxt.setText("\r\nWelcome to the Morse Code Challenge! \r\n(Brought to you by CS12S1 - Group 5)\r\n \r\n———————————————————————————————————————————————————————————\r\n\r\n\r\nYou will play a minigame of Morsle: a Wordle game with a twist of Morse code.\r\n \r\nA word will be randomly selected for you to guess. You can choose if you want the generated word to be short (3-4 letters) or medium (5-8 letters). Once the word is generated (by the new word button or restarting the program), you will input letters in the text boxes (by choosing below), and the Morse code equivalent sound will be played as you choose each character.\r\n \r\nThe playback speed is 20 words per minute (WPM) by default but can be adjusted in the range of 5 to 60 WPM. You can also customize the tone/frequency in the range of 300 to 800 Hz. The volume can also be adjusted.\r\n \r\nOnce you are finished with your inputs, click the Guess button.\r\n \r\n• If the letter turns green, it means the letter is correct and in the correct position.\r\n​\r\n• If it turns yellow, it means the letter is correct but in the wrong position.\r\n​\r\n• If it remains unmarked, it means the letter is incorrect.\r\n \r\nYou can click the Clear button if you want to reset your inputs.\r\n \r\nYou have unlimited tries, so guess the word in as many attempts as you like! Good luck!\r\n\r\n\r\n————————————————————————————————————————————————————————\r\n\r\n\r\nFun fact: The random words are derived from a list of the 10,000 most common English words in order of frequency, as determined by n-gram frequency analysis of the Google's Trillion Word Corpus. https://github.com/first20hours/google-10000-english");
+		instructionsContentTxt.setLineWrap(true);
+		instructionsContentTxt.setWrapStyleWord(true);
+		instructionsContentTxt.setEditable(false);
+		instructionsContentTxt.setBackground(colorLight);
+		instructionsContentTxt.setForeground(colorDarkBlue);
+		instructionsContentTxt.setFont(fontSubtitle);
+		instructionsContentScrollPanel.setViewportView(instructionsContentTxt);
+		instructionsMainPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{instructionsHeaderPanel, instructionsContentScrollPanel, instructionsContentTxt, lblNewLabel_6}));
 		
 		contentPane.setPreferredSize(new Dimension(1250, 700));	// ideal inside size
 		pack();	// resize frame to fit contents
