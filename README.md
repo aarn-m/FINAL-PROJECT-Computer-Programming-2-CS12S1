@@ -1,5 +1,5 @@
 # FINAL PROJECT - Computer Programming 2 CS12S1 
-Java final project for Computer Programming 2. 
+A final project for Computer Programming 2 made in Java. 
 
 ## Group 5 CS12S1
 - Castillo, Fernando Jr. 
