@@ -61,6 +61,10 @@ import javax.swing.UIManager;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import javax.swing.BoxLayout;
+import javax.swing.SpringLayout;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
 public class MainFrame extends JFrame {
 	
@@ -72,6 +76,7 @@ public class MainFrame extends JFrame {
 	private static final Font fontSubtitle = new Font("Yu Gothic UI Semibold", Font.PLAIN, 15);
 	private static final Font fontBody = new Font("Yu Gothic UI Semibold", Font.PLAIN, 12);
 	private static final Font fontLabel = new Font("Yu Gothic UI Semibold", Font.PLAIN, 25);
+	private static final Font fontBig = new Font("Yu Gothic UI Semibold", Font.PLAIN, 50);
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel morsleToSolvePanel;
@@ -126,13 +131,15 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBorder(null);
 		tabbedPane.setBackground(colorBlue);
 		tabbedPane.setForeground(colorDarkBlue);
 		tabbedPane.setFont(fontSubtitle);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel MainMenu = new JPanel();
-		MainMenu.setBackground(colorBlue);
+		MainMenu.setBorder(null);
+		MainMenu.setBackground(colorDarkBlue);
 		tabbedPane.addTab("Main Menu", null, MainMenu, null);
 		MainMenu.setLayout(new BorderLayout(0, 0));
 		
@@ -145,7 +152,7 @@ public class MainFrame extends JFrame {
 		WMC.add(wmcTitlePanel, BorderLayout.NORTH);
 		wmcTitlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblNewLabel_5 = new JLabel("What is Morse code?");
+		JLabel lblNewLabel_5 = new JLabel("Information:");
 		lblNewLabel_5.setFont(fontLabel);
 		lblNewLabel_5.setForeground(colorLight);
 		lblNewLabel_5.setVerticalAlignment(SwingConstants.TOP);
@@ -159,25 +166,48 @@ public class MainFrame extends JFrame {
 		JPanel wmcContentPanel = new JPanel();
 		wmcContentPanel.setBackground(colorLight);
 		WMC.add(wmcContentPanel, BorderLayout.CENTER);
-		GridBagLayout gbl_wmcContentPanel = new GridBagLayout();
-		gbl_wmcContentPanel.columnWidths = new int[]{1016, 0};
-		gbl_wmcContentPanel.rowHeights = new int[]{608, 0, 0, 0};
-		gbl_wmcContentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_wmcContentPanel.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-		wmcContentPanel.setLayout(gbl_wmcContentPanel);
+		wmcContentPanel.setLayout(new BoxLayout(wmcContentPanel, BoxLayout.Y_AXIS));
 		
 		JScrollPane wmcScrollPanel = new JScrollPane();
 		wmcScrollPanel.setBorder(BorderFactory.createEmptyBorder());
-		GridBagConstraints gbc_wmcScrollPanel = new GridBagConstraints();
-		gbc_wmcScrollPanel.insets = new Insets(10, 25, 10, 25);
-		gbc_wmcScrollPanel.fill = GridBagConstraints.BOTH;
-		gbc_wmcScrollPanel.gridx = 0;
-		gbc_wmcScrollPanel.gridy = 0;
-		wmcContentPanel.add(wmcScrollPanel, gbc_wmcScrollPanel);
+		wmcContentPanel.add(wmcScrollPanel);
 		
-		JPanel panel_1 = new JPanel();
-		wmcScrollPanel.setViewportView(panel_1);
+		String wmcContent = "<html><body style='font-family: Yu Gothic UI Semibold; font-size: 12px; color: #1d3557; margin: 15px;'>" +
+			    "<h1 style='color: #1d3557; border-bottom: 2px solid #457b9d; padding-bottom: 10px;'>What is Morse code?</h1>" +
+			    "<p>Morse code is a method of encoding words that was invented in the <b>10th Century</b> as a way of transmitting messages quickly over long distances.</p>" +
+			    "<p>Morse code is adapted by <b>Samuel Morse</b> and <b>Alfred Vail</b> from a telegraph which is an early communication device which involved using electrical pulses to send messages via electrical wires. They devised a code, now known as <b>Morse code</b> an electrical switch used to transmit the signals through the wires which included signals through telegraph wires like a telegraph in dots and dashes (also known as dits and dahs) to represent each letter of the alphabet and later included other numbers and symbols.</p>" +
+			    "<p>The electrical signals are sent by a sounder and received by a receiver which produces sounds or beeps that represent the dots and dashes with varying durations (quick for dots and prolonged for dashes) and consistent intervals or periods of time before the next sound is produced.</p>" +
+			    
+			    "<h1 style='color: #1d3557; border-bottom: 2px solid #457b9d; padding-bottom: 10px; margin-top: 30px;'>How to learn Morse code?</h1>" +
+			    "<p>You could practice doing it now by tapping something out on your desk – e.g. the Morse code for 'H-E-L-L-O' is: <code>.... / . .-.. .-.. ---</code> in which the dots are quick taps and the dashes are longer taps with slash serving as the interval.</p>" +
+			    "<p>A graphic showing the morse code alphabet, with dots and dashes corresponding to <b>all letters of the alphabet, numbers 0-9, other characters and sample words</b>:</p>" +
+			    
+			    "<h1 style='color: #1d3557; border-bottom: 2px solid #457b9d; padding-bottom: 10px; margin-top: 30px;'>How is Morse Code used nowadays?</h1>" +
+			    "<p>As Morse code died and became old-fashioned in 1999 when replaced by <b>satellite technology</b>, it continued to be a standard method of communication in maritime communication and became a secret language for seeking help when in danger now known as <b>SOS Morse code</b>.</p>" +
+			    
+			    "<h1 style='color: #1d3557; border-bottom: 2px solid #457b9d; padding-bottom: 10px; margin-top: 30px;'>Five fun facts about Morse code</h1>" +
+			    "<p><i>(From bbc.co.uk) <a href='https://www.bbc.co.uk/bitesize/articles/zmhygdm'>https://www.bbc.co.uk/bitesize/articles/zmhygdm</a></i></p>" +
+			    "<ol>" +
+			    "<li>The first message transmitted by <b>Samuel Morse</b> in 1844 is reportedly '<b>What hath God wrought?</b>'</li>" +
+			    "<li><b>Queen Victoria</b> sent the first transatlantic telegram via an underwater cable in 1858.</li>" +
+			    "<li>By 1900, following the invention of the Morse code, <b>The Eastern Telegraph Company</b> operated a network of over 100,000 miles of underseas cables.</li>" +
+			    "<li>Professional operators can often spot who's sending a message by the little quirks in their dits and dahs.</li>" +
+			    "<li>I love you in Morse code is: <code>.. / .-.. --- ...- . / -.-- --- ..-</code></li>" +
+			    "</ol>" +
+			    "</body></html>";
 
+			JTextPane wmcTextPane = new JTextPane();
+			wmcTextPane.setContentType("text/html");
+			wmcTextPane.setText(wmcContent);
+			wmcTextPane.setEditable(false);
+			wmcTextPane.setBackground(colorLight);
+			wmcTextPane.setOpaque(true);
+			wmcTextPane.setCaretPosition(0); // scroll to top
+
+			wmcScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			wmcScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			wmcScrollPanel.setViewportView(wmcTextPane);
+			
 		contentPane.setPreferredSize(new Dimension(750, 500));
 		
 		JPanel sideNavBar = new JPanel();
@@ -193,48 +223,53 @@ public class MainFrame extends JFrame {
 		menubtns.setLayout(new GridLayout(10, 1, 0, 0));
 		
 		JButton menubtnTran_1 = new JButton("Translator");
+		menubtnTran_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Translator.png"));
+		menubtnTran_1.setIconTextGap(5);
 		menubtnTran_1.setToolTipText("Translate Morse to text, or vice versa.");
 		menubtnTran_1.setBorderPainted(false);
-		menubtnTran_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(2);
-			}
-		});
-		
-		JButton menubtnWmc_1 = new JButton("What's Morse Code?");
-		menubtnWmc_1.setToolTipText("Learn what morse code is about!");
-		menubtns.add(menubtnWmc_1);
-		menubtnWmc_1.setBorderPainted(false);
-		menubtnWmc_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(1);
-			}
-		});
-		menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
-		menubtnWmc_1.setForeground(colorLight);
-		menubtnWmc_1.setFont(fontTitle);
-		menubtnWmc_1.setBackground(colorDarkBlue);
-		menubtnWmc_1.setBorderPainted(false);
 		menubtnTran_1.setHorizontalAlignment(SwingConstants.LEFT);
 		menubtnTran_1.setForeground(colorLight);
 		menubtnTran_1.setFont(fontTitle);
 		menubtnTran_1.setBackground(colorDarkBlue);
-		menubtnTran_1.setBorderPainted(false);
-		menubtns.add(menubtnTran_1);
+		menubtnTran_1.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        tabbedPane.setSelectedIndex(2);
+		    }
+		});
 		
-		JButton menubtnMini_1 = new JButton("Minigame");
+				JButton menubtnWmc_1 = new JButton("What's Morse Code?");
+				menubtnWmc_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Wmc.png"));
+				menubtnWmc_1.setIconTextGap(5);
+				menubtnWmc_1.setToolTipText("Learn what morse code is about!");
+				menubtnWmc_1.setBorderPainted(false);
+				menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
+				menubtnWmc_1.setForeground(colorLight);
+				menubtnWmc_1.setFont(fontTitle);
+				menubtnWmc_1.setBackground(colorDarkBlue);
+				menubtnWmc_1.addActionListener(new ActionListener() {
+				    public void actionPerformed(ActionEvent e) {
+				        tabbedPane.setSelectedIndex(1);
+				    }
+				});
+				menubtns.add(menubtnWmc_1);
+		menubtns.add(menubtnTran_1);
+
+		JButton menubtnMini_1 = new JButton("  Minigame");
+		menubtnMini_1.setMinimumSize(new Dimension(81, 23));
+		menubtnMini_1.setMaximumSize(new Dimension(81, 23));
+		menubtnMini_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnMini_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen.png"));
+		menubtnMini_1.setIconTextGap(0);
 		menubtnMini_1.setToolTipText("Learn Morse code through a fun game.");
 		menubtnMini_1.setBorderPainted(false);
-		menubtnMini_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(3);
-			}
-		});
-		menubtnMini_1.setHorizontalAlignment(SwingConstants.LEFT);
 		menubtnMini_1.setForeground(colorLight);
 		menubtnMini_1.setFont(fontTitle);
 		menubtnMini_1.setBackground(colorDarkBlue);
-		menubtnMini_1.setBorderPainted(false);
+		menubtnMini_1.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        tabbedPane.setSelectedIndex(3);
+		    }
+		});
 		menubtns.add(menubtnMini_1);
 		
 		JPanel menuLogo = new JPanel();
@@ -243,15 +278,16 @@ public class MainFrame extends JFrame {
 		menuLogo.setBackground(colorDarkBlue);
 		sideNavBar.add(menuLogo, BorderLayout.NORTH);
 		
-		JLabel lblNewLabel_4 = new JLabel("AppTitlePlaceholder\r\n");
+		JLabel lblNewLabel_4 = new JLabel("WhatTheMorse");
+		lblNewLabel_4.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen.png"));
+		lblNewLabel_4.setIconTextGap(10);
 		lblNewLabel_4.setFont(fontLabel);
 		lblNewLabel_4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				tabbedPane.setSelectedIndex(0);
-			}
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        tabbedPane.setSelectedIndex(0);
+		    }
 		});
-		lblNewLabel_4.setFont(fontSubtitle);
 		lblNewLabel_4.setForeground(new Color(229, 149, 0));
 		menuLogo.add(lblNewLabel_4);
     
@@ -481,6 +517,7 @@ public class MainFrame extends JFrame {
 		gbc_lblStopAudioLabel.gridx = 4;
 		gbc_lblStopAudioLabel.gridy = 1;
 		panelButtons.add(lblStopAudioLabel, gbc_lblStopAudioLabel);
+		
 		JPanel mainFooterPanel = new JPanel();
 		mainFooterPanel.setBackground(colorBlue);
 		MainMenu.add(mainFooterPanel, BorderLayout.SOUTH);
@@ -491,61 +528,65 @@ public class MainFrame extends JFrame {
 		mainFooterPanel.add(mainFootercontent);
 		mainFootercontent.setLayout(new GridLayout(1, 0, 7, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("PlaceHolder@Plugin");
+		JLabel lblNewLabel_1 = new JLabel("by: aarn-m");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblNewLabel_1.setForeground(colorLight);
 		lblNewLabel_1.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("PlaceHolder@Plugin");
+		JLabel lblNewLabel_2 = new JLabel("wenokyo\r\n");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(colorLight);
 		lblNewLabel_2.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("PlaceHolder@Plugin");
+		JLabel lblNewLabel_3 = new JLabel("riche-riche");
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setForeground(colorLight);
 		lblNewLabel_3.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_3);
 		
+		JLabel lblNewLabel_1_1 = new JLabel("vinoxium");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_1.setForeground(new Color(241, 250, 238));
+		lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
+		mainFootercontent.add(lblNewLabel_1_1);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("KeepJoy29");
+		lblNewLabel_1_2.setForeground(new Color(241, 250, 238));
+		lblNewLabel_1_2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
+		mainFootercontent.add(lblNewLabel_1_2);
+		
 		JPanel mainContentpanel = new JPanel();
 		mainContentpanel.setBackground(colorLight);
 		MainMenu.add(mainContentpanel, BorderLayout.CENTER);
-		GridBagLayout gbl_mainContentpanel = new GridBagLayout();
-		gbl_mainContentpanel.columnWidths = new int[]{1016, 0};
-		gbl_mainContentpanel.rowHeights = new int[]{584, 0};
-		gbl_mainContentpanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_mainContentpanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		mainContentpanel.setLayout(gbl_mainContentpanel);
+		mainContentpanel.setLayout(new BoxLayout(mainContentpanel, BoxLayout.X_AXIS));
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBorder(BorderFactory.createEmptyBorder());
-		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
-		gbc_scrollPane_2.insets = new Insets(10, 25, 10, 25);
-		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_2.gridx = 0;
-		gbc_scrollPane_2.gridy = 0;
-		mainContentpanel.add(scrollPane_2, gbc_scrollPane_2);
+		JPanel contentActual = new JPanel();
+		contentActual.setBackground(colorBlue);
+		contentActual.setFont(fontBig);
+		contentActual.setForeground(colorLight);
+		mainContentpanel.add(contentActual);
+		contentActual.setLayout(new GridLayout(3, 1, 0, 0));
 		
-		JTextArea mainContentTxt = new JTextArea();
-		mainContentTxt.setWrapStyleWord(true);
-		mainContentTxt.setLineWrap(true);
-		mainContentTxt.setEditable(false);
-		mainContentTxt.setBackground(colorLight);
-		mainContentTxt.setForeground(colorDarkBlue);
-		mainContentTxt.setFont(fontSubtitle);
-		scrollPane_2.setViewportView(mainContentTxt);
+		JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("WhatTheMorse");
+		lblNewJgoodiesTitle.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewJgoodiesTitle.setForeground(colorLight);
+		lblNewJgoodiesTitle.setFont(fontBig);
+		lblNewJgoodiesTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewJgoodiesTitle.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewJgoodiesTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+		contentActual.add(lblNewJgoodiesTitle);
 		
-		JPanel panel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEADING);
-		panel.setBackground(colorBlue);
-		MainMenu.add(panel, BorderLayout.NORTH);
+		JLabel lblNewJgoodiesTitle_1 = DefaultComponentFactory.getInstance().createTitle("");
+		lblNewJgoodiesTitle_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen2.png"));
+		lblNewJgoodiesTitle_1.setVerticalAlignment(SwingConstants.TOP);
+		lblNewJgoodiesTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewJgoodiesTitle_1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		contentActual.add(lblNewJgoodiesTitle_1);
 		
-		JLabel lblNewLabel = new JLabel("AppTitlePlaceholder");
-		lblNewLabel.setForeground(colorLight);
-		lblNewLabel.setFont(fontLabel);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		panel.add(lblNewLabel);
+		Component verticalStrut = Box.createVerticalStrut(20);
+		contentActual.add(verticalStrut);
 		
 		JPanel Minigame = new JPanel();
 		Minigame.setBackground(colorLight);
@@ -1118,7 +1159,6 @@ public class MainFrame extends JFrame {
 		pack();	// resize frame to fit contents
 		setMinimumSize(getSize());	// current packed size becomes minimum
 		setLocationRelativeTo(null);	// center on screen
-
 	}
 
 	// in morsleToSolvePanel, Clear the old letter boxes, create new letter boxes based on the word length, then refresh the panel
@@ -1216,6 +1256,7 @@ public class MainFrame extends JFrame {
             }
         }.execute();
 	}
+	
 	
 	private class SwingAction extends AbstractAction 
 	{
