@@ -2,11 +2,11 @@
 Java final project for Computer Programming 2. 
 
 ## Group 5 CS12S1
-- Fernando Jr. Castillo
-- Kristan Jairus De Castro
-- Humphrey Ohwen Gaffud
-- Aaron James Moleta
-- Jeshmond Riche Sarmiento
+- Castillo, Fernando Jr. 
+- De Castro, Kristan Jairus M.
+- Gaffud, Humphrey Ohwen S.
+- Moleta, Aaron James T.
+- Sarmiento, Jeshmond Riche V.
 
 ### Sample Usage of `Translator.java`
 ```java
