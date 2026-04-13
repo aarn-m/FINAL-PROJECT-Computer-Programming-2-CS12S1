@@ -223,8 +223,8 @@ public class MainFrame extends JFrame {
 		menubtns.setLayout(new GridLayout(10, 1, 0, 0));
 		
 		JButton menubtnTran_1 = new JButton("Translator");
-		menubtnTran_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Translator.png"));
-		menubtnTran_1.setIconTextGap(5);
+		menubtnTran_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Translator1.png"));
+		menubtnTran_1.setIconTextGap(0);
 		menubtnTran_1.setToolTipText("Translate Morse to text, or vice versa.");
 		menubtnTran_1.setBorderPainted(false);
 		menubtnTran_1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -238,8 +238,10 @@ public class MainFrame extends JFrame {
 		});
 		
 				JButton menubtnWmc_1 = new JButton("What's Morse Code?");
-				menubtnWmc_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Wmc.png"));
-				menubtnWmc_1.setIconTextGap(5);
+				menubtnWmc_1.setMinimumSize(new Dimension(128, 23));
+				menubtnWmc_1.setMaximumSize(new Dimension(128, 23));
+				menubtnWmc_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\WMC1.png"));
+				menubtnWmc_1.setIconTextGap(0);
 				menubtnWmc_1.setToolTipText("Learn what morse code is about!");
 				menubtnWmc_1.setBorderPainted(false);
 				menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -254,11 +256,11 @@ public class MainFrame extends JFrame {
 				menubtns.add(menubtnWmc_1);
 		menubtns.add(menubtnTran_1);
 
-		JButton menubtnMini_1 = new JButton("  Minigame");
+		JButton menubtnMini_1 = new JButton("Minigame");
 		menubtnMini_1.setMinimumSize(new Dimension(81, 23));
 		menubtnMini_1.setMaximumSize(new Dimension(81, 23));
 		menubtnMini_1.setHorizontalAlignment(SwingConstants.LEFT);
-		menubtnMini_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen.png"));
+		menubtnMini_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Minigame1.png"));
 		menubtnMini_1.setIconTextGap(0);
 		menubtnMini_1.setToolTipText("Learn Morse code through a fun game.");
 		menubtnMini_1.setBorderPainted(false);
