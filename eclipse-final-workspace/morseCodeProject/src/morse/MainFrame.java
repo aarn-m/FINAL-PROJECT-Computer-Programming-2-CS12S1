@@ -15,13 +15,13 @@ import java.awt.FlowLayout;        // Layout na pahalang ang pagkakasunod ng com
 import java.awt.GridLayout;        // Layout na grid (rows at columns)
 import java.awt.Color;             // Kulay (RGB)
 import java.awt.Font;              // Font style (arial, bold, size, etc.)
-import java.awt.GradientPaint;     // Gradient background (paghalo ng dalawang kulay)
+import java.awt.GradientPaint;     // Gradient background (Combination ng dalawang kulay)
 import java.awt.Graphics;          // Pag-drawing ng mga shapes at lines
-import java.awt.Graphics2D;        // Mas advanced na drawing (anti-aliasing, rounded corners)
-import java.awt.RenderingHints;    // Pampakinis ng drawing (anti-aliasing)
+import java.awt.Graphics2D;        // Mas advanced na drawing ( rounded corners)
+import java.awt.RenderingHints;    // Pampakinis ng drawing 
 import java.awt.Cursor;            // Nagpapalit ng itsura ng mouse pointer (hand cursor)
-import java.awt.FontMetrics;       // Sukatin ang text para ma-center
-import java.awt.geom.RoundRectangle2D; // Rectangle na may bilog na sulok
+import java.awt.FontMetrics;       // Size ng text para ma-center
+import java.awt.geom.RoundRectangle2D; // Rectangle na may rounded corners
 import java.awt.datatransfer.StringSelection; // Para makapag-copy ng text sa clipboard
 
 import javax.swing.*;              // Lahat ng Swing components (JFrame, JButton, etc.)
@@ -52,9 +52,9 @@ public class MainFrame extends JFrame {
     private boolean morsleToSolveAudioIsPlaying = false; // Flag kung may tumutugtog na audio sa minigame
     private JButton btnNewWordButton;              // Button para sa bagong salita
     private JButton btnPlaySoundButton;            // Button para i-play ang audio ng buong salita
-    private boolean[] isLetterSolved;              // Aling mga letra ang nasolve na (true/false)
-    private int attemptCounter = 0;                // Bilang ng pagsubok para sa kasalukuyang salita
-    private int solvedCounter = 0;                 // Kabuuang bilang ng mga nasolve na salita
+    private boolean[] isLetterSolved;             
+    private int attemptCounter = 0;                // pANG BILANG NG ATTEMPTS
+    private int solvedCounter = 0;                 //  bilang ng mga nasolve na WORDS
     private boolean isPuzzleSolved = false;        // Flag kung tapos na ang puzzle
     private volatile boolean stopTranslatorAudioRequested = false; // Pampahinto ng audio sa Translator tab
     private volatile boolean stopMinigameAudio = false; // Pampahinto ng audio sa Minigame tab
