@@ -281,7 +281,7 @@ public class MainFrame extends JFrame {
 		sideNavBar.add(menuLogo, BorderLayout.NORTH);
 		
 		JLabel lblNewLabel_4 = new JLabel("WhatTheMorse");
-		lblNewLabel_4.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen.png"));
+		lblNewLabel_4.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen1.png"));
 		lblNewLabel_4.setIconTextGap(10);
 		lblNewLabel_4.setFont(fontLabel);
 		lblNewLabel_4.addMouseListener(new MouseAdapter() {
@@ -536,25 +536,25 @@ public class MainFrame extends JFrame {
 		lblNewLabel_1.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("wenokyo\r\n");
+		JLabel lblNewLabel_2 = new JLabel("riche-riche");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setForeground(colorLight);
 		lblNewLabel_2.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("riche-riche");
+		JLabel lblNewLabel_3 = new JLabel("KeepJoy29");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setForeground(colorLight);
 		lblNewLabel_3.setFont(fontTitle);
 		mainFootercontent.add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("vinoxium");
+		JLabel lblNewLabel_1_1 = new JLabel("wenokyo");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1.setForeground(new Color(241, 250, 238));
 		lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
 		mainFootercontent.add(lblNewLabel_1_1);
 		
-		JLabel lblNewLabel_1_2 = new JLabel("KeepJoy29");
+		JLabel lblNewLabel_1_2 = new JLabel("vinoxium");
 		lblNewLabel_1_2.setForeground(new Color(241, 250, 238));
 		lblNewLabel_1_2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
 		mainFootercontent.add(lblNewLabel_1_2);
