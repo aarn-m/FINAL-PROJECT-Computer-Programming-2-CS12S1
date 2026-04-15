@@ -1,12 +1,12 @@
 # FINAL PROJECT - Computer Programming 2 CS12S1 
-A final project for Computer Programming 2 made in Java. 
+A final project for Computer Programming 2 made in Java. Made by first year, second semester students from 
 
 ## Group 5 CS12S1
-- Castillo, Fernando Jr. 
-- De Castro, Kristan Jairus M.
-- Gaffud, Humphrey Ohwen S.
 - Moleta, Aaron James T.
 - Sarmiento, Jeshmond Riche V.
+- Gaffud, Humphrey Ohwen S.
+- De Castro, Kristan Jairus M.
+- Castillo, Fernando Jr.
 
 ### Sample Usage of `Translator.java`
 ```java
