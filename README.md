@@ -6,7 +6,7 @@ A final project for Computer Programming 2 made in Java. Made by first year, sec
 - Sarmiento, Jeshmond Riche V.
 - Gaffud, Humphrey Ohwen S.
 - De Castro, Kristan Jairus M.
-- Castillo, Fernando Jr.
+- Castillo, Fernando Jr. L.
 
 ### Sample Usage of `Translator.java`
 ```java
