@@ -47,6 +47,9 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JToolBar;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Desktop;
+
 import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -56,6 +59,8 @@ import java.awt.Font;
 import com.jgoodies.forms.layout.FormSpecs;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javax.swing.UIManager;
 import javax.swing.JTextPane;
@@ -69,6 +74,7 @@ import java.awt.Image;
 public class MainFrame extends JFrame {
 	
 	private static final Color colorLight = new Color(241, 250, 238);
+	private static final String hexColorLight = String.format("#%02x%02x%02x", colorLight.getRed(), colorLight.getGreen(), colorLight.getBlue());
 	private static final Color colorLightBlue = new Color(168, 218, 220);
 	private static final Color colorBlue = new Color(69, 123, 157);
 	private static final Color colorDarkBlue = new Color(29, 53, 87);
@@ -530,34 +536,90 @@ public class MainFrame extends JFrame {
 		mainFooterPanel.add(mainFootercontent);
 		mainFootercontent.setLayout(new GridLayout(1, 0, 7, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("by: aarn-m");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		JLabel lblNewLabel_1 = new JLabel("<html><a href='' style='color:" + hexColorLight + "'>by: aarn-m</a></html>");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setForeground(colorLight);
 		lblNewLabel_1.setFont(fontTitle);
+		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        try {
+		            Desktop.getDesktop().browse(new URI("https://github.com/aarn-m"));
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
 		mainFootercontent.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("wenokyo\r\n");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setForeground(colorLight);
-		lblNewLabel_2.setFont(fontTitle);
-		mainFootercontent.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("riche-riche");
+		JLabel lblNewLabel_3 = new JLabel("<html><a href='' style='color:" + hexColorLight + "'>riche-riche</a></html>");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setForeground(colorLight);
 		lblNewLabel_3.setFont(fontTitle);
+		lblNewLabel_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_3.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        try {
+		            Desktop.getDesktop().browse(new URI("https://github.com/riche-riche"));
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
 		mainFootercontent.add(lblNewLabel_3);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("vinoxium");
-		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1.setForeground(new Color(241, 250, 238));
-		lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
-		mainFootercontent.add(lblNewLabel_1_1);
-		
-		JLabel lblNewLabel_1_2 = new JLabel("KeepJoy29");
-		lblNewLabel_1_2.setForeground(new Color(241, 250, 238));
-		lblNewLabel_1_2.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
+		JLabel lblNewLabel_1_2 = new JLabel("<html><a href='' style='color:" + hexColorLight + "'>KeepJoy29</a></html>");
+		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_2.setForeground(colorLight);
+		lblNewLabel_1_2.setFont(fontTitle);
+		lblNewLabel_1_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_1_2.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        try {
+		            Desktop.getDesktop().browse(new URI("https://github.com/KeepJoy29"));
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
 		mainFootercontent.add(lblNewLabel_1_2);
+		
+		JLabel lblNewLabel_2 = new JLabel("<html><a href='' style='color:" + hexColorLight + "'>wenokyo</a></html>");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setForeground(colorLight);
+		lblNewLabel_2.setFont(fontTitle);
+		lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_2.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        try {
+		            Desktop.getDesktop().browse(new URI("https://github.com/wenokyo"));
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		mainFootercontent.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("<html><a href='' style='color:" + hexColorLight + "'>vinoxium</a></html>");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_1.setForeground(colorLight);
+		lblNewLabel_1_1.setFont(fontTitle);
+		lblNewLabel_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel_1_1.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        try {
+		            Desktop.getDesktop().browse(new URI("https://github.com/vinoxium"));
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		mainFootercontent.add(lblNewLabel_1_1);
 		
 		JPanel mainContentpanel = new JPanel();
 		mainContentpanel.setBackground(colorLight);

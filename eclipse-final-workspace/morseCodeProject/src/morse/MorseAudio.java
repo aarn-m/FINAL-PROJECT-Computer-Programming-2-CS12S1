@@ -29,10 +29,12 @@ public class MorseAudio {
 		} catch (LineUnavailableException e) {
 			System.out.println("Audio device unavailable: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			sc.close();
 			return;
 		} catch (Exception e) {
 			System.out.println("Playback error: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			sc.close();
 			return;
 		}
 
