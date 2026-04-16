@@ -223,7 +223,7 @@ public class MainFrame extends JFrame {
 		menubtns.setLayout(new GridLayout(10, 1, 0, 0));
 		
 		JButton menubtnTran_1 = new JButton("Translator");
-		menubtnTran_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Translator1.png"));
+		menubtnTran_1.setIcon(new ImageIcon(MainFrame.class.getResource("/Translator1.png")));
 		menubtnTran_1.setIconTextGap(0);
 		menubtnTran_1.setToolTipText("Translate Morse to text, or vice versa.");
 		menubtnTran_1.setBorderPainted(false);
@@ -240,7 +240,7 @@ public class MainFrame extends JFrame {
 				JButton menubtnWmc_1 = new JButton("What's Morse Code?");
 				menubtnWmc_1.setMinimumSize(new Dimension(128, 23));
 				menubtnWmc_1.setMaximumSize(new Dimension(128, 23));
-				menubtnWmc_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\WMC1.png"));
+				menubtnWmc_1.setIcon(new ImageIcon(MainFrame.class.getResource("/WMC1.png")));
 				menubtnWmc_1.setIconTextGap(0);
 				menubtnWmc_1.setToolTipText("Learn what morse code is about!");
 				menubtnWmc_1.setBorderPainted(false);
@@ -260,7 +260,7 @@ public class MainFrame extends JFrame {
 		menubtnMini_1.setMinimumSize(new Dimension(81, 23));
 		menubtnMini_1.setMaximumSize(new Dimension(81, 23));
 		menubtnMini_1.setHorizontalAlignment(SwingConstants.LEFT);
-		menubtnMini_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Minigame1.png"));
+		menubtnMini_1.setIcon(new ImageIcon(MainFrame.class.getResource("/Minigame1.png")));
 		menubtnMini_1.setIconTextGap(0);
 		menubtnMini_1.setToolTipText("Learn Morse code through a fun game.");
 		menubtnMini_1.setBorderPainted(false);
@@ -281,7 +281,7 @@ public class MainFrame extends JFrame {
 		sideNavBar.add(menuLogo, BorderLayout.NORTH);
 		
 		JLabel lblNewLabel_4 = new JLabel("WhatTheMorse");
-		lblNewLabel_4.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen.png"));
+		lblNewLabel_4.setIcon(new ImageIcon(MainFrame.class.getResource("/Ohwen1.png")));
 		lblNewLabel_4.setIconTextGap(10);
 		lblNewLabel_4.setFont(fontLabel);
 		lblNewLabel_4.addMouseListener(new MouseAdapter() {
@@ -581,7 +581,7 @@ public class MainFrame extends JFrame {
 		contentActual.add(lblNewJgoodiesTitle);
 		
 		JLabel lblNewJgoodiesTitle_1 = DefaultComponentFactory.getInstance().createTitle("");
-		lblNewJgoodiesTitle_1.setIcon(new ImageIcon("D:\\Programs\\GitHub Desktop\\Program Files\\FINAL-PROJECT-Computer-Programming-2-CS12S1\\eclipse-final-workspace\\morseCodeProject\\img\\Ohwen2.png"));
+		lblNewJgoodiesTitle_1.setIcon(new ImageIcon(MainFrame.class.getResource("/Ohwen2.png")));
 		lblNewJgoodiesTitle_1.setVerticalAlignment(SwingConstants.TOP);
 		lblNewJgoodiesTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewJgoodiesTitle_1.setAlignmentX(Component.CENTER_ALIGNMENT);
