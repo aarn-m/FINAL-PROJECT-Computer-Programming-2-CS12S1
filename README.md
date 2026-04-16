@@ -1,5 +1,5 @@
 # FINAL PROJECT - Computer Programming 2 CS12S1 
-A Morse code translator with a minigame project for Computer Programming 2 made in Java. The minigame is similar to wordle but you solve it by listening to the Morse code audio.
+A Morse code translator with a minigame. A final project for Computer Programming 2 made in Java. The minigame is similar to wordle but you solve it by listening to the Morse code audio.
 
 "Design and Development of a Gamified Morse Code Translator and Learning Application Using Java GUI"
 
