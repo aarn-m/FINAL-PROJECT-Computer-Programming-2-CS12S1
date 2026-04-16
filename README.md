@@ -1,5 +1,5 @@
 # FINAL PROJECT - Computer Programming 2 CS12S1 
-A final project for Computer Programming 2 made in Java. Made by first year, second semester students from Technological Institute of the Philippines - Manila.
+A Morse code translator and minigame project for Computer Programming 2 made in Java. Made by first year, second semester students from Technological Institute of the Philippines - Manila. 
 
 ## Group 5 CS12S1
 - Moleta, Aaron James T.
