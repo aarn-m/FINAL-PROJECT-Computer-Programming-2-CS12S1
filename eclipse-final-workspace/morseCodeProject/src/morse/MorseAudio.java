@@ -24,15 +24,18 @@ public class MorseAudio {
 		String morse = Translator.textToMorse(text);
 
 		try {
+			// Pass to function: morseCode, WPM, Hertz/Tone, Volume, then boolean if it should stop
 			// Pass () -> false so audio always plays fully when run standalone
 			MorseAudio.playMorse(morse, 20, 440, 0.5f, () -> false);
 		} catch (LineUnavailableException e) {
 			System.out.println("Audio device unavailable: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			sc.close();
 			return;
 		} catch (Exception e) {
 			System.out.println("Playback error: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, "Audio error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			sc.close();
 			return;
 		}
 
