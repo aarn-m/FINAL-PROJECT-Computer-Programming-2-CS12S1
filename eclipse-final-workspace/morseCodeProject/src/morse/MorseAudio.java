@@ -24,6 +24,7 @@ public class MorseAudio {
 		String morse = Translator.textToMorse(text);
 
 		try {
+			// Pass to function: morseCode, WPM, Hertz/Tone, Volume, then boolean if it should stop
 			// Pass () -> false so audio always plays fully when run standalone
 			MorseAudio.playMorse(morse, 20, 440, 0.5f, () -> false);
 		} catch (LineUnavailableException e) {

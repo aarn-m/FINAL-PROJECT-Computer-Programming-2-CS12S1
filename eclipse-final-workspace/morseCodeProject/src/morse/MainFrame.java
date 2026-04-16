@@ -1,75 +1,52 @@
 package morse;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import java.awt.GridLayout;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JSlider;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import javax.swing.JScrollBar;
-import java.awt.Color;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.JToolBar;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Desktop;
-
-import javax.swing.Box;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.Font;
-import com.jgoodies.forms.layout.FormSpecs;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
-
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-import javax.swing.UIManager;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import javax.swing.BoxLayout;
-import javax.swing.SpringLayout;
-import javax.swing.ImageIcon;
-import java.awt.Image;
 
 public class MainFrame extends JFrame {
 	
@@ -101,9 +78,6 @@ public class MainFrame extends JFrame {
 	private boolean isPuzzleSolved = false; // Used so audio won't be playing twice when you guess correctly while a different audio was playing
 	private volatile boolean stopTranslatorAudioRequested = false; // Flag to stop audio playback in translator tab
 	private volatile boolean stopMinigameAudio = false; // Minigame tab stop flag
-
-	private final JComboBox comboBox = new JComboBox();
-	private final Action action = new SwingAction();
 
 	/**
 	 * Launch the application.
@@ -202,19 +176,17 @@ public class MainFrame extends JFrame {
 			    "</ol>" +
 			    "</body></html>";
 
-			JTextPane wmcTextPane = new JTextPane();
-			wmcTextPane.setContentType("text/html");
-			wmcTextPane.setText(wmcContent);
-			wmcTextPane.setEditable(false);
-			wmcTextPane.setBackground(colorLight);
-			wmcTextPane.setOpaque(true);
-			wmcTextPane.setCaretPosition(0); // scroll to top
-
-			wmcScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			wmcScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			wmcScrollPanel.setViewportView(wmcTextPane);
+		JTextPane wmcTextPane = new JTextPane();
+		wmcTextPane.setContentType("text/html");
+		wmcTextPane.setText(wmcContent);
+		wmcTextPane.setEditable(false);
+		wmcTextPane.setBackground(colorLight);
+		wmcTextPane.setOpaque(true);
+		wmcTextPane.setCaretPosition(0); // scroll to top
+		wmcScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		wmcScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		wmcScrollPanel.setViewportView(wmcTextPane);
 			
-		contentPane.setPreferredSize(new Dimension(750, 500));
 		
 		JPanel sideNavBar = new JPanel();
 		sideNavBar.setForeground(new Color(0, 38, 66));
@@ -243,23 +215,23 @@ public class MainFrame extends JFrame {
 		    }
 		});
 		
-				JButton menubtnWmc_1 = new JButton("What's Morse Code?");
-				menubtnWmc_1.setMinimumSize(new Dimension(128, 23));
-				menubtnWmc_1.setMaximumSize(new Dimension(128, 23));
-				menubtnWmc_1.setIcon(new ImageIcon(MainFrame.class.getResource("/WMC1.png")));
-				menubtnWmc_1.setIconTextGap(0);
-				menubtnWmc_1.setToolTipText("Learn what morse code is about!");
-				menubtnWmc_1.setBorderPainted(false);
-				menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
-				menubtnWmc_1.setForeground(colorLight);
-				menubtnWmc_1.setFont(fontTitle);
-				menubtnWmc_1.setBackground(colorDarkBlue);
-				menubtnWmc_1.addActionListener(new ActionListener() {
-				    public void actionPerformed(ActionEvent e) {
-				        tabbedPane.setSelectedIndex(1);
-				    }
-				});
-				menubtns.add(menubtnWmc_1);
+		JButton menubtnWmc_1 = new JButton("What's Morse Code?");
+		menubtnWmc_1.setMinimumSize(new Dimension(128, 23));
+		menubtnWmc_1.setMaximumSize(new Dimension(128, 23));
+		menubtnWmc_1.setIcon(new ImageIcon(MainFrame.class.getResource("/WMC1.png")));
+		menubtnWmc_1.setIconTextGap(0);
+		menubtnWmc_1.setToolTipText("Learn what morse code is about!");
+		menubtnWmc_1.setBorderPainted(false);
+		menubtnWmc_1.setHorizontalAlignment(SwingConstants.LEFT);
+		menubtnWmc_1.setForeground(colorLight);
+		menubtnWmc_1.setFont(fontTitle);
+		menubtnWmc_1.setBackground(colorDarkBlue);
+		menubtnWmc_1.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        tabbedPane.setSelectedIndex(1);
+		    }
+		});
+		menubtns.add(menubtnWmc_1);
 		menubtns.add(menubtnTran_1);
 
 		JButton menubtnMini_1 = new JButton("Minigame");
@@ -1217,7 +1189,6 @@ public class MainFrame extends JFrame {
 		instructionsContentTxt.setForeground(colorDarkBlue);
 		instructionsContentTxt.setFont(fontSubtitle);
 		instructionsContentScrollPanel.setViewportView(instructionsContentTxt);
-		instructionsMainPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{instructionsHeaderPanel, instructionsContentScrollPanel, instructionsContentTxt, lblNewLabel_6}));
 		
 		contentPane.setPreferredSize(new Dimension(1250, 700));	// ideal inside size
 		pack();	// resize frame to fit contents
@@ -1319,16 +1290,5 @@ public class MainFrame extends JFrame {
                 }
             }
         }.execute();
-	}
-	
-	
-	private class SwingAction extends AbstractAction 
-	{
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
 	}
 }
