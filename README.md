@@ -4,7 +4,7 @@ A Morse code translator with a minigame. A final project for Computer Programmin
 "Design and Development of a Gamified Morse Code Translator and Learning Application Using Java GUI"
 
 ## Group 5 CS12S1
-Made by first year, second semester students from Technological Institute of the Philippines - Manila. 
+Made by first year students from Technological Institute of the Philippines - Manila. 
 - Moleta, Aaron James T.
 - Sarmiento, Jeshmond Riche V.
 - Gaffud, Humphrey Ohwen S.
