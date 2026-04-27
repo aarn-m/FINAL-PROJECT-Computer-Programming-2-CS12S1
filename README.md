@@ -5,8 +5,8 @@ A Morse code translator with a minigame. A final project for Computer Programmin
 
 ## Group 5 CS12S1
 Made by first year students from Technological Institute of the Philippines - Manila. 
-- Moleta, Aaron James T.
-- Sarmiento, Jeshmond Riche V.
+- Moleta, Aaron James T. - Program Logic Developer
+- Sarmiento, Jeshmond Riche V. - GUI Developer
 - Gaffud, Humphrey Ohwen S.
 - De Castro, Kristan Jairus M.
 - Castillo, Fernando Jr. L.
